@@ -6,3 +6,12 @@ Manual processes frequently lead to errors and poor communication which lead to 
 
 By digitizing these processes, the system will enable faster, more accurate and efficient administration and data analysis enabling better decision making.
 In the long term, this will free up staff and teachers to focus on education and student development helping every student reach their full potential.
+
+Technologies that will be used:
+
+Web server: XAMPP
+Backend: SQL
+Middle ware: PHP
+Front end: HTML, CSS and JavaScript
+Chart.Js: For visualising enrollment and attendance over time
+

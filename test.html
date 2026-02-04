@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fullscreen Popup Menu with Scroll</title>
+<style>
+    /* html {visibility: hidden;}
+    html.ready {visibility: visible;}
+    html, body{margin: 0; padding: 0; overflow-x: hidden; font-family: arial;} */
+
+    /* Button to open menu */
+    .open-btn {
+        padding: 10px 20px;
+        background: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    /* Fullscreen overlay */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.95);
+        overflow-y: auto; /* Enable vertical scrolling */
+        display: none; /* Hidden by default */
+        z-index: 1000;
+    }
+
+    /* Menu content */
+    .overlay-content {
+        padding: 40px;
+        color: white;
+        text-align: center;
+    }
+
+    .overlay-content a {
+        display: block;
+        padding: 15px;
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        transition: background 0.3s;
+    }
+
+    .overlay-content a:hover {
+        background: rgba(255,255,255,0.1);
+    }
+
+    /* Close button */
+    .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+    }
+    #scroll {
+        height: 200vh;
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<button class="open-btn" onclick="openMenu()">Open Menu</button>
+
+<div id="menuOverlay" class="overlay">
+    <span class="close-btn" onclick="closeMenu()">&times;</span>
+    <div class="overlay-content">
+        <h1>Menu</h1>
+        <!-- Example long menu for scrolling -->
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Portfolio</a>
+        <a href="#">Contact</a>
+        <a href="#">Blog</a>
+        <a href="#">Shop</a>
+        <a href="#">FAQ</a>
+        <a href="#">Testimonials</a>
+        <a href="#">Careers</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+        <a href="#">Extra Link 1</a>
+        <a href="#">Extra Link 2</a>
+        <a href="#">Extra Link 3</a>
+        <a href="#">Extra Link 4</a>
+        <a href="#">Extra Link 5</a>
+    </div>
+</div>
+
+<div id="scroll">
+
+</div>
+
+<script>
+    function openMenu() {
+        document.getElementById("menuOverlay").style.display = "block";
+    }
+
+    function closeMenu() {
+        document.getElementById("menuOverlay").style.display = "none";
+    }
+</script>
+
+</body>
+</html>

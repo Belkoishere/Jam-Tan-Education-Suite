@@ -1,0 +1,146 @@
+#burger_menu_icon{
+    position: relative;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    left: 100%;
+    height: 70px;
+    margin: 0;
+}
+.current{
+    text-decoration: underline !important; 
+    font-weight: bold;
+}
+#logo {
+    padding-left: 20px;
+    height: 100px;
+}
+#logo_mobile{
+    /* margin-left: 160px; */
+    height: 70px;
+    position: fixed;
+}
+#topbar{
+    top: 0;
+    z-index: 1;
+    width: 100vw;
+    height: 70px;
+    position: fixed;
+    background-color: white;
+    display: flex;
+    border-bottom: thin solid;
+    font-size: 20px;
+}
+#app_title {
+    padding-left: 20px;
+}
+#app_title_mobile {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    /* gap: 4vw; */
+}
+
+/* Fullscreen overlay */
+#pop_up_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    overflow-y: auto; /* Enable vertical scrolling */
+    display: none; /* Hidden by default */
+    z-index: 1000;
+}
+
+/* Menu content */
+#pop_up_menu_content {
+    padding: 40px;
+    text-align: center;
+}
+
+#pop_up_menu_content a {
+    display: block;
+    padding: 15px;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+}
+
+#pop_up_menu_content p {
+    font-size: 19px;
+    color: red;
+    font-weight: bold;
+}
+
+#pop_up_menu_content a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* Close button */
+#cross_icon {
+    position: absolute;
+    transform: translate(-100%);
+    left: 100%;
+    height: 70px;
+}
+
+#layout{
+    display: flex;
+}
+
+#main {
+  flex: 1;
+}
+
+#sidebar_menu {
+    width: 200px;
+    height: 100vh;
+    padding-top: 0px;
+    border-right: solid black;
+    border-width: thin;
+}
+
+#sidebar_menu a {
+    text-decoration: none;
+    font-size: 16px;
+    padding-bottom: 5px;
+    color: black;
+    display: block;
+    padding-left: 20px;
+}
+
+#sidebar_menu p {
+    font-size: 19px;
+    font-weight: bold;
+    color: red;
+    display: block;
+    padding-left: 20px;
+}
+
+#sidebar_menu a:hover {
+    font-weight: bold;
+}
+
+#topbar {
+    visibility: hidden;
+}
+
+#sidebar_menu {
+    display: block;
+}
+
+/* Mobile */
+@media (max-width: 799px) {
+
+    #sidebar_menu {
+        display: none;
+    }
+
+    #topbar {
+        visibility: visible;
+    }
+}

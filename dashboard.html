@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="nav2.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        /* html {visibility: hidden;}
+        html.ready {visibility: visible;} */
+        html, body{margin: 0; padding: 0; font-family: arial;}
+    </style>
+</head>
+<body>
+    <div id="topbar">
+        <img id="burger_menu_icon" src="icons/menu-svgrepo-com.svg" alt="burger menu icon" onclick="showmenu()">
+        <img id="logo_mobile" src="JamTan_Logo_Cropped.png" alt="logo">
+    </div>
+
+    <div id="pop_up_menu">
+        <!-- <span class="close-btn" onclick="hidemenu()">&times;</span> -->
+        <img src="icons/cross-svgrepo-com.svg" id="cross_icon" alt="exit" onclick="hidemenu()">
+        <div id="pop_up_menu_content">
+            <h1>Jam Tan Edu Suite</h1>
+            <p>Account</p>
+            <a href="index.html" class="current">Dashboard</a>
+            <a href="#">Personal details</a>
+            <a href="#">Your attendance</a>
+            <a href="#">Update password</a>
+            <a href="#">Log out</a>
+            <p>Students</p>
+            <a href="#">Your students</a>
+            <a href="#">All students</a>
+            <p>Programs</p>
+            <a href="#">Your programs</a>
+            <a href="#">All programs</a>
+            <p>Attendance</p>
+            <a href="#">Take attendance</a>
+            <a href="#">Attendance history</a>
+            <p>Assessments</p>
+            <a href="#">Add assessment</a>
+            <a href="#">Your assessments</a>
+        </div>
+    </div>
+
+    <div id="layout">
+        <div id="sidebar_menu">
+            <img id="logo" src="JamTan_Logo_Cropped.png" alt="logo">
+            <h1 id="app_title">Jam Tan Edu Suite</h1>
+            <p>Account</p>
+            <a href="index.html" class="current">Dashboard</a>
+            <a href="#">Personal details</a>
+            <a href="#">Your attendance</a>
+            <a href="#">Update password</a>
+            <a href="#">Log out</a>
+            <p>Students</p>
+            <a href="#">Your students</a>
+            <a href="#">All students</a>
+            <p>Programs</p>
+            <a href="#">Your programs</a>
+            <a href="#">All programs</a>
+            <p>Attendance</p>
+            <a href="#">Take attendance</a>
+            <a href="#">Attendance history</a>
+            <p>Assessments</p>
+            <a href="#">Add assessment</a>
+            <a href="#">Your assessments</a>
+        </div>
+
+        <div id="main">
+            <h1 id="section_title">Welcome Belko</h1>
+        </div>
+    </div>
+
+</body>
+<script src="nav2.js"></script>
+</html>

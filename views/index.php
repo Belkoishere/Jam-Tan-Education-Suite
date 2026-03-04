@@ -1,0 +1,77 @@
+<?php
+include "../topBar/nav.html";
+// We need to use sessions, so you should always initialize sessions using the below function
+session_start();
+// If the user is logged in, redirect to the home page
+if (isset($_SESSION['account_loggedin'])) {
+    header('Location: home.php');
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se connecter</title>
+    <style>
+        form {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        }
+
+        label {display: block;}
+
+        input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        }
+
+        input[type=checkbox] {
+        /* width: 100%; */
+        padding: 14px;
+        margin: 8px 0;
+        cursor: pointer;
+        }
+
+        input[type=submit] {
+        width: 100%;
+        background-color: red;
+        color: white;
+        padding: 14px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+        background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>Se connecter</h1>
+        <form action="LoginProcess.php">
+            <label for="PhoneNumber">Numéro de téléphone</label>
+            <input type="text" id="PhoneNumber">
+            <label for="Password">Mot de passe</label>
+            <input type="password" id="Password">
+            <label for="ShowPassword">Afficher le mot de passe</label>
+            <input type="checkbox" id="ShowPassword">
+            <!-- <a href="SignUp.php">Nouvelle enregistrement</a>
+            <a href="ForgotPassword.php">Mot de passe oublié</a> -->
+            <input type="submit" value="Se connecter">
+        </form>
+    </div>
+    
+</body>
+</html>

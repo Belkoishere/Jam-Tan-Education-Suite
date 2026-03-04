@@ -4,9 +4,10 @@ include "../topBar/nav.html";
 session_start();
 // If the user is logged in, redirect to the home page
 if (isset($_SESSION['account_loggedin'])) {
-    header('Location: home.php');
+    header('Location: Dashboard.php');
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -60,11 +61,11 @@ if (isset($_SESSION['account_loggedin'])) {
 <body>
     <div id="main">
         <h1>Se connecter</h1>
-        <form action="LoginProcess.php">
+        <form action="/Jam-Tan-Education-Suite/controllers/AuthenticateAction.php" method="POST">
             <label for="PhoneNumber">Numéro de téléphone</label>
-            <input type="text" id="PhoneNumber">
+            <input type="text" name="PhoneNumber">
             <label for="Password">Mot de passe</label>
-            <input type="password" id="Password">
+            <input type="password" name="Password">
             <label for="ShowPassword">Afficher le mot de passe</label>
             <input type="checkbox" id="ShowPassword">
             <!-- <a href="SignUp.php">Nouvelle enregistrement</a>
@@ -73,5 +74,6 @@ if (isset($_SESSION['account_loggedin'])) {
         </form>
     </div>
     
+    <p><?php echo(password_hash("Belko!=0;", PASSWORD_DEFAULT))?></p>
 </body>
 </html>

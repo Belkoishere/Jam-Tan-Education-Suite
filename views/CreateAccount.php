@@ -1,11 +1,13 @@
 <?php
+include "../topBar/nav.html";
 // We need to use sessions, so you should always initialize sessions using the below function
 session_start();
 // If the user is logged in, redirect to the home page
-if (isset($_SESSION['account_loggedin'])) {
-    header('Location: home.php');
-    exit;
-}
+// if (isset($_SESSION['account_loggedin'])) {
+//     header('Location: Dashboard.php');
+//     exit;
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -13,37 +15,87 @@ if (isset($_SESSION['account_loggedin'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Se connecter</title>
+    <style>
+        form {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        }
+
+        label {display: block;}
+
+        input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        }
+
+        input[type=checkbox] {
+        /* width: 100%; */
+        padding: 14px;
+        margin: 8px 0;
+        cursor: pointer;
+        }
+
+        input[type=submit] {
+        width: 100%;
+        background-color: red;
+        color: white;
+        padding: 14px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+        background-color: green;
+        }
+    </style>
 </head>
 <body>
-    <div class="login">
-
-        <h1>Register</h1>
-
-        <form action="create_account.php" method="post" class="form login-form">
-
-            <label class="form-label" for="username">Username</label>
-            <div class="form-group">
-                <input class="form-input" type="text" name="username" placeholder="Username" id="username" required>
-            </div>
-
-            <label class="form-label" for="username">Email</label>
-            <div class="form-group">
-                <input class="form-input" type="text" name="email" placeholder="Email address" id="email" required>
-            </div>
-
-            <label class="form-label" for="password">Password</label>
-            <div class="form-group mar-bot-5">
-                <input class="form-input" type="password" name="password" placeholder="Password" id="password" required>
-            </div>
-
-            <button class="btn blue" type="submit">Register</button>
-
-            <p class="register-link">Already have an account? <a href="index.php" class="form-link">Login</a></p>
-
+    <div id="main">
+        <h1>Se connecter</h1>
+        <form action="/Jam-Tan-Education-Suite/controllers/CreateAccountAction.php" method="POST">
+            <label for="Title">Titre</label>
+            <select>
+                <option value="M">M</option>
+                <option value="Ms">Ms</option>
+                <option value="Mlle">Mlle</option>
+            </select>
+            <label for="FirstName">Prénom</label>
+            <input type="text"  id="FirstName">
+            <label for="LastName">Nom de famille</label>
+            <input type="text" id="LastName">
+            <label for="Email">E-mail</label>
+            <input type="text" id="Email">
+            <label for="PhoneNumber1">Numéro de téléphone</label>
+            <input type="text" id="PhoneNumber1" name="PhoneNumber1">
+            <label for="PhoneNumber2">Numéro de téléphone 2 (facultatif)</label>
+            <input type="text" id="PhoneNumber2" name="PhoneNumber2">
+            <label for="Town">Ville</label>
+            <input type="text" id="Town" name="Town">
+            <label for="Role">Rôle</label>
+            <input type="text" id="Role" name="Role">
+            <label for="Password">Mot de passe</label>
+            <input type="password" name="Password">
+            <label for="ShowPassword">Afficher le mot de passe</label>
+            <input type="checkbox" id="ShowPassword">
+            <label for="ConfirmPassword">Confirmez le mot de passe</label>
+            <input type="password" id="ConfirmPassword" name="ConfirmPassword">
+            <label for="ShowPassword">Afficher le mot de passe</label>
+            <input type="checkbox" id="ShowPassword">
+            <!-- <a href="SignUp.php">Nouvelle enregistrement</a>
+            <a href="ForgotPassword.php">Mot de passe oublié</a> -->
+            <input type="submit" value="Demande d’enregistrement">
         </form>
-
     </div>
+    
+    <p><?php echo(password_hash("Belko!=0;", PASSWORD_DEFAULT))?></p>
 </body>
 </html>

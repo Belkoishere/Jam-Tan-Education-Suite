@@ -1,5 +1,11 @@
 <?php
+session_start();
+
 include "../nav/nav.html";
+
+if (!isset($_SESSION['account_loggedin'])) {
+    header("Location: index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +26,7 @@ include "../nav/nav.html";
 </head>
 <body>
     <div id="main">
-        <h1>Tableau de bord</h1>
+        <h1><?php echo "Bienvenue " . $_SESSION['account_name'];?></h1>
     </div>
 </body>
 </html>

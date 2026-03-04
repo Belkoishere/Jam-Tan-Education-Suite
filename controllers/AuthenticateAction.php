@@ -2,49 +2,49 @@
 // Start the session
 session_start();
 
-require("../helpers/db.php")
+require("../helpers/db.php");
 
-//check if the data from the login form was submitted, isset() will check if the data exists
-if (!isset($_POST['username'], $_POST['password'])) {
-    // Could not get the data that should have been sent
-    exit('Please fill both the username and password fields!');
+//Check if the data from the login form was submitted
+if (!isset($_POST['PhoneNumber'], $_POST['Password'])) {
+    //Could not get the data that should have been sent
+    exit('Entrez le mot de pasee et le numero de telephone!');
 }
 
 // Prepare our SQL, which will prevent SQL injection
-if ($stmt = $conn->prepare('SELECT id, password FROM account WHERE username = ?')) {
-    // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-    $stmt->bind_param('s', $_POST['username']);
+if ($stmt = $conn->prepare('SELECT StaffID, StaffPassword, StaffFirstName FROM Staff WHERE StaffContact1 = ?')) {
+    // Bind StaffContact1 Parameter as string
+    $stmt->bind_param('s', $_POST['PhoneNumber']);
     $stmt->execute();
     // Store the result so we can check if the account exists in the database
     $stmt->store_result();
     
-    // Check if account exists with the input username
+    // Check if account exists with the input phone number
     if ($stmt->num_rows > 0) {
         // Account exists, so bind the results to variables
-        $stmt->bind_result($id, $password);
+        $stmt->bind_result($id, $password, $name);
         $stmt->fetch();
 
-        // Note: remember to use password_hash in your registration file to store the hashed passwords
-        $verify = password_verify($_POST['password'], $password);
+        // Use password_verify to verify password hash
+        $verify = password_verify($_POST['Password'], $password);
         
         if ($verify) {
             // password is correct! User has logged in!
             // Regenerate the session ID to prevent session fixation attacks
             session_regenerate_id();
-            // Declare session variables (they basically act like cookies but the data is remembered on the server)
+            // Declare session variables 
             $_SESSION['account_loggedin'] = TRUE;
-            $_SESSION['account_name'] = $_POST['username'];
+            $_SESSION['account_name'] = $name;
             $_SESSION['account_id'] = $id;
-            // If successful redirect user to home.php
-            header('Location: home.php');
+            // If successfull redirect user to their dashboard
+            header('Location: /Jam-Tan-Education-Suite/views/Dashboard.php');
             exit;
         } else {
             // Incorrect password
-            echo "Incorrect username and/or password! 0";
+            echo "Mot de passe incorrect! 0";
         }
     } else {
-        // Incorrect username
-        echo 'Incorrect username and/or password! 1';
+        // Staff record does not exist
+        echo 'Numero de telephone et/ou mot de passe incorrect! 1';
     }
 
     // Close the prepared statement

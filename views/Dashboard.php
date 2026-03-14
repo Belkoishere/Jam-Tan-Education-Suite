@@ -3,7 +3,7 @@ session_start();
 
 include "../nav/nav.html";
 
-if (!isset($_SESSION['account_loggedin'])) {
+if (!isset($_SESSION['AccountLoggedIn'])) {
     header("Location: index.php");
 }
 ?>
@@ -26,7 +26,7 @@ if (!isset($_SESSION['account_loggedin'])) {
 </head>
 <body>
     <div id="main">
-        <h1><?php echo "Bienvenue " . $_SESSION['account_name'];?></h1>
+        <h1><?php echo "Bienvenue " . $_SESSION['AccountName'];?></h1>
     </div>
 </body>
 </html>

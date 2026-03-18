@@ -1,5 +1,7 @@
 <?php
+session_start();
 include "../nav/nav.html";
+require("../controllers/YourStudentsData.php");
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +10,6 @@ include "../nav/nav.html";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vos élèves</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_your_students {
             font-weight: bold;
@@ -21,6 +22,12 @@ include "../nav/nav.html";
 <body>
     <div id="main">
         <h2>Vos élèves</h2>
+        <?php foreach ($Programs as $Program): ?>
+            <p>
+                <?= htmlspecialchars($Program["ProgramID"])?>
+                <?= htmlspecialchars($Program["ProgramName"])?>
+            </p>
+        <?php endforeach ?>  
     </div>
 </body>
 </html>

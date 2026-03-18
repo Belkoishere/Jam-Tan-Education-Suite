@@ -16,18 +16,6 @@ $French = new Translate (new French);
 
 $AccountName = $_SESSION['AccountName'];
 
-$locale = 'fr_FR'; // dynamically set this
-
-putenv("LC_ALL=$locale");
-setlocale(LC_ALL, $locale);
-
-// path to locale folder
-$domain = "message";
-bindtextdomain($domain, __DIR__ . "/../locales");
-bind_textdomain_codeset($domain, 'UTF-8');
-
-textdomain($domain);
-
 ?>
 
 <!DOCTYPE html>
@@ -104,7 +92,7 @@ textdomain($domain);
                 <h3>Fréquentation moyenne <?php echo("(" . $French->Translate(date("F")) . ")");?></h3>
                 <div class="table-contents-container">
 
-                     <?php foreach ($AverageAttendance as $Average): ?>
+                    <?php foreach ($AverageAttendance as $Average): ?>
                         <p>
                             <?= htmlspecialchars($Average["ProgramName"]) . "("?>
                             <?= htmlspecialchars($Average["AverageAttendance"] . "%)")?>

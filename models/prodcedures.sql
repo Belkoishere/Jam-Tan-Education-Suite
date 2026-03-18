@@ -73,6 +73,3 @@ END
 //
 
 DELIMITER;
-
-DELIMITER // 
-CREATE PROCEDURE GetStudents(IN InStaffID, )

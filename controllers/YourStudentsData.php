@@ -1,15 +1,16 @@
 <?php
-
 require("../controllers/db.php");
 $AccountID = $_SESSION['AccountID'];
 
-$GetStudents = "SELECT StaffFirstName, StaffLastName, StaffTitle, Town, StaffContact1,
-StaffContact2, Email, StaffPicture 
-FROM Staff WHERE StaffID = $AccountID";
+$stmt = 
+$conn->prepare("SELECT Program.ProgramID, Program.ProgramName
+FROM Staff
+INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
+INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID 
+WHERE Staff.StaffID = :id");
 
-$stmt = $conn->query($GetStudents);
-
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->execute(['id' => $AccountID]);
+$Programs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $conn = null;
 

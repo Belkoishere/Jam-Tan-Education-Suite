@@ -33,7 +33,7 @@ if (isset($_SESSION['AccountLoggedIn'])) {
             <input type="submit" value="Se connecter">
         </form>
     </div>
-    
-    <p><?php echo(password_hash("Belko!=0;", PASSWORD_DEFAULT))?></p>
+
+    <!--Password: Belko!=0; $2y$10$bSsVHG4J8ShyffKvmoLi7.0sGhDAsHBY4H6OZcoi7RqVMJZvOTJWy -->
 </body>
 </html>

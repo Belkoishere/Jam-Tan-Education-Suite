@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require("../controllers/db.php");
 
 if (!isset($_POST['PhoneNumber'], $_POST['Password'])) {

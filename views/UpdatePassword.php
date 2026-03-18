@@ -17,10 +17,21 @@ include "../nav/nav.html";
             font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="form.css">
 </head>
 <body>
     <div id="main">
-        <h1>Changer votre mot de passe</h1>
+        <h2>Changer votre mot de passe</h2>
+
+        <form action="../controllers/UpdatePasswordAction.php" method="POST">
+            <label for="CurrentPassword">Mot de passe</label>
+            <input type="password" name="CurrentPassword">
+            <label for="NewPassword">Nouveau mot de passe</label>
+            <input type="password" name="NewPassword">
+            <label for="ConfirmNewPassword">Confirmer le nouveau mot de passe</label>
+            <input type="password" name="ConfirmNewPassword">
+            <input type="submit" value="Changer">
+        </form>
     </div>
 </body>
 </html>

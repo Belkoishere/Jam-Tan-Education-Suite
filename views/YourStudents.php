@@ -20,7 +20,7 @@ include "../nav/nav.html";
 </head>
 <body>
     <div id="main">
-        <h1>Vos élèves</h1>
+        <h2>Vos élèves</h2>
     </div>
 </body>
 </html>

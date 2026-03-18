@@ -74,7 +74,7 @@ CREATE TABLE Staff (
 StaffID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 StaffFirstName VARCHAR(60) NOT NULL,
 StaffLastName VARCHAR(60) NOT NULL,
-StaffTitle ENUM("Mr", "Mrs", "Ms"),
+StaffTitle ENUM("Mr", "Mrs", "Ms") NOT NULL,
 Town VARCHAR(100) NOT NULL,
 StaffContact1 VARCHAR(8) NOT NULL,
 StaffContact2 VARCHAR(8),

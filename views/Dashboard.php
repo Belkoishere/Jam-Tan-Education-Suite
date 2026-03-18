@@ -103,12 +103,14 @@ textdomain($domain);
             <div id="AverageAttendance" class="table">
                 <h3>Fréquentation moyenne <?php echo("(" . $French->Translate(date("F")) . ")");?></h3>
                 <div class="table-contents-container">
+
                      <?php foreach ($AverageAttendance as $Average): ?>
                         <p>
                             <?= htmlspecialchars($Average["ProgramName"]) . "("?>
                             <?= htmlspecialchars($Average["AverageAttendance"] . "%)")?>
                         </p>
                     <?php endforeach ?>   
+
                 </div>
                 <a href="AttendanceHistory.php"><div class="table-btn">Historique de présence</div></a>
             </div>

@@ -1,5 +1,8 @@
 <?php
+session_start();
+
 include "../nav/nav.html";
+require("../controllers/YourAttendanceData.php");
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +23,21 @@ include "../nav/nav.html";
 </head>
 <body>
     <div id="main">
-        <h1>Votre présence</h1>
+        <h2>Votre présence</h2>
+
+            <table>
+                <tr>
+                    <th>Programme</th>
+                    <th>Fréquentation moyenne</th>
+                </tr>
+                <?php foreach ($YourAttendance as $AttendanceRow): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($AttendanceRow["ProgramName"]) ?></td>
+                        <td><?= htmlspecialchars($AttendanceRow["AverageAttendance"]) . "%"?></td>
+                    </tr>
+                <?php endforeach ?>
+            </table>
+
     </div>
 </body>
 </html>

@@ -26,5 +26,5 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $conn = null;
 
-header("Location: ../views/PersonalDetails.php")
+header("Location: ../views/PersonalDetails.php");
 ?>

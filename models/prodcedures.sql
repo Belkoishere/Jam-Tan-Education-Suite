@@ -59,4 +59,20 @@ END
 DELIMITER ;
 
 DELIMITER //
+CREATE PROCEDURE YourAttendance(IN InStaffID INTEGER)
+BEGIN
 
+SELECT Program.ProgramName, ROUND(AVG(StaffAttendance.Attendance-1) * 100, 0) AS AverageAttendance
+FROM Staff 
+INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
+INNER JOIN StaffAttendance ON Assignment.AssignmentID = StaffAttendance.AssignmentID
+INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID
+WHERE Staff.StaffID = InStaffID AND Year(StaffAttendance.AttendanceDate) = Year(CURRENT_DATE);
+
+END
+//
+
+DELIMITER;
+
+DELIMITER // 
+CREATE PROCEDURE GetStudents(IN InStaffID, )

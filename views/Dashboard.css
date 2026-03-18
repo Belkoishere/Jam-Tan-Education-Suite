@@ -1,0 +1,52 @@
+.table {
+    border: 2px solid;
+    border-color: black;
+    text-align: center;
+    flex: 1 1 calc(33.333% - 10px); /* ~1/3 width minus gap */
+    min-height: 300px;
+    position: relative;
+}
+
+.table-container {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis: 40%;
+    gap: 10px;
+}
+
+.table-contents-container {
+    border-top: 2px solid;
+    border-color: black;
+    width: 100%;
+    text-align: center;
+}
+
+.table-btn {
+    background-color: green;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    bottom: 0;
+    position: absolute;
+    width: calc(100% - 20px);
+}
+
+.table-rows {
+    line-height: 0.3;
+    margin-bottom: 10%;
+}
+
+/* Make a one column-layout instead of three-column layout */
+@media (max-width: 800px) {
+    .table-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .table {
+        width: 70%;
+    }
+}
+

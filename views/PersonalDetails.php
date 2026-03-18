@@ -1,5 +1,34 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['AccountLoggedIn'])) {
+    header("Location: index.php");
+    exit;
+}
+
 include "../nav/nav.html";
+require("../controllers/PersonalDetailsData.php");
+require_once("../locales/Language.php");
+require_once("../locales/French.php");
+require_once("../locales/Translate.php");
+
+$French = new Translate (new French);
+
+$locale = "fr_FR.UTF-8";
+
+// Path to translations
+$domain = "message";
+$localesDir = __DIR__ . "/locales";
+
+// Set environment variables
+putenv("LC_ALL=$locale");
+setlocale(LC_ALL, $locale);
+
+// Bind text domain to translations directory
+bindtextdomain($domain, $localesDir);
+bind_textdomain_codeset($domain, 'UTF-8');
+textdomain($domain);
+
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +46,39 @@ include "../nav/nav.html";
             font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="form.css">
 </head>
 <body>
+    
     <div id="main">
-        <h1>Informations personnelles</h1>
+
+        <h2>Informations personnelles</h2>
+
+        <div class="form-container">
+            <form action="../controllers/PersonalDetailsAction.php" method="POST">
+                <label for="Title">Titre</label>
+                <select name="Title">
+                    <option value="" disabled selected hidden><?= $French->Translate($row["StaffTitle"]);?></option>
+                    <option value="Mr">M</option>
+                    <option value="Mrs">Mme</option>
+                    <option value="Ms">Mlle</option>
+                </select>
+                <label for="FirstName">Prénom</label>
+                <input type="text" name="FirstName" value="<?= htmlspecialchars($row["StaffFirstName"]);?>">
+                <label for="LastName">Nom de famille</label>
+                <input type="text" name="LastName" value="<?= htmlspecialchars($row["StaffLastName"]);?>">
+                <label for="Email">Adresse email</label>
+                <input type="text" name="Email" value="<?= htmlspecialchars($row["Email"]);?>">
+                <label for="PhoneNumber1">Numéro de téléphone 1</label>
+                <input type="text" name="PhoneNumber1" value="<?= htmlspecialchars($row["StaffContact1"]);?>">
+                <label for="PhoneNumber2">Numéro de téléphone 2</label>
+                <input type="text" name="PhoneNumber2" value="<?= htmlspecialchars($row["StaffContact2"]);?>">
+                <label for="Town">Ville</label>
+                <input type="text" name="Town" value="<?= htmlspecialchars($row["Town"]);?>">
+                <input type="submit" value="Sauvegarde">
+            </form>
+        </div>
+        
     </div>
 </body>
 </html>

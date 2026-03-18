@@ -78,7 +78,7 @@
 }
 
 #main {
-    padding-top: 120px;
+    padding-top: 100px;
     margin-right: 300px;
     margin-left: 100px;
 }
@@ -123,7 +123,7 @@
 }
 
 /* Mobile */
-@media (max-width: 799px) {
+@media (max-width: 800px) {
 
     #sidebar_menu, #app_title {
         display: none;
@@ -140,13 +140,10 @@
         height: 50px;
     }
     #main {
-        /* display: flex;
-        justify-content: center;
+        text-align: center;
         margin-left: 0px;
         margin-right: 0px;
-        padding-top: 100px; */
-        margin-left: 0px;
-        margin-right: 0px;
-        padding-top: 100px;
+        padding-top: 80px;
     }
+
 }

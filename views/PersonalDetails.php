@@ -47,6 +47,7 @@ textdomain($domain);
         }
     </style>
     <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="PersonalDetails.css">
 </head>
 <body>
     
@@ -54,11 +55,17 @@ textdomain($domain);
 
         <h2>Informations personnelles</h2>
 
+        <form action="">
+            <img id="img-upload" src="../StaffImages/<?= htmlspecialchars($row["StaffPicture"]);?>.jpg" 
+            alt="Votre photo de profile">
+            <input type="submit" value="Télécharger une nouvelle photo">
+        </form>
+
         <div class="form-container">
             <form action="../controllers/PersonalDetailsAction.php" method="POST">
                 <label for="Title">Titre</label>
                 <select name="Title">
-                    <option value="" disabled selected hidden><?= $French->Translate($row["StaffTitle"]);?></option>
+                    <option value="<?= $row["StaffTitle"]; ?>" hidden><?= $French->Translate($row["StaffTitle"]);?></option>
                     <option value="Mr">M</option>
                     <option value="Mrs">Mme</option>
                     <option value="Ms">Mlle</option>

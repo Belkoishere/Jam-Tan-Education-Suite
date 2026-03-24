@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['AccountLoggedIn'])) {
+    header("Location: index.php");
+    exit;
+}
+
 include "../nav/nav.html";
 ?>
 
@@ -20,7 +27,7 @@ include "../nav/nav.html";
 </head>
 <body>
     <div id="main">
-        <h1>Ajouter une évaluation</h1>
+        <h2>Ajouter une évaluation</h2>
     </div>
 </body>
 </html>

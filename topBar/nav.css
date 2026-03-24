@@ -134,9 +134,10 @@
 }
 
 /* Mobile */
-@media (max-width: 799px) {
+@media (max-width: 800px) {
 
-    #sidebar_menu, #app_title {
+    #app_title {
+        /* font-size: 75%; */
         display: none;
     }
 
@@ -147,13 +148,10 @@
         height: 50px;
     }
     #main {
-        /* display: flex;
-        justify-content: center;
+        text-align: center;
         margin-left: 0px;
         margin-right: 0px;
-        padding-top: 100px; */
-        margin-left: 0px;
-        margin-right: 0px;
-        padding-top: 100px;
+        padding-top: 80px;
     }
+
 }

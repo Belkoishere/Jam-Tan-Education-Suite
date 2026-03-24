@@ -1,5 +1,4 @@
 <?php
-include "../topBar/nav.html";
 // We need to use sessions, so you should always initialize sessions using the below function
 session_start();
 // If the user is logged in, redirect to the home page
@@ -7,6 +6,8 @@ if (isset($_SESSION['AccountLoggedIn'])) {
     header('Location: Dashboard.php');
     exit;
 }
+
+include "../topBar/nav.html";
 
 ?>
 
@@ -20,7 +21,7 @@ if (isset($_SESSION['AccountLoggedIn'])) {
 </head>
 <body>
     <div id="main">
-        <h1>Se connecter</h1>
+        <h2>Se connecter</h2>
         <form action="/Jam-Tan-Education-Suite/controllers/AuthenticateAction.php" method="POST">
             <label for="PhoneNumber">Numéro de téléphone</label>
             <input type="text" name="PhoneNumber">

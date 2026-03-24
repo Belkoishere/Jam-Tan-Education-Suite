@@ -1,12 +1,12 @@
 <?php
-include "../topBar/nav.html";
-// We need to use sessions, so you should always initialize sessions using the below function
 session_start();
-// If the user is logged in, redirect to the home page
-// if (isset($_SESSION['account_loggedin'])) {
-//     header('Location: Dashboard.php');
-//     exit;
-// }
+
+if (!isset($_SESSION['AccountLoggedIn'])) {
+    header("Location: index.php");
+    exit;
+}
+
+include "../topBar/nav.html";
 
 ?>
 
@@ -60,7 +60,7 @@ session_start();
 </head>
 <body>
     <div id="main">
-        <h1>Se connecter</h1>
+        <h2>Se connecter</h2>
         <form action="/Jam-Tan-Education-Suite/controllers/CreateAccountAction.php" method="POST">
             <label for="Title">Titre</label>
             <select>

@@ -1,14 +1,19 @@
 INSERT INTO Staff (StaffFirstName, StaffLastName, 
 StaffTitle, Town, StaffContact1, StaffContact2, Email, 
-StaffPicture, StaffPassword) 
+StaffPicture, StaffPassword, StaffPicture) 
 VALUES
 ('Belko', 'Diallo', 'Mr', 'Ziniare', '56743817', NULL, 
 'belkojdiallo@gmail.com', NULL, 
-'$2y$10$zQquxYGs./WixGZ0lAu5u.S/HMs0OY1t5vxuzFnS2eX1rHykMILIO'); -- Password: Belko!=0;
+'$2y$10$zQquxYGs./WixGZ0lAu5u.S/HMs0OY1t5vxuzFnS2eX1rHykMILIO', 
+'SFI1'); -- Password: Belko!=0;
 
-INSERT INTO Program (ProgramName, MinAge, MaxAge, ProgramType) VALUES
-('Jam Tan Primary (CM2)', NULL, NULL, 1),
-('Jam Naati (6 - 8 ans)', 6, 8, 1);
+INSERT INTO ProgramCategory (CategoryName) VALUES
+('Jam Tan Primaire'),
+('Club Jam Naati')
+
+INSERT INTO Program (ProgramName, MinAge, MaxAge, CategoryID) VALUES
+('CM2', NULL, NULL, 1),
+('6 - 8 ans', 6, 8, 2);
 
 INSERT INTO Assignment (StaffID, ProgramID) 
 VALUES
@@ -18,13 +23,13 @@ VALUES
 INSERT INTO Student (StudentFirstName, StudentLastName, 
 StudentBirthDate, StudentTown, StudentGender, StudentSchool_Year, 
 Contact1, FatherFirst_Name, FatherLast_Name, 
-MotherFirst_Name, MotherLast_Name)
+MotherFirst_Name, MotherLast_Name, StudentPicture)
 VALUES
 ("Azis", "Abdoul", "2016-02-03", "Barkoundouba", "Male", 4, "56763817",
-"Mamoudou", "Abdoul", "Aisha", "Abdoul"),
+"Mamoudou", "Abdoul", "Aisha", "Abdoul", "STI1"),
 
 ("Belko", "Diallo", "2018-02-03", "Ziniare", "Male", 3, "56743817",
-"Boureima", "Diallo", "Susanna", "Evans");
+"Boureima", "Diallo", "Susanna", "Evans", "STI2");
 
 INSERT INTO Enrollment (StudentID, ProgramID)
 VALUES

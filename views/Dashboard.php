@@ -47,7 +47,8 @@ $AccountName = $_SESSION['AccountName'];
                     <?php $i = 1; foreach ($YourPrograms as $Program): ?>
                         <p>
                             <?= htmlspecialchars($i . ". " . 
-                            $Program["ProgramName"]) ?>
+                            $Program["CategoryName"]) ?>
+                            <?= htmlspecialchars($Program["ProgramName"]) ?>
                         </p>
                     <?php $i++; endforeach ?>
                 </div>
@@ -63,13 +64,17 @@ $AccountName = $_SESSION['AccountName'];
                             $Assessment["AssessmentName"]) . ": " ?> 
                             <?= htmlspecialchars(
                             $Assessment["AssessmentDueDate"]) ?>
+                            <?= htmlspecialchars(
+                            $Assessment["CategoryName"]) ?>
+                            <?= htmlspecialchars(
+                            $Assessment["ProgramName"]) ?>
                         </p>
                     <?php $i++; endforeach ?>
                 </div>
                 <a href="YourAssessments.php"><div class="table-btn">Vos évaluations</div></a>
             </div>
 
-            <div id="PupilsAtRisk" class="table">
+            <div id="StudentsAtRisk" class="table">
                 <h3>Élèves à risque</h3>
                 <div class="table-contents-container">
                     <?php $i = 1; foreach ($StudentsAtRisk as $Student): ?>
@@ -77,7 +82,8 @@ $AccountName = $_SESSION['AccountName'];
                             <?= htmlspecialchars($i . ". " . $Student["StudentLastName"]) ?> 
                             <?= htmlspecialchars($Student["StudentFirstName"])?>
                             <?= htmlspecialchars("(" . $Student["StudentID"]) . ")"?>
-                            <?= htmlspecialchars("(" . $Student["ProgramName"]) . ")" . "<br>"?>
+                            <?= htmlspecialchars("(" . $Student["CategoryName"])?>
+                            <?= htmlspecialchars($Student["ProgramName"]) . ")" . "<br>"?>
                             <?= htmlspecialchars("Frequentation moyenne: " . 
                             $Student["AverageAttendance"]) . "%<br>"?>
                             <?= htmlspecialchars("Taux de réussite: " . 
@@ -94,7 +100,8 @@ $AccountName = $_SESSION['AccountName'];
 
                     <?php foreach ($AverageAttendance as $Average): ?>
                         <p>
-                            <?= htmlspecialchars($Average["ProgramName"]) . "("?>
+                            <?= htmlspecialchars($Average["CategoryName"]) ?>
+                            <?= htmlspecialchars($Average["ProgramName"]) . " ("?>
                             <?= htmlspecialchars($Average["AverageAttendance"] . "%)")?>
                         </p>
                     <?php endforeach ?>   

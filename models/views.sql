@@ -1,6 +1,6 @@
 CREATE VIEW StudentsAtRisk AS
 SELECT
-Student.StudentID,
+Student.StudentID
 FROM Enrollment
 INNER JOIN Student ON Enrollment.StudentID = Student.StudentID
 -- left join instead of inner join avoids dropping students who have 0 attendance

@@ -10,14 +10,19 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 include "../nav/nav.html";
 require("../controllers/db.php");
 
-$ProgramID = $_GET['id'];
-$ProgramName = $_GET['name'];
-$CategoryName = $_GET['category'];
+$ProgramID = $_GET['id'] ?? '';
+$ProgramName = $_GET['name'] ?? '';
+$CategoryName = $_GET['category'] ?? '';
+
+$Attendances = $_POST["Attendance"] ?? '';
+$Reasons = $_POST["Reason"] ?? '';
+$EnrollmentIDs = $_POST["EnrollmentID"] ?? '';
 
 $GetStudents = $conn->prepare("SELECT Student.StudentID, 
 Student.StudentFirstName, 
 Student.StudentLastName,
-Student.StudentPicture
+Student.StudentPicture,
+Enrollment.EnrollmentID
 FROM
 Enrollment
 INNER JOIN Student ON Enrollment.StudentID = Student.StudentID
@@ -26,6 +31,22 @@ WHERE Enrollment.ProgramID = ?");
 $GetStudents->execute([$ProgramID]);
 $Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
 
+$InsertAttendance = "INSERT INTO StudentAttendance (EnrollmentID, Attendance, Reason)
+VALUES";
+
+if($Attendances !== "" && $Reasons !== "" && $EnrollmentIDs !== ""){
+
+    for ($i = 0; $i < count($Attendance); $i ++){
+        $InsertAttendance .= " ($EnrollmentIDs[$i], $Attendance[$i], $Reasons[$i]),";
+    }
+
+    substr($InsertAttendance, 0, -1);
+
+    $stmt = $conn-prepare($InsertAttendance);
+    $stmt->execute();
+
+    $conn = null;
+}
 
 ?>
 
@@ -35,7 +56,6 @@ $Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registre de présence</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_take_attendance {
             font-weight: bold;
@@ -60,7 +80,7 @@ $Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
         </h2>
 
         <div class="form-container">
-            <form action="../controllers/ProgramAttendanceAction.php">
+            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
                 <table>
                     <tr>
                         <th>Image</th>
@@ -78,6 +98,7 @@ $Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </td>
                         <td>
+                            <input style="display: none" type="text" name="EnrollmentID" value="<?= htmlspecialchars($Student["EnrollmentID"])?>">
                             <?= htmlspecialchars($Student["StudentLastName"] . " " . $Student["StudentFirstName"])?>
                         </td>
                         <td>

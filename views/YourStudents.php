@@ -123,7 +123,7 @@ $conn = null;
                 <select name="AtRisk">
                     <option value="">Tout</option>
                     <option value="No" <?= (($_GET['AtRisk'] ?? '') == 'No') ? 'selected' : ''?>>Non</option>
-                    <option vale="Yes" <?= (($_GET['AtRisk'] ?? '') == 'Yes') ? 'selected' : ''?>>Oui</option>
+                    <option value="Yes" <?= (($_GET['AtRisk'] ?? '') == 'Yes') ? 'selected' : ''?>>Oui</option>
                 </select>
                 <label for="Name">Nom de l'élève</label>
                 <input type="text" name="Name" value="<?= htmlspecialchars($_GET['Name'] ?? '')?>">

@@ -120,11 +120,13 @@ $conn = null;
                         <!-- restrict access to programs based on whether user is assigned to those programs
                          or not -->
                         <?php if (in_array($Program["ProgramID"], $YourIds)){ ?>
-                            <a href="AddAssessment.php?id=<?= htmlspecialchars($Program["ProgramID"]) ?>">
+                            <a href="AddAssessment.php?id=<?= htmlspecialchars($Program["ProgramID"]) ?>&
+                            &name=<?= htmlspecialchars($Program["ProgramName"])?>&category=<?= $Program["CategoryName"]?>">
                                 <div>Ajouter une évaluation</div>
                             </a>
                         <?php }?>
-                        <a href="TakeAttendance.php?id=<?= htmlspecialchars($Program["ProgramID"]) ?>">
+                        <a href="ProgramAttendance.php?id=<?= htmlspecialchars($Program["ProgramID"]) ?>
+                        &name=<?= htmlspecialchars($Program["ProgramName"])?>&category=<?= $Program["CategoryName"]?>">
                             <div>Faire l'appel</div>
                         </a>
                     </div>

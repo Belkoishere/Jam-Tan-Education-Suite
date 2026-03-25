@@ -29,6 +29,14 @@
     /* transform: translate(-50%, -50%);  */
     display: block;
 }
+
+.back-icon{
+    height: 50px;
+    margin: 0;
+    position: absolute;
+    padding-top: 107px;
+}
+
 /* Fullscreen overlay */
 #pop_up_menu {
     position: fixed;
@@ -144,6 +152,10 @@
         margin-left: 0px;
         margin-right: 0px;
         padding-top: 80px;
+    }
+
+    .back-icon{
+        display: none;
     }
 
 }

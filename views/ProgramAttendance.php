@@ -46,6 +46,8 @@ WHERE Enrollment.ProgramID = ?");
 $GetStudents->execute([$ProgramID]);
 $Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
 
+echo(count($Students));
+
 $InsertAttendance = "INSERT INTO StudentAttendance (EnrollmentID, Attendance, Reason)
 VALUES ";
 
@@ -62,9 +64,12 @@ if($EnrollmentIDs !== "" && $Attendances !== "" && $Reasons !== ""){
         if ($Attendances[$i] == "Yes"){
             $Present ++;
         }
-        if ()
+        if ($Student["StudentGender"] == "Male"){
+            $Mpresent ++;
+        }
 
         $i ++;
+        echo($i);
     }
 
     // for ($i = 0; $i < count($Attendances); $i ++){
@@ -79,8 +84,10 @@ if($EnrollmentIDs !== "" && $Attendances !== "" && $Reasons !== ""){
     //     if ()
     // }
 
-    $stmt = $conn->prepare(substr($InsertAttendance, 0, -1));
-    $stmt->execute();
+    echo($InsertAttendance);
+
+    // $stmt = $conn->prepare(substr($InsertAttendance, 0, -1));
+    // $stmt->execute();
 
     $Complete = true;
 

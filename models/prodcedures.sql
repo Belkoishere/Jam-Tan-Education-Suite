@@ -6,14 +6,13 @@ BEGIN
 
 -- Your programs
 SELECT Program.ProgramName, ProgramCategory.CategoryName 
-FROM Staff
-INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
+FROM assignment
 INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID
 INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
-WHERE Staff.StaffID = InStaffID;
+WHERE assignment.StaffID = InStaffID;
 
 -- Upcoming assessments
-SELECT Assessment.AssessmentName, Assessment.AssessmentDueDate, Program.ProgramName
+SELECT Assessment.AssessmentName, Assessment.AssessmentDueDate, Program.ProgramName,
 ProgramCategory.CategoryName FROM Staff
 INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
 INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID  
@@ -28,7 +27,7 @@ Student.StudentFirstName,
 Student.StudentLastName,
 Student.StudentID,
 Program.ProgramName,
-ProgramCategory.CategoryName 
+ProgramCategory.CategoryName,
 ROUND(AVG(StudentAttendance.Attendance-1)*100, 0) AS AverageAttendance,
 ROUND(AVG(Grade.Pass-1)*100, 0) AS PassRate
 FROM Staff

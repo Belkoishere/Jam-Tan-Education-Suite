@@ -10,6 +10,17 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 include "../nav/nav.html";
 require("../controllers/db.php");
 
+$Complete = false;
+
+$Present = 0;
+$Absent = 0;
+
+$Mpresent = 0;
+$Mabsent = 0;
+
+$Fpresent = 0;
+$Fabsent = 0;
+
 $ProgramID = $_GET['id'] ?? '';
 $ProgramName = $_GET['name'] ?? '';
 $CategoryName = $_GET['category'] ?? '';
@@ -18,10 +29,14 @@ $Attendances = $_POST["Attendance"] ?? '';
 $Reasons = $_POST["Reason"] ?? '';
 $EnrollmentIDs = $_POST["EnrollmentID"] ?? '';
 
+// print_r($EnrollmentIDs);
+// print_r($Attendances);
+
 $GetStudents = $conn->prepare("SELECT Student.StudentID, 
 Student.StudentFirstName, 
 Student.StudentLastName,
 Student.StudentPicture,
+Student.StudentGender,
 Enrollment.EnrollmentID
 FROM
 Enrollment
@@ -32,22 +47,46 @@ $GetStudents->execute([$ProgramID]);
 $Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
 
 $InsertAttendance = "INSERT INTO StudentAttendance (EnrollmentID, Attendance, Reason)
-VALUES";
+VALUES ";
 
-if($Attendances !== "" && $Reasons !== "" && $EnrollmentIDs !== ""){
+if($EnrollmentIDs !== "" && $Attendances !== "" && $Reasons !== ""){
 
-    for ($i = 0; $i < count($Attendance); $i ++){
-        $InsertAttendance .= " ($EnrollmentIDs[$i], $Attendance[$i], $Reasons[$i]),";
+    $i = 0;
+
+    foreach ($Students as $Student){
+
+        $InsertAttendance .= "($EnrollmentIDs[$i], 
+        '$Attendances[$i]', 
+        '$Reasons[$i]'),";
+
+        if ($Attendances[$i] == "Yes"){
+            $Present ++;
+        }
+        if ()
+
+        $i ++;
     }
 
-    substr($InsertAttendance, 0, -1);
+    // for ($i = 0; $i < count($Attendances); $i ++){
 
-    $stmt = $conn-prepare($InsertAttendance);
+    //     $InsertAttendance .= "($EnrollmentIDs[$i], 
+    //     '$Attendances[$i]', 
+    //     '$Reasons[$i]'),";
+
+    //     if ($Attendances[$i] == "Yes"){
+    //         $Present ++;
+    //     }
+    //     if ()
+    // }
+
+    $stmt = $conn->prepare(substr($InsertAttendance, 0, -1));
     $stmt->execute();
 
-    $conn = null;
+    $Complete = true;
+
 }
 
+$conn = null;
 ?>
 
 <!DOCTYPE html>
@@ -79,8 +118,8 @@ if($Attendances !== "" && $Reasons !== "" && $EnrollmentIDs !== ""){
             <?= "Registre de présence " . htmlspecialchars($CategoryName . " " . $ProgramName . " " . date("d/m/y"))?>
         </h2>
 
-        <div class="form-container">
-            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+        <div class="form-container" style="<?php echo $Complete ? 'display: none;' : ''; ?>">
+            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                 <table>
                     <tr>
                         <th>Image</th>
@@ -98,23 +137,27 @@ if($Attendances !== "" && $Reasons !== "" && $EnrollmentIDs !== ""){
                             </div>
                         </td>
                         <td>
-                            <input style="display: none" type="text" name="EnrollmentID" value="<?= htmlspecialchars($Student["EnrollmentID"])?>">
+                            <input style="display: none" type="text" name="EnrollmentID[]" value="<?= htmlspecialchars($Student["EnrollmentID"])?>">
                             <?= htmlspecialchars($Student["StudentLastName"] . " " . $Student["StudentFirstName"])?>
                         </td>
                         <td>
-                            <select name="Attendance">
+                            <select type="text" name="Attendance[]">
                                 <option value="Present">Présent</option>
                                 <option value="Absent">Absent</option>
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="Reason">
+                            <input type="text" name="Reason[]">
                         </td>
                     </tr>
                 <?php endforeach?>
                 </table>
                 <input type="submit" value="Complète">
             </form>
+        </div>
+
+        <div class="results-container" style="<?php echo $Complete ? 'display: block;' : '';?>">
+            <h1>hello</h1>
         </div>
     </div>
 </body>

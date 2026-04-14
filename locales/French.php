@@ -18,7 +18,9 @@ class French implements Language {
             "December"=> "Décembre",
             "Mr" => "M",
             "Mrs" => "Mme",
-            "Ms" => "Mlle"
+            "Ms" => "Mlle",
+            "Pass" => "Réussite",
+            "Fail" => "Échec"
         ];
 
         return $dictionary[$word] ?? $word;

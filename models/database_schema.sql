@@ -67,11 +67,14 @@ FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID)
 
 CREATE TABLE Grade (
 GradeID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+UNIQUE KEY EnrollmentAssessment NOT NULL PRIMARY KEY (EnrollmentID, AssessmentID),
 Grade INTEGER UNSIGNED NOT NULL,
-Feedback VARCHAR(500),
 Pass ENUM("Fail", "Pass") NOT NULL,
+GradeDate DATE NOT NULL DEFAULT CURRENT_DATE,
+Feedback VARCHAR(500),
 AssessmentID INTEGER NOT NULL,
 EnrollmentID INTEGER NOT NULL,
+UNIQUE KEY EnrollmentAssessment NOT NULL PRIMARY KEY (EnrollmentID, AssessmentID),
 FOREIGN KEY (AssessmentID) REFERENCES Assessment(AssessmentID),
 FOREIGN KEY (EnrollmentID) REFERENCES Enrollment(EnrollmentID)
 );

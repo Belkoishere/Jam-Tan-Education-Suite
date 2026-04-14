@@ -42,11 +42,11 @@ require("../controllers/YourProgramsData.php");
                         </p>
                         <a href="AddAssessment.php?id=<?= $Program["ProgramID"]?>
                         &name=<?= $Program["ProgramName"]?>&category=<?= $Program["CategoryName"]?>">
-                            <div >Ajouter une évaluation</div>
+                            <div>Ajouter une évaluation</div>
                         </a>
                         <a href="ProgramAttendance.php?id=<?= $Program["ProgramID"]?>
                         &name=<?= $Program["ProgramName"]?>&category=<?= $Program["CategoryName"]?>">
-                            <div >Faire l'appel</div>
+                            <div>Faire l'appel</div>
                         </a>
                     </div>
                 </div>

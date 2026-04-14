@@ -27,8 +27,6 @@ include "../topBar/nav.html";
             <input type="text" name="PhoneNumber">
             <label for="Password">Mot de passe</label>
             <input type="password" name="Password">
-            <label for="ShowPassword">Afficher le mot de passe</label>
-            <input type="checkbox" id="ShowPassword">
             <!-- <a href="SignUp.php">Nouvelle enregistrement</a>
             <a href="ForgotPassword.php">Mot de passe oublié</a> -->
             <input type="submit" value="Se connecter">

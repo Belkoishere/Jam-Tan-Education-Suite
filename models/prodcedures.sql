@@ -83,3 +83,47 @@ END
 //
 
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE StudentInfo(IN InStudentID INTEGER)
+BEGIN
+
+SELECT *, TIMESTAMPDIFF(YEAR, Student.StudentBirthDate, CURDATE()) AS Age
+FROM Student
+WHERE Student.StudentID = InStudentID;
+
+SELECT Enrollment.EnrollmentDate, Program.ProgramName, 
+ProgramCategory.CategoryName
+FROM Enrollment 
+INNER JOIN Program
+ON Enrollment.ProgramID = Program.ProgramID
+INNER JOIN ProgramCategory
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Enrollment.StudentID = InStudentID;
+
+SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
+Program.ProgramName, ProgramCategory.CategoryName, Program.ProgramID
+FROM StudentAttendance
+INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
+INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID
+INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Enrollment.StudentID = InStudentID 
+AND YEAR(StudentAttendance.AttendanceDate) = YEAR(CURRENT_DATE)
+GROUP BY Program.ProgramID;
+
+SELECT 
+Program.ProgramName,
+ProgramCategory.CategoryName,
+ROUND(AVG(Grade.Grade / Assessment.MaxGrade)*100, 0) AS AverageGrade
+FROM Enrollment
+INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID 
+INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
+INNER JOIN Grade ON Enrollment.EnrollmentID = Grade.EnrollmentID
+INNER JOIN Assessment ON Grade.AssessmentID = Assessment.AssessmentID
+WHERE Enrollment.StudentID = InStudentID
+AND YEAR(Grade.GradeDate) = YEAR(CURRENT_DATE);
+
+END
+//
+DELIMITER ;
+

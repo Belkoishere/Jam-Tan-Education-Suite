@@ -7,6 +7,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include "../nav/nav.html";
+require("../controllers/YourProgramsData.php");
 ?>
 
 <!DOCTYPE html>
@@ -24,10 +25,27 @@ include "../nav/nav.html";
             font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="Result.css">
 </head>
 <body>
     <div id="main">
         <h2>Vos évaluations</h2>
+
+        <div class="results-container">
+            <?php foreach ($Programs as $Program): ?>
+                <a href="ProgramAssessments.php?id=<?= $Program["ProgramID"]?>
+                &name=<?= $Program["ProgramName"]?>&category=<?= $Program["CategoryName"]?>" class="result">
+
+                    <p class="text">
+                    <?= htmlspecialchars($Program["CategoryName"])?>
+                    <?= htmlspecialchars($Program["ProgramName"])?>
+                    </p>
+                    
+                    <img src="../icons/arrow-next-svgrepo-com.svg" alt="forward-icon" class="forward-icon">
+
+                </a>
+            <?php endforeach?>
+        </div>
     </div>
 </body>
 </html>

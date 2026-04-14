@@ -1,0 +1,16 @@
+Only pass ids in urls and use those to fetch data from the database
+
+Create show password function, this will replace the eye icon on Microsoft edge.
+
+There are a few approaches to saving grades for an assessment.
+
+1. Use DELETE AND INSERT: Delete all past grades and insert new ones
+2. UPDATE: Initiate all students to have null grades for an assessment and 
+then update them for every edit
+3. ON Duplicate key update: If grade exists, update grade, if grade does not exist, insert grade
+
+Option 1 is unomptimal and breaks foreign key constraints on Delete
+Option 2 is also unomptimal as it also has to add null grades whenever a new student
+is added.
+Option 3 is best as it updates fesisting records which does not break referfential integrity
+and it inserts new grades which does not require every student to have a grade entry for an assessment.

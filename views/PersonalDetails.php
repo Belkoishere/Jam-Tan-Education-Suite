@@ -14,21 +14,6 @@ require_once("../locales/Translate.php");
 
 $French = new Translate (new French);
 
-$locale = "fr_FR.UTF-8";
-
-// Path to translations
-$domain = "message";
-$localesDir = __DIR__ . "/locales";
-
-// Set environment variables
-putenv("LC_ALL=$locale");
-setlocale(LC_ALL, $locale);
-
-// Bind text domain to translations directory
-bindtextdomain($domain, $localesDir);
-bind_textdomain_codeset($domain, 'UTF-8');
-textdomain($domain);
-
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +33,7 @@ textdomain($domain);
     </style>
     <link rel="stylesheet" href="form.css">
     <link rel="stylesheet" href="PersonalDetails.css">
+    <link rel="stylesheet" href="ProfilePicture.css">
 </head>
 <body>
     
@@ -55,11 +41,8 @@ textdomain($domain);
 
         <h2>Informations personnelles</h2>
 
-        <form action="">
-            <img id="img-upload" src="../StaffImages/<?= htmlspecialchars($row["StaffPicture"]);?>.jpg" 
-            alt="Votre photo de profile">
-            <input type="submit" value="Télécharger une nouvelle photo">
-        </form>
+        <img id="profile-picture" src="../StaffImages/<?= htmlspecialchars($row["StaffPicture"]);?>"> 
+        <a href="UploadProfilePicture.php">Changer photo de profile</a>
 
         <div class="form-container">
             <form action="../controllers/PersonalDetailsAction.php" method="POST">

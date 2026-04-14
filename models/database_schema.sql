@@ -52,6 +52,11 @@ EnrollmentID INTEGER NOT NULL,
 FOREIGN KEY(EnrollmentID) REFERENCES Enrollment(EnrollmentID)
 );
 
+CREATE TABLE AssessmentType (
+TypeID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+TypeName VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE Assessment (
 AssessmentID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 AssessmentName VARCHAR(100) NOT NULL,
@@ -60,21 +65,21 @@ AssessmentStartDate DATE,
 AssessmentDueDate DATE NOT NULL,
 MaxGrade INTEGER UNSIGNED NOT NULL,
 PassGrade INTEGER UNSIGNED NOT NULL,
-AssessmentType TINYINT UNSIGNED NOT NULL,
+TypeID INTEGER NOT NULL,
 ProgramID INTEGER NOT NULL,
-FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID)
+FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID),
+FOREIGN KEY (TypeID) REFERENCES AssessmentType(TypeID)
 );
 
 CREATE TABLE Grade (
 GradeID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-UNIQUE KEY EnrollmentAssessment NOT NULL PRIMARY KEY (EnrollmentID, AssessmentID),
+UNIQUE KEY EnrollmentAssessment (EnrollmentID, AssessmentID),
 Grade INTEGER UNSIGNED NOT NULL,
 Pass ENUM("Fail", "Pass") NOT NULL,
 GradeDate DATE NOT NULL DEFAULT CURRENT_DATE,
 Feedback VARCHAR(500),
 AssessmentID INTEGER NOT NULL,
 EnrollmentID INTEGER NOT NULL,
-UNIQUE KEY EnrollmentAssessment NOT NULL PRIMARY KEY (EnrollmentID, AssessmentID),
 FOREIGN KEY (AssessmentID) REFERENCES Assessment(AssessmentID),
 FOREIGN KEY (EnrollmentID) REFERENCES Enrollment(EnrollmentID)
 );

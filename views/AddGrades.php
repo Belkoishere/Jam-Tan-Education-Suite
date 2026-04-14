@@ -12,11 +12,12 @@ require("../controllers/db.php");
 $ProgramID = $_GET['program_id'] ?? null;
 $AssessmentID = $_GET['assessment_id'] ?? null;
 
-$InEnrollmentIDs = $_POST["EnrollmentID"] ?? [];
-$InStudentIDs   = $_POST["StudentID"] ?? [];
-$InGrades = $_POST["Grade"] ?? [];
+$InEnrollmentIDs = $_GET["EnrollmentID"] ?? [];
+$InGrades = $_GET["Grade"] ?? [];
+$InFeedbacks = $_GET["Feedback"] ?? [];
 
-$GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade
+$GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade,
+Assessment.PassGrade
 FROM Assessment
 WHERE Assessment.AssessmentID = ?");
 
@@ -32,12 +33,52 @@ WHERE Program.ProgramID = ?");
 $GetProgram->execute([$ProgramID]);
 $Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
+$params = [];
+
+if(!empty($InGrades)) {
+
+for ($i = 0; $i < count($InGrades); $i++) {
+    $InEnrollmentID = $InEnrollmentIDs[$i];
+    $InAssessmentID = $AssessmentID;
+    $InGrade = $InGrades[$i];
+    $InFeedback = $InFeedbacks[$i];
+    $InPass = "Pass";
+
+    if ($InGrade === "" || $InGrade === null) {
+        continue;
+    }
+
+    if ($InGrade < $Assessment["PassGrade"]){
+        $InPass = "Fail";
+    }
+
+    $params[] = [$InEnrollmentID, $InAssessmentID, $InGrade, $InFeedback, $InPass];
+}
+
+$placeholders = [];
+$values = [];
+foreach ($params as $row) {
+    $placeholders[] = "(?, ?, ?, ?, ?)";
+    $values[] = $row[0];
+    $values[] = $row[1];
+    $values[] = $row[2];
+    $values[] = $row[3];
+    $values[] = $row[4];
+}
+
+$SaveGrades = "INSERT INTO Grade (EnrollmentID, AssessmentID, Grade, Feedback, Pass) 
+VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE
+Grade = VALUES(Grade), Feedback = VALUES(Feedback)";
+
+$stmt1 = $conn->prepare($SaveGrades);
+$stmt1->execute($values);
+
+}
+
 $GetGrades = "SELECT Student.StudentFirstName, Student.StudentLastName,
 Student.StudentID, Student.StudentPicture,
-Grade.Grade, Enrollment.EnrollmentID
-CASE WHEN Grade.Grade >= Assessment.PassGrade THEN 'Pass'
-WHEN Grade.Grade < Assessment.PassGrade THEN 'Fail'
-ELSE NULL END AS Pass 
+Grade.Grade, Grade.Feedback, Enrollment.EnrollmentID,
+Grade.Pass 
 FROM Student
 INNER JOIN Enrollment
 ON Student.StudentID = Enrollment.StudentID
@@ -53,33 +94,6 @@ $stmt = $conn->prepare($GetGrades);
 $stmt->execute(["assessment_id" => $AssessmentID, "program_id" => $ProgramID]);
 
 $Grades = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-if (!empty($InEnrollmentIDs) && !empty($InStudentIDs) && !empty($InGrades)){
-
-    $SaveGrades = "INSERT INTO Grade (EnrollmentID, AssessmentID Grade) VALUES (?, ?, ?)";
-    $params = [];
-
-    foreach ($InGrades as $i => $Grade) {
-
-        if (!isset($InEnrollmentIDs[$i], $InStudentIDs[$i], $InGrades[$i])) {
-            continue;      
-        }
-
-        $params[] = $InEnrollmentIDs[$i];
-        $params[] = $InStudentIDs[$i];
-        $params[] = $InGrades[$i]; 
-            
-    }
-
-    $SaveGrades .= " ON DUPLICATE KEY UPDATE
-    grade = VALUES(grade);";
-
-    if (!empty($params)) {
-        $stmt = $conn->prepare($sql);
-        $stmt->execute($params);
-        $Complete = true;
-    }
-}
 
 $conn = null;
 ?>
@@ -99,7 +113,7 @@ $conn = null;
 </head>
 <body>
 
-<a href="<?=htmlspecialchars($_SERVER['HTTP_REFERER'])?>">
+<a href="ProgramAssessments.php?id=<?=$ProgramID?>">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
          alt="back icon" class="back-icon">
 </a>
@@ -117,35 +131,40 @@ $conn = null;
                     <th>Nom</th>
                     <th>Note / <?= htmlspecialchars($Assessment["MaxGrade"]);?></th>
                     <th>Réussite / Échec</th>
+                    <th>Evaluation</th>
                 </tr>
 
                 <?php foreach ($Grades as $Grade): ?>
-                <tr>
-                    <td>
-                        <div style="width:125px;height:125px;overflow:hidden;">
-                            <img 
-                                style="width:125px; height:auto; margin:-13px 0 0 -25px;" 
-                                src="../StudentImages/<?= htmlspecialchars($Grade["StudentPicture"]) ?>.jpg"
-                                alt="">
-                        </div>
-                    </td>
+                    <tr>
+                        <td>
+                            <div style="width:125px;height:125px;overflow:hidden;">
+                                <img 
+                                    style="width:125px; height:auto; margin:-13px 0 0 -25px;" 
+                                    src="../StudentImages/<?= htmlspecialchars($Grade["StudentPicture"]) ?>.jpg"
+                                    alt="">
+                            </div>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($Grade["StudentLastName"] . " " . $Grade["StudentFirstName"]) ?>
+                        </td>
 
-                    <td>
-                        <?= htmlspecialchars($Grade["StudentLastName"] . " " . $Grade["StudentFirstName"]) ?>
-                    </td>
+                        <td>
+                            <input type="number" min="0" max="<?=$Assessment["MaxGrade"]?>" name="Grade[]" value="<?= htmlspecialchars($Grade["Grade"]);?>" placeholder="<?= htmlspecialchars($Grade["Grade"]);?>">
+                        </td>
 
-                    <td>
-                        <input type="number" min="0" max="<?=$Assessment["MaxGrade"]?>" name="Grade[]" value="<?= htmlspecialchars($Grade["Grade"]);?>">
-                    </td>
-
-                    <td>
-                        <?= htmlspecialchars($Grade["Pass"]);?>
-                    </td>
-                </tr>
+                        <td>
+                            <?= htmlspecialchars($Grade["Pass"]);?>
+                        </td>
+                        <td>
+                            <input type="text" name="Feedback[]" value="<?= htmlspecialchars($Grade["Feedback"]) ?>" placeholder="<?= htmlspecialchars($Grade["Feedback"]) ?>">
+                        </td>
+                    </tr>
+                    <input type="hidden" value="<?= $Grade["EnrollmentID"]?>" name="EnrollmentID[]">
                 <?php endforeach; ?>
             </table>
-            <input style="display:none;" type="number" value="<?= $Grade["StudentID"]?>" name="StudentID[]">
-            <input style="display:none;" type="number" value="<?= $Grade["EnrollmentID"]?>" name="EnrollmentID[]">
+           
+            <input type="hidden" value="<?= $AssessmentID?>" name="assessment_id">
+            <input type="hidden" value="<?= $ProgramID?>" name="program_id">
             <input type="submit" value="Sauvegarde"></input>
         </form>
     </div>

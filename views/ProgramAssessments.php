@@ -7,8 +7,6 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 $ProgramID = $_GET['id'] ?? null;
-$ProgramName = $_GET['name'] ?? '';
-$CategoryName = $_GET['category'] ?? '';
 
 // Filters:
 $InMonth = $_GET['Month'] ?? '';
@@ -17,6 +15,15 @@ $InUpcoming = $_GET['Upcoming'] ?? '';
 
 require("../controllers/db.php");
 include "../nav/nav.html";
+
+$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
+FROM Program
+INNER JOIN ProgramCategory 
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Program.ProgramID = ?");
+
+$GetProgram->execute([$ProgramID]);
+$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $GetYears = "SELECT DISTINCT Year(Assessment.AssessmentPublishDate) AS AssessmentYear
 FROM Assessment 
@@ -28,8 +35,10 @@ $stmt->execute([$ProgramID]);
 $Years = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $GetAssessments = "SELECT Assessment.AssessmentID, Assessment.AssessmentName, Assessment.AssessmentDueDate, 
-Assessment.AssessmentPublishDate, Assessment.MaxGrade, Assessment.AssessmentType 
+Assessment.AssessmentPublishDate, Assessment.MaxGrade, AssessmentType.TypeName 
 FROM Assessment
+INNER JOIN AssessmentType
+ON Assessment.TypeID = AssessmentType.TypeID
 WHERE Assessment.ProgramID = :id";
 
 $params = ['id' => $ProgramID];
@@ -93,9 +102,11 @@ $conn = null;
     <div id="main">
 
         <h2>
-            <?= htmlspecialchars("Évaluations de $CategoryName $ProgramName ")?>
+            <?= htmlspecialchars("Évaluations de " . $Program["CategoryName"] . " " . $Program["ProgramName"])?>
         </h2>   
         
+        <a href="AddAssessment.php?id=<?= $ProgramID?>">Ajouter une evaluation</a>
+
         <div class="form-container">
             <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
                 <label for="Year">Année</label>
@@ -124,8 +135,6 @@ $conn = null;
                     <option value="12" <?= (($_GET['Month'] ?? '') == '12') ? 'selected' : ''?>>Décembre</option>
                 </select>
                 <input type="text" name="id" value="<?=$ProgramID?>" style="display: none;">
-                <input type="text" name="name" value="<?=$ProgramName?>" style="display: none;">
-                <input type="text" name="category" value="<?=$CategoryName?>" style="display: none;">
                 <label for="Past">Passe / À venir</label>
                 <select name="Upcoming" id="">
                     <option value="" >Tout</option>
@@ -146,7 +155,8 @@ $conn = null;
                         <p>Date de publication: <?= htmlspecialchars($Assessment["AssessmentPublishDate"])?></p>
                         <p>Date limite: <?= htmlspecialchars($Assessment["AssessmentDueDate"])?></p>
                         <p>Points maximum: <?= htmlspecialchars($Assessment["MaxGrade"])?></p>
-                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>&program_id=<?= $ProgramID?>&name=<?= $ProgramName?>&category=<?= $CategoryName?>">Voir les notes</a>
+                        <p>Type: <?= htmlspecialchars($Assessment["TypeName"])?></p>
+                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>&program_id=<?= $ProgramID?>">Voir les notes</a>
                         <a href="AddGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>&program_id=<?= $ProgramID?>">Ajouter les notes</a>
                     </div>
                 </div>

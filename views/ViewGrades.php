@@ -11,13 +11,16 @@ require("../controllers/db.php");
 
 // Validate GET
 $ProgramID = $_GET['program_id'] ?? null;
-$ProgramName = $_GET['name'] ?? '';
-$CategoryName = $_GET['category'] ?? '';
 $AssessmentID = $_GET['assessment_id'] ?? null;
 
-if (!$ProgramID) {
-    die("Invalid Program ID");
-}
+$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
+FROM Program 
+INNER JOIN ProgramCategory 
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Program.ProgramID = ?");
+
+$GetProgram->execute([$ProgramID]);
+$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade
 FROM Assessment
@@ -31,8 +34,7 @@ $GetGrades = $conn->prepare("
     SELECT 
         Student.StudentFirstName, Student.StudentLastName,
         Student.StudentPicture,
-        Grade.Grade, 
-        CASE WHEN Grade.Grade >= Assessment.PassGrade THEN 'Pass' ELSE 'Fail' END AS Pass 
+        Grade.Grade, Grade.Feedback, Grade.Pass
     FROM Assessment
     INNER JOIN Grade
         ON Assessment.AssessmentID = Grade.AssessmentID
@@ -63,14 +65,14 @@ $conn = null;
 </head>
 <body>
 
-<a href="<?=htmlspecialchars($_SERVER['HTTP_REFERER'])?>">
+<a href="ProgramAssessments.php?id=<?= $ProgramID?>">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
          alt="back icon" class="back-icon">
 </a>
 
 <div id="main">
 
-    <h2><?= htmlspecialchars($CategoryName . $ProgramName  . " - Voir les notes") ?></h2>
+    <h2><?= htmlspecialchars($Program["CategoryName"] . " " . $Program["ProgramName"]  . " - Voir les notes") ?></h2>
 
         <table>
             <tr>
@@ -78,6 +80,7 @@ $conn = null;
                 <th>Nom</th>
                 <th>Note / <?= htmlspecialchars($Assessment["MaxGrade"]);?></th>
                 <th>Réussite / Échec</th>
+                <th>Evaluation</th>
             </tr>
 
             <?php foreach ($Grades as $Grade): ?>
@@ -101,6 +104,9 @@ $conn = null;
 
                 <td>
                     <?= htmlspecialchars($Grade["Pass"]);?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($Grade["Feedback"])?>
                 </td>
             </tr>
             <?php endforeach; ?>

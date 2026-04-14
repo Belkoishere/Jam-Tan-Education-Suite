@@ -7,6 +7,36 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include "../nav/nav.html";
+require("../controllers/YourProgramsData.php");
+require("../controllers/db.php");
+
+$ProgramID = $_GET["id"] ?? null;
+
+$InName = $_POST["Name"] ?? "";
+$InStartDate = $_POST["StartDate"] ?? "";
+$InDueDate = $_POST["DueDate"] ?? "";
+$InMaxGrade = $_POST["MaxGrade"] ?? "";
+$InPassGrade = $_POST["PassGrade"] ?? "";
+$InTypeID = $_POST["TypeID"] ?? null;
+$InProgramID = $_POST["ProgramID"] ?? null;
+
+$GetAssessmentTypes = $conn->prepare("SELECT * FROM AssessmentType");
+
+$GetAssessmentTypes->execute();
+$Types = $GetAssessmentTypes->fetchAll(PDO::FETCH_ASSOC);
+
+if (isset($InProgramID)){
+
+    $InsertAssessment = $conn->prepare("INSERT INTO Assessment (AssessmentName, AssessmentStartDate,
+    AssessmentDueDate, MaxGrade, PassGrade, TypeID, ProgramID)
+    VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+    $InsertAssessment->execute([$InName, $InStartDate, $InDueDate, $InMaxGrade, $InPassGrade,
+    $InTypeID, $InProgramID]);
+
+}
+
+$conn = null;
 ?>
 
 <!DOCTYPE html>
@@ -31,23 +61,40 @@ include "../nav/nav.html";
         <h2>Ajouter une évaluation</h2>
 
         <div class="form-container">
-            <form action="#" method="POST">
-                <label for="Program">Programme</label>
-                <select name="Program" id="">
-
+            <form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
+                <label for="ProgramID">Programme</label>
+                <select name="ProgramID" id="">
+                    <?php foreach ($Programs as $Program): ?>
+                        <?php if($Program["ProgramID"] == $ProgramID) {?>
+                            <option value="<?= htmlspecialchars($Program["ProgramID"])?>" selected>
+                                <?= htmlspecialchars($Program["CategoryName"] . " " . $Program["ProgramName"])?>
+                            </option>
+                        <?php } else {?>
+                            <option value="<?= htmlspecialchars($Program["ProgramID"])?>">
+                                <?= htmlspecialchars($Program["CategoryName"] . " " . $Program["ProgramName"])?>
+                            </option>
+                        <?php }?>
+                    <?php endforeach ?>
                 </select>
-                <label for="Title">Titre</label>
-                <input type="text">
-                <label for="Type">Type</label>
-                <select name="Type" id="">
-
+                <label for="Name">Titre</label>
+                <input type="text" name="AssessmentName">
+                <label for="TypeID">Type</label>
+                <select name="TypeID" id="">
+                    <?php foreach ($Types as $Type): ?>
+                        <option value="<?= htmlspecialchars($Type["TypeID"])?>">
+                            <?= htmlspecialchars($Type["TypeName"])?>
+                        </option>
+                    <?php endforeach ?>
                 </select>
-                <label for="Deadline">Date Limite</label>
-                <input type="date" name="Deadline">
+                <label for="StartDate">Date de début</label>
+                <input type="date" name="StartDate">
+                <label for="DueDate">Date Limite</label>
+                <input type="date" name="DueDate">
                 <label for="MaxGrade">Points maximums</label>
                 <input type="number" name="MaxGrade">
                 <label for="PassGrade">Points de réussite</label>
                 <input type="number" name="PassGrade">
+
                 <input type="submit" value="Ajouter">
             </form>
         </div>

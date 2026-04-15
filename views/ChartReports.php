@@ -102,8 +102,6 @@ $French = new Translate (new French);
     </div>
     
     <p>Moyenne générale: <?= htmlspecialchars($OverallAverage["AverageAttendance"]) . "%"?></p>
-    
-    <p>Fréquentation Moyenne par mois <?= "(" . date("Y") . ")"?>: </p>
 
     <div>
         <canvas id="myChart"></canvas>
@@ -156,7 +154,7 @@ $French = new Translate (new French);
         data: {
         labels: Months,
         datasets: [{
-            label: '# of Votes',
+            label: 'Fréquentation Moyenne par mois (%)(' + new Date().getFullYear() + ")",
             data: FullAverages,
             borderWidth: 1
         }]

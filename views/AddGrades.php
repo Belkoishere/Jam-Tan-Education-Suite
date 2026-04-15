@@ -68,7 +68,7 @@ foreach ($params as $row) {
 
 $SaveGrades = "INSERT INTO Grade (EnrollmentID, AssessmentID, Grade, Feedback, Pass) 
 VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE
-Grade = VALUES(Grade), Feedback = VALUES(Feedback)";
+Grade = VALUES(Grade), Pass = VALUES(Pass), Feedback = VALUES(Feedback)";
 
 $stmt1 = $conn->prepare($SaveGrades);
 $stmt1->execute($values);

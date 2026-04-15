@@ -28,13 +28,17 @@ VALUES
 ("Azis", "Abdoul", "2016-02-03", "Barkoundouba", "Male", 4, "56763817",
 "Mamoudou", "Abdoul", "Aisha", "Abdoul", "STI1"),
 
-("Belko", "Diallo", "2018-02-03", "Ziniare", "Male", 3, "56743817",
-"Boureima", "Diallo", "Absatou", "Diallo", "STI2");
+("Aisha", "Diallo", "2018-02-03", "Ziniare", "Female", 3, "56743817",
+"Boureima", "Diallo", "Absatou", "Diallo", "STI2"),
+
+("Belko", "Diallo", "2016-02-03", "Ziniare", 4, "56743817",
+"Boureima", "Diallo", "Aisha", "Diallo", "STI3");
 
 INSERT INTO Enrollment (StudentID, ProgramID)
 VALUES
 (1, 1),
-(2, 2);
+(2, 2),
+(3, 2);
 
 INSERT INTO StudentAttendance (Attendance, EnrollmentID)
 VALUES
@@ -47,17 +51,23 @@ VALUES
 ("Present", 2),
 ("Absent", 2);
 
+INSERT INTO assessmenttype (TypeName)
+VALUES ("Exam"),
+("Assignment"),
+("Open book Exam"),
+("Quiz");
+
 INSERT INTO Assessment (AssessmentName, AssessmentDueDate, MaxGrade, PassGrade,
-AssessmentType, ProgramID)
+TypeID, ProgramID)
 VALUES
 ("Biology test", "2025-04-08", 20, 14, 1, 1),
 ("French test", "2025-04-13", 20, 12, 1, 1),
-("Math quiz", "2025-05-19", 10, 6, 2, 2),
-("Geography quiz", "2025-06-18", 10, 7, 2, 2),
+("Math quiz", "2025-05-19", 10, 6, 4, 2),
+("Geography quiz", "2025-06-18", 10, 7, 4, 2),
 ("Biology test", "2026-04-08", 20, 14, 1, 1),
 ("French test", "2026-04-13", 20, 12, 1, 1),
-("Math quiz", "2026-05-19", 10, 6, 2, 2),
-("Geography quiz", "2026-06-18", 10, 7, 2, 2);
+("Math quiz", "2026-05-19", 10, 6, 4, 2),
+("Geography quiz", "2026-06-18", 10, 7, 4, 2);
 
 INSERT INTO Grade (Grade, Pass, AssessmentID, EnrollmentID)
 VALUES
@@ -65,5 +75,3 @@ VALUES
 (11, "Fail", 2, 1),
 (5, "Fail", 3, 2),
 (6, "Fail", 4, 2);
-
-

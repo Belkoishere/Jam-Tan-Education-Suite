@@ -63,10 +63,6 @@ $French = new Translate (new French);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart Reports</title>
 </head>
-<script src="path/to/chartjs/dist/chart.umd.min.js"></script>
-<script>
-    const myChart = new Chart(ctx, {...});
-</script>
 <style>
     #p_attendance_history {
             font-weight: bold;
@@ -107,6 +103,10 @@ $French = new Translate (new French);
     
     <p>Moyenne par mois <?= "(" . date("Y") . ")"?>: </p>
 
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
     <table>
         <tr>
             <th>Mois</th>
@@ -120,9 +120,6 @@ $French = new Translate (new French);
         <?php endforeach?>
     </table>
 
-
-
 </div>
-
 </body>
 </html>

@@ -17,7 +17,8 @@ $ProgramID = $_GET['id'] ?? null;
 $ProgramName = $_GET['name'] ?? '';
 $CategoryName = $_GET['category'] ?? '';
 
-$GetAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, MONTH(StudentAttendance.AttendanceDate) AS M
+$GetAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
+MONTHNAME(StudentAttendance.AttendanceDate) AS M
 FROM StudentAttendance
 INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
 WHERE Enrollment.ProgramID = ?
@@ -74,7 +75,7 @@ $French = new Translate (new French);
 <link rel="stylesheet" href="form.css">
 <body>
     
-<a href="<?= $_SERVER['HTTP_REFERER'] ?? '#'?>">
+<a href="AttendanceHistory.php">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
     alt="back icon" class="back-icon">
 </a>
@@ -96,12 +97,13 @@ $French = new Translate (new French);
                     </option>
                 <?php endforeach ?>
             </select>
+            <input type="submit" value="Cherche">
         </form>
     </div>
     
     <p>Moyenne générale: <?= htmlspecialchars($OverallAverage["AverageAttendance"]) . "%"?></p>
     
-    <p>Moyenne par mois <?= "(" . date("Y") . ")"?>: </p>
+    <p>Fréquentation Moyenne par mois <?= "(" . date("Y") . ")"?>: </p>
 
     <div>
         <canvas id="myChart"></canvas>
@@ -114,12 +116,59 @@ $French = new Translate (new French);
         </tr>
         <?php foreach ($Averages as $Average): ?>
             <tr>
-                <td><?= $French->Translate(htmlspecialchars(DateTime::createFromFormat('!m', $Average["M"])->format('F')))?></td>
+                <td><?= $French->Translate(htmlspecialchars($Average["M"]))?></td>
                 <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
             </tr>
         <?php endforeach?>
     </table>
 
 </div>
+
+<script src="../controllers/chart.umd.js"></script>
+<script>
+    const ctx = document.getElementById('myChart');
+    const AverageAttendances = <?= json_encode($Averages, JSON_HEX_TAG); ?>;
+    console.log(AverageAttendances);
+
+    var Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var InMonths = [];
+    var MonthIndexes = [];
+    var Averages = [];
+    var FullAverages = [];
+
+    for(i = 0; i < AverageAttendances.length; i ++){
+        Averages[i] = AverageAttendances[i].AverageAttendance;
+        InMonths[i] = AverageAttendances[i].M;
+        MonthIndexes[i] = Months.indexOf(AverageAttendances[i].M);
+    }
+
+    for(j = 0; j < Months.length; j ++){
+        FullAverages[j] = null;
+    }
+
+    for (k = 0; k < MonthIndexes.length; k ++){
+        FullAverages[MonthIndexes[k]] = Averages[k];
+        console.log(MonthIndexes[k]);
+    }
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+        labels: Months,
+        datasets: [{
+            label: '# of Votes',
+            data: FullAverages,
+            borderWidth: 1
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
+        }
+        }
+    });
+</script>
 </body>
 </html>

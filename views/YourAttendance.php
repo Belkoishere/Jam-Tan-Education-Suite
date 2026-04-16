@@ -30,6 +30,7 @@ require("../controllers/YourAttendanceData.php");
     <div id="main">
         <h2>Votre présence</h2>
 
+            <?php if(count($YourAttendance) > 1) { ?>
             <table>
                 <tr>
                     <th>Programme</th>
@@ -42,7 +43,9 @@ require("../controllers/YourAttendanceData.php");
                     </tr>
                 <?php endforeach ?>
             </table>
-
+            <?php } else {?>
+                <p>Aucun presence registre</p>
+            <?php } ?>
     </div>
 </body>
 </html>

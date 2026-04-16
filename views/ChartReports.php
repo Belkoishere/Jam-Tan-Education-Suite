@@ -14,31 +14,6 @@ require_once("../locales/French.php");
 require_once("../locales/Translate.php");
 
 $ProgramID = $_GET['id'] ?? null;
-$ProgramName = $_GET['name'] ?? '';
-$CategoryName = $_GET['category'] ?? '';
-
-$GetAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
-MONTHNAME(StudentAttendance.AttendanceDate) AS M
-FROM StudentAttendance
-INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
-WHERE Enrollment.ProgramID = ?
-GROUP BY MONTH(StudentAttendance.AttendanceDate)";
-
-$stmt = $conn->prepare($GetAverages);
-$stmt->execute([$ProgramID]);
-
-$Averages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$GetOverallAverage = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, MONTH(StudentAttendance.AttendanceDate) AS M
-FROM StudentAttendance
-INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
-WHERE Enrollment.ProgramID = ?
-AND YEAR(StudentAttendance.AttendanceDate) = ?";
-
-$stmt1 = $conn->prepare($GetOverallAverage);
-$stmt1->execute([$ProgramID, date("Y")]);
-
-$OverallAverage = $stmt1->fetch(PDO::FETCH_ASSOC);
 
 $GetYears = "SELECT DISTINCT Year(StudentAttendance.AttendanceDate) AS AttendanceYear
 FROM Program 
@@ -50,6 +25,61 @@ $stmt2 = $conn->prepare($GetYears);
 $stmt2->execute([$ProgramID]);
 
 $Years = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+$Yearsarr = [];
+
+foreach($Years as $i => $Y){
+    $Yearsarr[$i] = $Y["AttendanceYear"];
+}
+
+reset($Yearsarr);
+$InYear = $_GET['InYear'] ?? current($Yearsarr);
+
+$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
+FROM Program 
+INNER JOIN ProgramCategory 
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Program.ProgramID = ?");
+
+$GetProgram->execute([$ProgramID]);
+$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
+
+$GetMonthAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
+MONTHNAME(StudentAttendance.AttendanceDate) AS M
+FROM StudentAttendance
+INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
+WHERE Enrollment.ProgramID = :program_id
+AND YEAR(StudentAttendance.AttendanceDate) = :in_year
+GROUP BY MONTH(StudentAttendance.AttendanceDate)";
+
+$stmt = $conn->prepare($GetMonthAverages);
+$stmt->execute(["program_id" => $ProgramID, "in_year" => $InYear]);
+
+$MonthAverages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$GetWeekAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
+WEEK(StudentAttendance.AttendanceDate) AS M
+FROM StudentAttendance
+INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
+WHERE Enrollment.ProgramID = :program_id
+AND YEAR(StudentAttendance.AttendanceDate) = :in_year
+GROUP BY WEEK(StudentAttendance.AttendanceDate)";
+
+$stmt0 = $conn->prepare($GetWeekAverages);
+$stmt0->execute(["program_id" => $ProgramID, "in_year" => $InYear]);
+
+$WeekAverages = $stmt0->fetchAll(PDO::FETCH_ASSOC);
+
+$GetOverallAverage = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, MONTH(StudentAttendance.AttendanceDate) AS M
+FROM StudentAttendance
+INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
+WHERE Enrollment.ProgramID = ?
+AND YEAR(StudentAttendance.AttendanceDate) = ?";
+
+$stmt1 = $conn->prepare($GetOverallAverage);
+$stmt1->execute([$ProgramID, $InYear]);
+
+$OverallAverage = $stmt1->fetch(PDO::FETCH_ASSOC);
 
 $conn = null;
 
@@ -83,7 +113,7 @@ $French = new Translate (new French);
 <div id="main">
     
     <h2>
-        <?= htmlspecialchars("Rapport de fréquentation $CategoryName $ProgramName")?>
+        <?= htmlspecialchars("Rapport de fréquentation " . $Program["CategoryName"] . " " . $Program["ProgramName"] . " (" . $InYear . ")")?>
     </h2> 
 
     <div class="form-container">
@@ -97,6 +127,7 @@ $French = new Translate (new French);
                     </option>
                 <?php endforeach ?>
             </select>
+            <input type="hidden" name="id" value="<?= $ProgramID?>">
             <input type="submit" value="Cherche">
         </form>
     </div>
@@ -112,10 +143,23 @@ $French = new Translate (new French);
             <th>Mois</th>
             <th>Fréquentation moyenne</th>
         </tr>
-        <?php foreach ($Averages as $Average): ?>
+        <?php foreach ($MonthAverages as $Average): ?>
             <tr>
                 <td><?= $French->Translate(htmlspecialchars($Average["M"]))?></td>
                 <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
+            </tr>
+        <?php endforeach?>
+    </table>
+
+    <table>
+        <tr>
+            <th>Semaine</th>
+            <th>Fréquentation moyenne</th>
+        </tr>
+        <?php foreach ($WeekAverages as $WAverage): ?>
+            <tr>
+                <td><?= $French->Translate(htmlspecialchars($WAverage["M"]))?></td>
+                <td><?= htmlspecialchars($WAverage["AverageAttendance"]) . "%"?></td>
             </tr>
         <?php endforeach?>
     </table>
@@ -125,7 +169,7 @@ $French = new Translate (new French);
 <script src="../controllers/chart.umd.js"></script>
 <script>
     const ctx = document.getElementById('myChart');
-    const AverageAttendances = <?= json_encode($Averages, JSON_HEX_TAG); ?>;
+    const AverageAttendances = <?= json_encode($MonthAverages, JSON_HEX_TAG); ?>;
     console.log(AverageAttendances);
 
     var Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -154,7 +198,7 @@ $French = new Translate (new French);
         data: {
         labels: Months,
         datasets: [{
-            label: 'Fréquentation Moyenne par mois (%)(' + new Date().getFullYear() + ")",
+            label: 'Fréquentation Moyenne par mois (%) (' + <?= $InYear ?> + ")",
             data: FullAverages,
             borderWidth: 1
         }]

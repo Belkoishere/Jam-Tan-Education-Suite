@@ -40,8 +40,7 @@ include "../nav/nav.html";
                         <?= htmlspecialchars($Program["ProgramName"])?>
                     </p>
                     
-                    <a href="ChartReports.php?id=<?= $Program["ProgramID"]?>
-                    &name=<?= $Program["ProgramName"]?>&category=<?= $Program["CategoryName"]?>">
+                    <a href="ChartReports.php?id=<?= $Program["ProgramID"]?>">
                         <img src="../icons/bar-chart-svgrepo-com.svg" alt="bar chart icon" class="forward-icon">
                     </a>
 

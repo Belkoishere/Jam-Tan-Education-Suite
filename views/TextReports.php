@@ -48,6 +48,8 @@ if ($InYear !== '') {
     $params['in_year'] = $InYear;
 }
 
+$GetDates .= " ORDER BY StudentAttendance.AttendanceDate desc";
+
 $stmt1 = $conn->prepare($GetDates);
 $stmt1->execute($params);
 

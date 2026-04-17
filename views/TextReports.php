@@ -5,17 +5,23 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     header("Location: index.php");
     exit;
 }
-
-$ProgramID = $_GET['id'] ?? null;
-$ProgramName = $_GET['name'] ?? '';
-$CategoryName = $_GET['category'] ?? '';
-
-// Filters:
-$InMonth = $_GET['Month'] ?? '';
-$InYear = $_GET['Year'] ?? '';
-
 require("../controllers/db.php");
 include "../nav/nav.html";
+
+$ProgramID = $_GET['program_id'] ?? null;
+
+// Filters:
+$InMonth = $_POST['Month'] ?? '';
+$InYear = $_POST['Year'] ?? '';
+
+$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
+FROM Program 
+INNER JOIN ProgramCategory 
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Program.ProgramID = ?");
+
+$GetProgram->execute([$ProgramID]);
+$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $GetYears = "SELECT DISTINCT Year(StudentAttendance.AttendanceDate) AS AttendanceYear
 FROM Program 
@@ -28,7 +34,7 @@ $stmt->execute([$ProgramID]);
 
 $Years = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$GetDates = "SELECT StudentAttendance.AttendanceDate
+$GetDates = "SELECT StudentAttendance.AttendanceDate, StudentAttendance.AttendanceID
 FROM Program 
 INNER JOIN Enrollment ON Program.ProgramID = Enrollment.ProgramID
 INNER JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
@@ -88,16 +94,16 @@ $conn = null;
     <div id="main">
 
         <h2>
-            <?= htmlspecialchars("Rapports de fréquentation $CategoryName $ProgramName ")?>
+            <?= htmlspecialchars("Rapports de fréquentation " . $Program["CategoryName"] . " " . $Program["ProgramName"])?>
         </h2>   
         
         <div class="form-container">
-            <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
+            <form action="" method="POST">
                 <label for="Year">Année</label>
                 <select name="Year">
                     <?php foreach ($Years as $Year): ?>
                         <option value="<?= htmlspecialchars($Year["AttendanceYear"])?>"
-                        <?= (($_GET['InYear'] ?? '') == $Year["AttendanceYear"]) ? 'selected' : ''?>>
+                        <?= (($_POST['InYear'] ?? '') == $Year["AttendanceYear"]) ? 'selected' : ''?>>
                             <?= htmlspecialchars($Year["AttendanceYear"])?>
                         </option>
                     <?php endforeach ?>
@@ -105,23 +111,21 @@ $conn = null;
                 <label for="Month">Mois</label>
                 <select name="Month">
                     <option value="">Tout</option>
-                    <option value="1" <?= (($_GET['Month'] ?? '') == '1') ? 'selected' : ''?>>Janvier</option>
-                    <option value="2" <?= (($_GET['Month'] ?? '') == '2') ? 'selected' : ''?>>Février</option>
-                    <option value="3" <?= (($_GET['Month'] ?? '') == '3') ? 'selected' : ''?>>Mars</option>
-                    <option value="4" <?= (($_GET['Month'] ?? '') == '4') ? 'selected' : ''?>>Avril</option>
-                    <option value="5" <?= (($_GET['Month'] ?? '') == '5') ? 'selected' : ''?>>Mai</option>
-                    <option value="6" <?= (($_GET['Month'] ?? '') == '6') ? 'selected' : ''?>>Juin</option>
-                    <option value="7" <?= (($_GET['Month'] ?? '') == '7') ? 'selected' : ''?>>Juillet</option>
-                    <option value="8" <?= (($_GET['Month'] ?? '') == '8') ? 'selected' : ''?>>Août</option>
-                    <option value="9" <?= (($_GET['Month'] ?? '') == '9') ? 'selected' : ''?>>Septembre</option>
-                    <option value="10" <?= (($_GET['Month'] ?? '') == '10') ? 'selected' : ''?>>Octobre</option>
-                    <option value="11" <?= (($_GET['Month'] ?? '') == '11') ? 'selected' : ''?>>Novembre</option>
-                    <option value="12" <?= (($_GET['Month'] ?? '') == '12') ? 'selected' : ''?>>Décembre</option>
+                    <option value="1" <?= (($_POST['Month'] ?? '') == '1') ? 'selected' : ''?>>Janvier</option>
+                    <option value="2" <?= (($_POST['Month'] ?? '') == '2') ? 'selected' : ''?>>Février</option>
+                    <option value="3" <?= (($_POST['Month'] ?? '') == '3') ? 'selected' : ''?>>Mars</option>
+                    <option value="4" <?= (($_POST['Month'] ?? '') == '4') ? 'selected' : ''?>>Avril</option>
+                    <option value="5" <?= (($_POST['Month'] ?? '') == '5') ? 'selected' : ''?>>Mai</option>
+                    <option value="6" <?= (($_POST['Month'] ?? '') == '6') ? 'selected' : ''?>>Juin</option>
+                    <option value="7" <?= (($_POST['Month'] ?? '') == '7') ? 'selected' : ''?>>Juillet</option>
+                    <option value="8" <?= (($_POST['Month'] ?? '') == '8') ? 'selected' : ''?>>Août</option>
+                    <option value="9" <?= (($_POST['Month'] ?? '') == '9') ? 'selected' : ''?>>Septembre</option>
+                    <option value="10" <?= (($_POST['Month'] ?? '') == '10') ? 'selected' : ''?>>Octobre</option>
+                    <option value="11" <?= (($_POST['Month'] ?? '') == '11') ? 'selected' : ''?>>Novembre</option>
+                    <option value="12" <?= (($_POST['Month'] ?? '') == '12') ? 'selected' : ''?>>Décembre</option>
                 </select>
                 <input type="submit" value="Filtre"></input>
-                <input type="text" name="id" value="<?=$ProgramID?>" style="display: none;">
-                <input type="text" name="name" value="<?=$ProgramName?>" style="display: none;">
-                <input type="text" name="category" value="<?=$CategoryName?>" style="display: none;">
+                
             </form>
         </div>
 
@@ -129,7 +133,7 @@ $conn = null;
 
         <div class="results-container">
             <?php foreach ($Dates as $Date): ?>
-                <a href="TextReport.php?date=<?= $Date["AttendanceDate"]?>&id=<?=$ProgramID?>&name=<?= $ProgramName?>&category=<?= $CategoryName?>" class="result">
+                <a href="TextReport.php?attendance_id=<?= $Date["AttendanceID"]?>" class="result">
 
                     <p class="text">
                         <?= htmlspecialchars($Date["AttendanceDate"])?>

@@ -40,12 +40,10 @@ require("../controllers/YourProgramsData.php");
                         <p>
                             Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
                         </p>
-                        <a href="AddAssessment.php?id=<?= $Program["ProgramID"]?>
-                        &name=<?= $Program["ProgramName"]?>&category=<?= $Program["CategoryName"]?>">
+                        <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>">
                             <div>Ajouter une évaluation</div>
                         </a>
-                        <a href="ProgramAttendance.php?id=<?= $Program["ProgramID"]?>
-                        &name=<?= $Program["ProgramName"]?>&category=<?= $Program["CategoryName"]?>">
+                        <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>">
                             <div>Faire l'appel</div>
                         </a>
                     </div>

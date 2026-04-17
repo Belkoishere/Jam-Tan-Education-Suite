@@ -155,7 +155,7 @@ $conn = null;
                         <p>
                             <?= htmlspecialchars($Student["Programs"]) ?>
                         </p>
-                        <a href="Student.php?id=<?= $Student["StudentID"]?>&last_page=AllStudents.php"><div class="table-btn">Voir</div></a>
+                        <a href="Student.php?student_id=<?= $Student["StudentID"]?>"><div class="table-btn">Voir</div></a>
                     </div>
                 </div>
             <?php endforeach ?>

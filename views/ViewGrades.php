@@ -10,20 +10,15 @@ include("../nav/nav.html");
 require("../controllers/db.php");
 
 // Validate GET
-$ProgramID = $_GET['program_id'] ?? null;
 $AssessmentID = $_GET['assessment_id'] ?? null;
 
-$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
-FROM Program 
-INNER JOIN ProgramCategory 
-ON Program.CategoryID = ProgramCategory.CategoryID
-WHERE Program.ProgramID = ?");
-
-$GetProgram->execute([$ProgramID]);
-$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
-
-$GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade
+$GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade,
+Assessment.PassGrade, Program.ProgramName, Program.ProgramID, ProgramCategory.CategoryName
 FROM Assessment
+INNER JOIN Program
+ON Assessment.ProgramID = Program.ProgramID
+INNER JOIN ProgramCategory
+ON Program.CategoryID = ProgramCategory.CategoryID
 WHERE Assessment.AssessmentID = ?");
 
 $GetAssessment->execute([$AssessmentID]);
@@ -65,14 +60,14 @@ $conn = null;
 </head>
 <body>
 
-<a href="ProgramAssessments.php?id=<?= $ProgramID?>">
+<a href="ProgramAssessments.php?program_id=<?= $Assessment["ProgramID"]?>">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
          alt="back icon" class="back-icon">
 </a>
 
 <div id="main">
 
-    <h2><?= htmlspecialchars($Program["CategoryName"] . " " . $Program["ProgramName"]  . " - Voir les notes") ?></h2>
+    <h2><?= htmlspecialchars($Assessment["CategoryName"] . " " . $Assessment["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Voir les notes") ?></h2>
 
         <table>
             <tr>

@@ -6,7 +6,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
-$ProgramID = $_GET['id'] ?? null;
+$ProgramID = $_GET['program_id'] ?? null;
 
 // Filters:
 $InMonth = $_GET['Month'] ?? '';
@@ -156,8 +156,8 @@ $conn = null;
                         <p>Date limite: <?= htmlspecialchars($Assessment["AssessmentDueDate"])?></p>
                         <p>Points maximum: <?= htmlspecialchars($Assessment["MaxGrade"])?></p>
                         <p>Type: <?= htmlspecialchars($Assessment["TypeName"])?></p>
-                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>&program_id=<?= $ProgramID?>">Voir les notes</a>
-                        <a href="AddGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>&program_id=<?= $ProgramID?>">Ajouter les notes</a>
+                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>">Voir les notes</a>
+                        <a href="AddGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>">Ajouter les notes</a>
                     </div>
                 </div>
             <?php endforeach ?>

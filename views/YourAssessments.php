@@ -33,7 +33,7 @@ require("../controllers/YourProgramsData.php");
 
         <div class="results-container">
             <?php foreach ($Programs as $Program): ?>
-                <a href="ProgramAssessments.php?id=<?= $Program["ProgramID"]?>" class="result">
+                <a href="ProgramAssessments.php?program_id=<?= $Program["ProgramID"]?>" class="result">
 
                     <p class="text">
                     <?= htmlspecialchars($Program["CategoryName"])?>

@@ -13,7 +13,7 @@ require_once("../locales/Language.php");
 require_once("../locales/French.php");
 require_once("../locales/Translate.php");
 
-$ProgramID = $_GET['id'] ?? null;
+$ProgramID = $_GET['program_id'] ?? null;
 
 $GetYears = "SELECT DISTINCT Year(StudentAttendance.AttendanceDate) AS AttendanceYear
 FROM Program 
@@ -32,8 +32,7 @@ foreach($Years as $i => $Y){
     $Yearsarr[$i] = $Y["AttendanceYear"];
 }
 
-reset($Yearsarr);
-$InYear = $_GET['InYear'] ?? current($Yearsarr);
+$InYear = $_GET['InYear'] ?? reset($Yearsarr);
 
 $GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
 FROM Program 
@@ -127,7 +126,7 @@ $French = new Translate (new French);
                     </option>
                 <?php endforeach ?>
             </select>
-            <input type="hidden" name="id" value="<?= $ProgramID?>">
+            <input type="hidden" name="program_id" value="<?= $ProgramID?>">
             <input type="submit" value="Cherche">
         </form>
     </div>

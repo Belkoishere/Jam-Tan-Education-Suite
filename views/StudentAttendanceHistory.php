@@ -12,12 +12,18 @@ require("../controllers/db.php");
 
 $StudentID = $_GET["student_id"];
 $ProgramID = $_GET["program_id"];
-$LastPage = $_GET["last_page"];
-$DoubleLastPage = $_GET["double_last_page"];
 
 // Filters:
-$InMonth = $_GET['Month'] ?? '';
-$InYear = $_GET['Year'] ?? '';
+$InMonth = $_POST['Month'] ?? '';
+$InYear = $_POST['Year'] ?? '';
+
+$OriginPage = "http://localhost/Jam-Tan-Education-Suite/views/AllStudents.php";
+
+if(isset($_SESSION["LastPageStudent"])){
+    $OriginPage = $_SESSION["LastPageStudent"];
+}
+
+$LastSignificantPage = "http://localhost/Jam-Tan-Education-Suite/views/Student.php?student_id=" . $StudentID;
 
 $GetYears = "SELECT DISTINCT Year(StudentAttendance.AttendanceDate) AS AttendanceYear
 FROM Enrollment 
@@ -89,22 +95,16 @@ $conn = null;
 </head>
 <link rel="stylesheet" href="form.css">
 <style>
-    <?php if ($DoubleLastPage == "YourStudents.php"){ ?>
+<?php if ($OriginPage == "http://localhost/Jam-Tan-Education-Suite/views/YourStudents.php"){ ?>
     
-    #p_your_students {
-        font-weight: bold;
-    }
-    #s_your_students {
+    #p_your_students, #s_your_students {
         font-weight: bold;
     }
 
 <?php } ?>
-<?php if($DoubleLastPage == "AllStudents.php"){ ?>
+<?php if ($OriginPage == "http://localhost/Jam-Tan-Education-Suite/views/AllStudents.php"){ ?>
 
-    #p_all_students {
-        font-weight: bold;
-    }
-    #s_all_students {
+    #p_all_students, #s_all_students {
         font-weight: bold;
     }
 
@@ -112,7 +112,7 @@ $conn = null;
 </style>
 <body>
     
-    <a href="<?= htmlspecialchars($LastPage)?>">
+    <a href="<?= htmlspecialchars($LastSignificantPage)?>">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
          alt="back icon" class="back-icon">
     </a>
@@ -121,7 +121,7 @@ $conn = null;
         <h2><?= $Student["StudentFirstName"] . " " . $Student["StudentLastName"]?> - Rapport de présence <?= $Program["CategoryName"] . " " . $Program["ProgramName"]?></h2>
 
         <div class="form-container">
-            <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
+            <form action="" method="POST">
                 <label for="Year">Année</label>
                 <select name="Year">
                     <?php foreach ($Years as $Year): ?>

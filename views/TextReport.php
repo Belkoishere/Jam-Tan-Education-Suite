@@ -10,10 +10,21 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 include("../nav/nav.html");
 require("../controllers/db.php");
 
-$ProgramID = $_GET['id'] ?? null;
-$ProgramName = $_GET['name'] ?? '';
-$CategoryName = $_GET['category'] ?? '';
-$Date = $_GET['date'] ?? '';
+$AttendanceID = $_GET['attendance_id'] ?? null;
+
+$GetAttendance = $conn->prepare("SELECT StudentAttendance.AttendanceDate,
+Program.ProgramName, ProgramCategory.CategoryName
+FROM StudentAttendance
+INNER JOIN Enrollment
+ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
+INNER JOIN Program
+ON Enrollment.ProgramID = Program.ProgramID
+INNER JOIN ProgramCategory
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE StudentAttendance.AttendanceID = ?");
+
+$GetAttendance->execute([$AttendanceID]);
+$AttendanceInfo = $GetAttendance->fetch(PDO::FETCH_ASSOC);
 
 $GetAttendances = "SELECT StudentAttendance.Attendance, 
 Student.StudentFirstName, Student.StudentLastName,
@@ -23,10 +34,10 @@ FROM Student INNER JOIN Enrollment
 ON Student.StudentID = Enrollment.StudentID
 INNER JOIN StudentAttendance
 ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
-WHERE Enrollment.ProgramID = ? AND StudentAttendance.AttendanceDate = ?";
+WHERE StudentAttendance.AttendanceID = ?";
 
 $stmt = $conn->prepare($GetAttendances);
-$stmt->execute([$ProgramID, $Date]);
+$stmt->execute([$AttendanceID]);
 
 $Attendances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -96,7 +107,7 @@ $conn = null;
     <div id="main">
 
         <h2>
-            <?= htmlspecialchars("Rapport de fréquentation $CategoryName $ProgramName $Date")?>
+            <?= htmlspecialchars("Rapport de fréquentation " . $AttendanceInfo["CategoryName"] . " " . $AttendanceInfo["ProgramName"] . " " . $AttendanceInfo["AttendanceDate"])?>
         </h2> 
 
         <table>

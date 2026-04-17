@@ -9,9 +9,30 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 include("../nav/nav.html");
 require("../controllers/db.php");
 
-$StudentID = $_GET['id'] ?? null;
-$LastPage = $_GET['last_page'] ?? "";
-$ThisPage = urlencode("Student.php?id=" . $StudentID . "&last_page=" . $LastPage);
+$StudentID = $_GET['student_id'] ?? null;
+
+$LastPage = $_SERVER['HTTP_REFERER'] ?? null;
+
+$LastPages = ["http://localhost/Jam-Tan-Education-Suite/views/YourStudents.php",
+"http://localhost/Jam-Tan-Education-Suite/views/AllStudents.php"];
+
+$LastSignificantPage = "";
+
+if (in_array($LastPage, $LastPages) && !isset($_SESSION["LastPageStudent"])) {
+    $_SESSION["LastPageStudent"] = $LastPage;
+    $LastSignificantPage = $LastPage;
+}
+else if (in_array($LastPage, $LastPages) && isset($_SESSION["LastPageStudent"])) {
+    $_SESSION["LastPageStudent"] = $LastPage;
+    $LastSignificantPage = $LastPage;
+}
+else if (isset($_SESSION["LastPageStudent"]) && in_array($_SESSION["LastPageStudent"], $LastPages)) {
+    $LastSignificantPage = $_SESSION["LastPageStudent"];
+}
+else {
+    $_SESSION["LastPageStudent"] = $LastPages[1];
+    $LastSignificantPage = $LastPages[1];
+}
 
 $Data = $conn->query("CALL StudentInfo($StudentID)");
 
@@ -37,9 +58,6 @@ if ($Data) {
 }
 
 $conn = null;
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,22 +67,16 @@ $conn = null;
     <title>Éleve</title>
 </head>
 <style>
-<?php if ($LastPage == "YourStudents.php"){ ?>
+<?php if ($LastSignificantPage == "http://localhost/Jam-Tan-Education-Suite/views/YourStudents.php"){ ?>
     
-    #p_your_students {
-        font-weight: bold;
-    }
-    #s_your_students {
+    #p_your_students, #s_your_students {
         font-weight: bold;
     }
 
 <?php } ?>
-<?php if($LastPage == "AllStudents.php"){ ?>
+<?php if($LastSignificantPage == "http://localhost/Jam-Tan-Education-Suite/views/AllStudents.php"){ ?>
 
-    #p_all_students {
-        font-weight: bold;
-    }
-    #s_all_students {
+    #p_all_students, #s_all_students {
         font-weight: bold;
     }
 
@@ -72,7 +84,7 @@ $conn = null;
 </style>
 <body>
 
-    <a href="<?= htmlspecialchars($LastPage)?>">
+    <a href="<?= htmlspecialchars($LastSignificantPage)?>">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
          alt="back icon" class="back-icon">
     </a>
@@ -128,7 +140,7 @@ $conn = null;
                 <tr>
                     <td><?= htmlspecialchars($Attendance["ProgramName"] . $Attendance["CategoryName"])?></td>
                     <td><?= htmlspecialchars($Attendance["AverageAttendance"] . "%")?></td>
-                    <td><a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>&last_page=<?= $ThisPage?>&double_last_page=<?= $LastPage?>">Rapports</a></td>
+                    <td><a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>">Rapports</a></td>
                 </tr>
 
             <?php endforeach;?>    
@@ -147,7 +159,7 @@ $conn = null;
                 <tr>
                     <td><?= htmlspecialchars($Grade["ProgramName"] . $Grade["CategoryName"])?></td>
                     <td><?= htmlspecialchars($Grade["AverageGrade"] . "%")?></td>
-                    <td><a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>&last_page=<?= $ThisPage?>&double_last_page=<?= $LastPage?>">Rapports</a></td>
+                    <td><a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>">Rapports</a></td>
                 </tr>
 
             <?php endforeach;?>

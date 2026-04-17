@@ -40,12 +40,11 @@ include "../nav/nav.html";
                         <?= htmlspecialchars($Program["ProgramName"])?>
                     </p>
                     
-                    <a href="ChartReports.php?id=<?= $Program["ProgramID"]?>">
+                    <a href="ChartReports.php?program_id=<?= $Program["ProgramID"]?>">
                         <img src="../icons/bar-chart-svgrepo-com.svg" alt="bar chart icon" class="forward-icon">
                     </a>
 
-                    <a href="TextReports.php?id=<?= $Program["ProgramID"]?>
-                    &name=<?= $Program["ProgramName"]?>&category=<?= $Program["CategoryName"]?>">
+                    <a href="TextReports.php?program_id=<?= $Program["ProgramID"]?>">
                         <img src="../icons/report-text-svgrepo-com.svg" alt="text report icon" class="forward-icon">
                     </a>
 

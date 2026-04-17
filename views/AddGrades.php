@@ -9,7 +9,6 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 include("../nav/nav.html");
 require("../controllers/db.php");
 
-$ProgramID = $_GET['program_id'] ?? null;
 $AssessmentID = $_GET['assessment_id'] ?? null;
 
 $InEnrollmentIDs = $_GET["EnrollmentID"] ?? [];
@@ -17,21 +16,16 @@ $InGrades = $_GET["Grade"] ?? [];
 $InFeedbacks = $_GET["Feedback"] ?? [];
 
 $GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade,
-Assessment.PassGrade
+Assessment.PassGrade, Program.ProgramName, Program.ProgramID, ProgramCategory.CategoryName
 FROM Assessment
+INNER JOIN Program
+ON Assessment.ProgramID = Program.ProgramID
+INNER JOIN ProgramCategory
+ON Program.CategoryID = ProgramCategory.CategoryID
 WHERE Assessment.AssessmentID = ?");
 
 $GetAssessment->execute([$AssessmentID]);
 $Assessment = $GetAssessment->fetch(PDO::FETCH_ASSOC);
-
-$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
-FROM Program 
-INNER JOIN ProgramCategory 
-ON Program.CategoryID = ProgramCategory.CategoryID
-WHERE Program.ProgramID = ?");
-
-$GetProgram->execute([$ProgramID]);
-$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $params = [];
 
@@ -91,7 +85,7 @@ ON Grade.AssessmentID = Assessment.AssessmentID
 WHERE Enrollment.ProgramID = :program_id";
 
 $stmt = $conn->prepare($GetGrades);
-$stmt->execute(["assessment_id" => $AssessmentID, "program_id" => $ProgramID]);
+$stmt->execute(["assessment_id" => $AssessmentID, "program_id" => $Assessment["ProgramID"]]);
 
 $Grades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -113,14 +107,14 @@ $conn = null;
 </head>
 <body>
 
-<a href="ProgramAssessments.php?id=<?=$ProgramID?>">
+<a href="ProgramAssessments.php?program_id=<?=$Assessment["ProgramID"]?>">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
          alt="back icon" class="back-icon">
 </a>
 
 <div id="main">
 
-    <h2><?= htmlspecialchars($Program["CategoryName"] . " " . $Program["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Ajouter les notes") ?></h2>
+    <h2><?= htmlspecialchars($Assessment["CategoryName"] . " " . $Assessment["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Ajouter les notes") ?></h2>
 
     <div class="form-container">
         <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">

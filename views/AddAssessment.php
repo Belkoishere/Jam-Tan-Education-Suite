@@ -12,11 +12,11 @@ require("../controllers/db.php");
 
 $ProgramID = $_GET["id"] ?? null;
 
-$InName = $_POST["Name"] ?? "";
+$InName = $_POST["Name"] ?? null;
 $InStartDate = $_POST["StartDate"] ?? "";
-$InDueDate = $_POST["DueDate"] ?? "";
-$InMaxGrade = $_POST["MaxGrade"] ?? "";
-$InPassGrade = $_POST["PassGrade"] ?? "";
+$InDueDate = $_POST["DueDate"] ?? null;
+$InMaxGrade = $_POST["MaxGrade"] ?? null;
+$InPassGrade = $_POST["PassGrade"] ?? null;
 $InTypeID = $_POST["TypeID"] ?? null;
 $InProgramID = $_POST["ProgramID"] ?? null;
 

@@ -6,8 +6,26 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
-include("../nav/nav.html");
 require("../controllers/db.php");
+
+$ProgramID = $_GET['program_id'] ?? null;
+
+$GetDates = $conn->prepare("SELECT StudentAttendance.AttendanceDate
+FROM StudentAttendance
+INNER JOIN Enrollment
+ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID 
+WHERE Enrollment.ProgramID = ?
+AND StudentAttendance.AttendanceDate = CURRENT_DATE()");
+
+$GetDates->execute([$ProgramID]);
+$Dates = $GetDates->fetchAll(PDO::FETCH_ASSOC);
+
+if (count($Dates) > 1){
+    header('Location: TakeAttendance.php');
+    exit;
+}
+
+include("../nav/nav.html");
 
 $Complete = false;
 
@@ -19,18 +37,37 @@ $Mabsent = 0;
 $Fpresent = 0;
 $Fabsent = 0;
 
-// Validate GET
-$ProgramID = $_GET['id'] ?? null;
-$ProgramName = $_GET['name'] ?? '';
-$CategoryName = $_GET['category'] ?? '';
+$LastPage = $_SERVER['HTTP_REFERER'];
 
-if ($LastPage == ''){
-    $LastPage = "TakeAttendance.php";
+$LastPages = ["http://localhost/Jam-Tan-Education-Suite/views/YourPrograms.php", 
+"http://localhost/Jam-Tan-Education-Suite/views/AllPrograms.php", "http://localhost/Jam-Tan-Education-Suite/views/TakeAttendance.php"];
+
+$LastSignificantPage = "";
+
+if (in_array($LastPage, $LastPages) && !isset($_SESSION["LastPageProgramAttendance"])) {
+    $_SESSION["LastPageProgramAttendance"] = $LastPage;
+    $LastSignificantPage = $LastPage;
+}
+else if (in_array($LastPage, $LastPages) && isset($_SESSION["LastPageProgramAttendance"])) {
+    $_SESSION["LastPageProgramAttendance"] = $LastPage;
+    $LastSignificantPage = $LastPage;
+}
+else if (isset($_SESSION["LastPageProgramAttendance"]) && in_array($_SESSION["LastPageProgramAttendance"], $LastPages)) {
+    $LastSignificantPage = $_SESSION["LastPageProgramAttendance"];
+}
+else {
+    $_SESSION["LastPageProgramAttendance"] = $LastPages[2];
+    $LastSignificantPage = $LastPages[2];
 }
 
-if (!$ProgramID) {
-    die("Invalid Program ID");
-}
+$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
+FROM Program
+INNER JOIN ProgramCategory
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Program.ProgramID = ?");
+
+$GetProgram->execute([$ProgramID]);
+$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 // Fetch students
 $GetStudents = $conn->prepare("
@@ -131,7 +168,7 @@ $conn = null;
 </head>
 <body>
 
-<a href="<?=htmlspecialchars($_SERVER['HTTP_REFERER'])?>">
+<a href="<?= $LastSignificantPage?>">
     <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
          alt="back icon" class="back-icon">
 </a>
@@ -139,7 +176,7 @@ $conn = null;
 <div id="main">
 
     <h2>
-        <?= htmlspecialchars("Registre de présence $CategoryName $ProgramName " . date("d/m/y")) ?>
+        <?= htmlspecialchars("Registre de présence " . $Program["CategoryName"] . " " . $Program["ProgramName"] . " " . date("d/m/y")) ?>
     </h2>
 
     <!-- FORM -->

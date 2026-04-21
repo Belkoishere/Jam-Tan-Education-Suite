@@ -102,7 +102,7 @@ $conn = null;
     <div id="main">
 
         <h2>
-            <?= htmlspecialchars("Évaluations de " . $Program["CategoryName"] . " " . $Program["ProgramName"])?>
+            <?= htmlspecialchars("Évaluations - " . $Program["CategoryName"] . " " . $Program["ProgramName"])?>
         </h2>   
         
         <a href="AddAssessment.php?id=<?= $ProgramID?>">Ajouter une evaluation</a>

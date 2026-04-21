@@ -11,9 +11,9 @@ require("../controllers/db.php");
 
 $AssessmentID = $_GET['assessment_id'] ?? null;
 
-$InEnrollmentIDs = $_GET["EnrollmentID"] ?? [];
-$InGrades = $_GET["Grade"] ?? [];
-$InFeedbacks = $_GET["Feedback"] ?? [];
+$InEnrollmentIDs = $_POST["EnrollmentID"] ?? [];
+$InGrades = $_POST["Grade"] ?? [];
+$InFeedbacks = $_POST["Feedback"] ?? [];
 
 $GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade,
 Assessment.PassGrade, Program.ProgramName, Program.ProgramID, ProgramCategory.CategoryName
@@ -117,7 +117,7 @@ $conn = null;
     <h2><?= htmlspecialchars($Assessment["CategoryName"] . " " . $Assessment["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Ajouter les notes") ?></h2>
 
     <div class="form-container">
-        <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
+        <form action="" method="POST">
             
             <table>
                 <tr>

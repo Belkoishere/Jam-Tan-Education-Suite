@@ -101,10 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $Messages["Warning"] = $e->getMessage();
         }
     }
-
-    foreach($Errors as $Error){
-        echo($Error);
-    }
 }
 
 $conn = null;

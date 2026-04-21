@@ -150,19 +150,6 @@ $French = new Translate (new French);
         <?php endforeach?>
     </table>
 
-    <table>
-        <tr>
-            <th>Semaine</th>
-            <th>Fréquentation moyenne</th>
-        </tr>
-        <?php foreach ($WeekAverages as $WAverage): ?>
-            <tr>
-                <td><?= $French->Translate(htmlspecialchars($WAverage["M"]))?></td>
-                <td><?= htmlspecialchars($WAverage["AverageAttendance"]) . "%"?></td>
-            </tr>
-        <?php endforeach?>
-    </table>
-
 </div>
 
 <script src="../controllers/chart.umd.js"></script>

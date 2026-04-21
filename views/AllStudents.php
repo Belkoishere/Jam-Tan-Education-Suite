@@ -28,7 +28,9 @@ $GetStudents = "SELECT TIMESTAMPDIFF(YEAR, Student.StudentBirthDate, CURDATE()) 
 Student.StudentID, Student.StudentFirstName, Student.StudentLastName, Contact1, Contact2, 
 Student.StudentGender, Student.StudentPicture,
 GROUP_CONCAT(DISTINCT CONCAT(Program.ProgramName, ' ', ProgramCategory.CategoryName) 
-ORDER BY Program.ProgramName SEPARATOR ', ') AS Programs
+ORDER BY Program.ProgramName SEPARATOR ', ') AS Programs,
+IF ((Student.StudentID IN 
+(SELECT StudentID FROM StudentsAtRisk)), TRUE, FALSE) AS AtRisk
 FROM student
 INNER JOIN Enrollment ON Student.StudentID = Enrollment.StudentID
 INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID
@@ -134,6 +136,9 @@ $conn = null;
                     <div class="table-contents-container">
                         <img src="../StudentImages/<?= htmlspecialchars($Student["StudentPicture"]) ?>.jpg" 
                         alt="Image of <?= htmlspecialchars($Student["StudentFirstName"]) ?>">
+                        <?php if ($Student["AtRisk"] == true) {?>
+                            <img style="width: 25px" src="../icons/alert-triangle-svgrepo-com.svg" alt="">
+                        <?php } ?>
                         <p>
                             <?= htmlspecialchars($Student["StudentFirstName"]) ?>
                         </p>

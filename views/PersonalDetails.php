@@ -7,6 +7,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include "../nav/nav.html";
+include "Alert.html";
 require("../controllers/CleanSpaces.php");
 require("../controllers/db.php");
 require_once("../locales/Language.php");
@@ -16,12 +17,7 @@ require_once("../locales/Translate.php");
 $French = new Translate (new French);
 $AccountID = $_SESSION['AccountID'];
 $Errors = [];
-
-$SearchAccount = $conn->prepare("SELECT *
-FROM Staff WHERE StaffID = ?");
-
-$SearchAccount->execute([$AccountID]);
-$Account = $SearchAccount->fetch(PDO::FETCH_ASSOC);
+$Messages = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -100,19 +96,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     if (empty($Errors)){
 
-        $UpdateAccount = 
-        "UPDATE STAFF SET StaffTitle = ?, StaffFirstName = ?, 
-        StaffLastName = ?, StaffContact1 = ?, 
-        StaffContact2 = ?, Email = ?, Town = ? 
-        WHERE StaffID = ?";
+        try {
+            $UpdateAccount = 
+            "UPDATE STAFF SET StaffTitle = ?, StaffFirstName = ?, 
+            StaffLastName = ?, StaffContact1 = ?, 
+            StaffContact2 = ?, Email = ?, Town = ? 
+            WHERE StaffID = ?";
 
-        $stmt = $conn->prepare($UpdateAccount);
-        $stmt->execute([$Title, $FirstName, $LastName, $PhoneNumber1,
-        $PhoneNumber2, $Email, $Town, $AccountID]);
+            $stmt = $conn->prepare($UpdateAccount);
+            $stmt->execute([$Title, $FirstName, $LastName, $PhoneNumber1,
+            $PhoneNumber2, $Email, $Town, $AccountID]);
+
+            $Messages["Success"] = "Successfully updated personal details";
+        }
+        catch (Exception $e){
+            echo($e);
+        }
 
     }
 
 }
+
+$SearchAccount = $conn->prepare("SELECT *
+FROM Staff WHERE StaffID = ?");
+
+$SearchAccount->execute([$AccountID]);
+$Account = $SearchAccount->fetch(PDO::FETCH_ASSOC);
 
 $conn = null;
 
@@ -179,5 +188,7 @@ $conn = null;
         </div>
         
     </div>
+<script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>
+<script src="Alert.js"></script>
 </body>
 </html>

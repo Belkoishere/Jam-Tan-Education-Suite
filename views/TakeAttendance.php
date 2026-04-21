@@ -7,8 +7,15 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include "../nav/nav.html";
+include "Alert.html";
 require("../controllers/db.php");
 require("../controllers/YourProgramsData.php");
+
+$Messages = [];
+
+if (isset($_GET["Warning"])) {
+    $Messages["Warning"] = "Attendance was already taken for today" ;
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,5 +53,7 @@ require("../controllers/YourProgramsData.php");
             <?php endforeach?>
         </div>
     </div>
+<script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>
+<script src="Alert.js"></script>
 </body>
 </html>

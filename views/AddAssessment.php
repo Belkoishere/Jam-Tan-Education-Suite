@@ -7,6 +7,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include "../nav/nav.html";
+include "Alert.html";
 require("../controllers/YourProgramsData.php");
 require("../controllers/db.php");
 
@@ -18,6 +19,7 @@ $GetAssessmentTypes->execute();
 $Types = $GetAssessmentTypes->fetchAll(PDO::FETCH_ASSOC);
 
 $Errors = [];
+$Messages = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -92,9 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         try {
             $InsertAssessment->execute([$InName, $InStartDate, $InDueDate, $InMaxGrade, $InPassGrade,
             $InTypeID, $InProgramID]);
+
+            $Messages["Success"] = "Assessment added successfully";
         }
         catch(Exception $e){
-            echo 'Message: ' . $e->getMessage();
+            $Messages["Warning"] = $e->getMessage();
         }
     }
 
@@ -171,5 +175,8 @@ $conn = null;
             </form>
         </div>
     </div>
+
+<script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>
+<script src="Alert.js"></script>
 </body>
 </html>

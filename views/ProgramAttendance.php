@@ -21,7 +21,7 @@ $GetDates->execute([$ProgramID]);
 $Dates = $GetDates->fetchAll(PDO::FETCH_ASSOC);
 
 if (count($Dates) > 1){
-    header('Location: TakeAttendance.php');
+    header('Location: TakeAttendance.php?Warning');
     exit;
 }
 
@@ -59,15 +59,6 @@ else {
     $_SESSION["LastPageProgramAttendance"] = $LastPages[2];
     $LastSignificantPage = $LastPages[2];
 }
-
-$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
-FROM Program
-INNER JOIN ProgramCategory
-ON Program.CategoryID = ProgramCategory.CategoryID
-WHERE Program.ProgramID = ?");
-
-$GetProgram->execute([$ProgramID]);
-$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 // Fetch students
 $GetStudents = $conn->prepare("

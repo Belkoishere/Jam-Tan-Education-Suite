@@ -93,7 +93,7 @@ Town VARCHAR(100) NOT NULL,
 StaffContact1 VARCHAR(8) NOT NULL,
 StaffContact2 VARCHAR(8),
 Email VARCHAR(255),
-StaffPicture VARCHAR(255),
+StaffPicture VARCHAR(255) NOT NULL DEFAULT "default.jpg",
 StaffPassword VARCHAR(255) NOT NULL
 );
 

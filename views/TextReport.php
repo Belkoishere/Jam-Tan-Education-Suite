@@ -88,6 +88,8 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Report</title>
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/ProfilePicture.css">
 </head>
 <style>
     #p_attendance_history {
@@ -157,7 +159,7 @@ $conn = null;
                 </tr>
         </table>
 
-        <table>
+        <table >
             <tr>
                 <th>Image</th>
                 <th>Élève</th>
@@ -166,15 +168,13 @@ $conn = null;
             </tr>
 
             <?php foreach ($Attendances as $Attendance): ?>
-            <tr>
+            <tr style="background-color: white !important;">
                 <td>
-                    <div style="width:200px;height:200px;overflow:hidden;">
                         <img 
-                            style="width:200px; height:auto; margin:-13px 0 0 -25px;" 
+                            class="profile-picture"
                             src="../StudentImages/<?= htmlspecialchars($Attendance["StudentPicture"]) ?>.jpg"
                             alt=""
                         >
-                    </div>
                 </td>
 
                 <td>

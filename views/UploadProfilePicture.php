@@ -106,6 +106,7 @@ $conn = null;
     </style>
     <link rel="stylesheet" href="css/form.css">
     <link rel="stylesheet" href="css/ProfilePicture.css">
+    <link rel="stylesheet" href="css/Button.css">
 </head>
 <body>
     
@@ -118,10 +119,10 @@ $conn = null;
 
         <h2>Changer photo de profile</h2>
 
-        <img id="profile-picture" class="profile-picture" src="<?= $CurrentImage?>"> 
+        <img id="profile-picture" class="profile-picture" src="<?= $CurrentImage?>" style="margin-bottom: 20px;"> 
 
         <form action="" method="post" enctype="multipart/form-data">
-            <label for="Image">Choisir un image</label>
+            <label for="Image" class="Button">Choisir un image</label>
             <input id="Image" type="file" name="Image" onchange="preview()" accept="image/*" style="display: none;">
             <input type="submit" value="Sauvegarde">
         </form>

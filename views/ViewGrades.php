@@ -57,6 +57,8 @@ $conn = null;
             font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/ProfilePicture.css">
 </head>
 <body>
 
@@ -79,14 +81,12 @@ $conn = null;
             </tr>
 
             <?php foreach ($Grades as $Grade): ?>
-            <tr>
+            <tr style="background-color: white !important;">
                 <td>
-                    <div style="width:125px;height:125px;overflow:hidden;">
-                        <img 
-                            style="width:125px; height:auto; margin:-13px 0 0 -25px;" 
+                        <img  
+                            class="profile-picture"
                             src="../StudentImages/<?= htmlspecialchars($Grade["StudentPicture"]) ?>.jpg"
                             alt="">
-                    </div>
                 </td>
 
                 <td>

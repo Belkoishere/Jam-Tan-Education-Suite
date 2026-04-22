@@ -168,6 +168,7 @@ $conn = null;
 
     <link rel="stylesheet" href="css/FormTable.css">
     <link rel="stylesheet" href="css/ProfilePicture.css">
+    <link rel="stylesheet" href="css/Button.css">
 
     <style>
         #p_take_attendance, #s_take_attendance {
@@ -249,8 +250,8 @@ $conn = null;
         <p>Filles Présentes: <?= $Fpresent ?></p>
         <p>Filles Absentes: <?= $Fabsent ?></p>
 
-        <a href="TakeAttendance.php">Prenez une autre registre</a>
-        <a href="Dashboard.php">Tableau de bord</a>
+        <a href="TakeAttendance.php" class="Button">Prenez une autre registre</a>
+        <a href="Dashboard.php" class="Button">Tableau de bord</a>
     </div>
 
 </div>

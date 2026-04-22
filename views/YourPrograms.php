@@ -24,15 +24,16 @@ require("../controllers/YourProgramsData.php");
             font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="css/Program.css">
 </head>
 <body>
     <div id="main">
         <h2>Vos programs</h2>
 
-        <div class="table-container">
+        <div class="OuterContainer">
             <?php foreach ($Programs as $Program): ?>
-                <div class="table">
-                    <div class="table-contents-container">
+                <div class="InnerContainer">
+                    <div class="Text">
                         <p>
                             <?= htmlspecialchars($Program["ProgramName"]) ?>
                             <?= htmlspecialchars($Program["CategoryName"]) ?>
@@ -40,11 +41,14 @@ require("../controllers/YourProgramsData.php");
                         <p>
                             Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
                         </p>
+                    </div>
+
+                    <div class="Buttons">
                         <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>">
-                            <div>Ajouter une évaluation</div>
+                            <div class="Button">Ajouter une évaluation</div>
                         </a>
                         <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>">
-                            <div>Faire l'appel</div>
+                            <div class="Button">Faire l'appel</div>
                         </a>
                     </div>
                 </div>

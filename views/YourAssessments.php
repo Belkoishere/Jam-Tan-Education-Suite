@@ -16,7 +16,6 @@ require("../controllers/YourProgramsData.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vos évaluations</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_your_assessments {
             font-weight: bold;
@@ -25,7 +24,7 @@ require("../controllers/YourProgramsData.php");
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="Result.css">
+    <link rel="stylesheet" href="css/Result.css">
 </head>
 <body>
     <div id="main">

@@ -72,7 +72,6 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historique de présence</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_attendance_history {
             font-weight: bold;
@@ -81,8 +80,8 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="Result.css">
-    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="css/Result.css">
+    <link rel="stylesheet" href="css/form.css">
 </head>
 <body>
 

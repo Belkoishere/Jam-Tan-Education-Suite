@@ -9,6 +9,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 require("../controllers/db.php");
 
 $ProgramID = $_GET['program_id'] ?? null;
+$Messages = [];
 
 $GetDates = $conn->prepare("SELECT StudentAttendance.AttendanceDate
 FROM StudentAttendance
@@ -26,6 +27,7 @@ if (count($Dates) > 1){
 }
 
 include("../nav/nav.html");
+include("Alert.html");
 
 $Complete = false;
 
@@ -60,6 +62,15 @@ else {
     $LastSignificantPage = $LastPages[2];
 }
 
+$GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
+FROM Program
+INNER JOIN ProgramCategory
+ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Program.ProgramID = ?");
+
+$GetProgram->execute([$ProgramID]);
+$Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
+
 // Fetch students
 $GetStudents = $conn->prepare("
     SELECT 
@@ -82,8 +93,8 @@ $Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $EnrollmentIDs = $_POST["EnrollmentID"] ?? [];
-    $Attendances   = $_POST["Attendance"] ?? [];
-    $Reasons       = $_POST["Reason"] ?? [];
+    $Attendances = $_POST["Attendance"] ?? [];
+    $Reasons = $_POST["Reason"] ?? [];
 
     if (!empty($EnrollmentIDs) && !empty($Attendances)) {
 
@@ -131,9 +142,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = rtrim($sql, ',');
 
         if (!empty($params)) {
-            $stmt = $conn->prepare($sql);
-            $stmt->execute($params);
-            $Complete = true;
+            try {
+                $stmt = $conn->prepare($sql);
+                $stmt->execute($params);
+                $Complete = true;
+                $Messages["Success"] = "Register added successfully";
+            }
+            catch (Exception $e){
+                $Messages["Warning"] = $e;
+            }
         }
     }
 }
@@ -148,8 +165,8 @@ $conn = null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registre de présence</title>
 
-    <link rel="stylesheet" href="form.css">
-    <link rel="stylesheet" href="ProgramAttendance.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/ProgramAttendance.css">
 
     <style>
         #p_take_attendance, #s_take_attendance {
@@ -240,6 +257,7 @@ $conn = null;
     </div>
 
 </div>
-
+<script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>
+<script src="Alert.js"></script>
 </body>
 </html>

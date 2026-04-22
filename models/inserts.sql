@@ -1,11 +1,10 @@
 INSERT INTO Staff (StaffFirstName, StaffLastName, 
 StaffTitle, Town, StaffContact1, StaffContact2, Email,
-StaffPassword, StaffPicture) 
+StaffPassword) 
 VALUES
 ('Belko', 'Diallo', 'Mr', 'Ziniare', '56743817', NULL, 
 'belkojdiallo@gmail.com', 
-'$2y$10$zQquxYGs./WixGZ0lAu5u.S/HMs0OY1t5vxuzFnS2eX1rHykMILIO', 
-'SFI1'); -- Password: Belko!=0;
+'$2y$10$zQquxYGs./WixGZ0lAu5u.S/HMs0OY1t5vxuzFnS2eX1rHykMILIO'); -- Password: Belko!=0;
 
 INSERT INTO ProgramCategory (CategoryName) VALUES
 ('Jam Tan Primaire'),
@@ -31,7 +30,7 @@ VALUES
 ("Aisha", "Diallo", "2018-02-03", "Ziniare", "Female", 3, "56743817",
 "Boureima", "Diallo", "Absatou", "Diallo", "STI2"),
 
-("Belko", "Diallo", "2016-02-03", "Ziniare", 4, "56743817",
+("Belko", "Diallo", "2016-02-03", "Ziniare", "Male", 4, "56743817",
 "Boureima", "Diallo", "Aisha", "Diallo", "STI3");
 
 INSERT INTO Enrollment (StudentID, ProgramID)

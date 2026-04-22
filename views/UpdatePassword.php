@@ -8,12 +8,14 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include "../nav/nav.html";
+include "Alert.html";
 require("../controllers/db.php");
 require("../controllers/ContainsAll.php");
 
 $AccountID = $_SESSION['AccountID'];
 
 $Errors = [];
+$Messages = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -49,13 +51,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
     if (empty($Errors)){
-        $HashedNewPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
 
-        $UpdatePassword = 
-        $conn->prepare("UPDATE STAFF SET StaffPassword = ? 
-        WHERE StaffID = ?");
+        try {
+            $HashedNewPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
 
-        $UpdatePassword->execute([$HashedNewPassword, $AccountID]);
+            $UpdatePassword = 
+            $conn->prepare("UPDATE STAFF SET StaffPassword = ? 
+            WHERE StaffID = ?");
+
+            $UpdatePassword->execute([$HashedNewPassword, $AccountID]);
+
+            $Messages["Success"] = "Password updated successfully"; 
+        }
+        catch (Exception $e){
+            $Messages["Warning"] = $e;
+        }
     }
 
 }
@@ -70,7 +80,6 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Changer votre mot de passe</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_update_password {
             font-weight: bold;
@@ -79,7 +88,7 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="css/form.css">
 </head>
 <body>
     <div id="main">
@@ -98,5 +107,8 @@ $conn = null;
             <input type="submit" value="Changer">
         </form>
     </div>
+
+<script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>
+<script src="Alert.js"></script>
 </body>
 </html>

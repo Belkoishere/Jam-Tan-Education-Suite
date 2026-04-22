@@ -33,7 +33,7 @@ if (isset($_GET["Warning"])) {
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="Result.css">
+    <link rel="stylesheet" href="css/Result.css">
 </head>
 <body>
     <div id="main">

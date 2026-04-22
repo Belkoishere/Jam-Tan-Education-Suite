@@ -71,7 +71,6 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tous les programmes</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_all_programs {
             font-weight: bold;
@@ -80,7 +79,8 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/Program.css">
 </head>
 <body>
     <div id="main">
@@ -106,10 +106,10 @@ $conn = null;
 
         <p><?= "Résultats: " . htmlspecialchars($NumRows) ?></p>
 
-        <div class="table-container">
+        <div class="OuterContainer">
             <?php foreach ($Programs as $Program): ?>
-                <div class="table">
-                    <div class="table-contents-container">
+                <div class="InnerContainer">
+                    <div class="Text">
                         <p>
                             <?= htmlspecialchars($Program["ProgramName"]) ?>
                             <?= htmlspecialchars($Program["CategoryName"]) ?>
@@ -117,15 +117,16 @@ $conn = null;
                         <p>
                             Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
                         </p>
-                        <!-- restrict access to programs based on whether user is assigned to those programs
-                         or not -->
+                    </div>
+
+                    <div class="Buttons">
                         <?php if (in_array($Program["ProgramID"], $YourIds)){ ?>
                             <a href="AddAssessment.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>">
-                                <div>Ajouter une évaluation</div>
+                                <div class="Button">Ajouter une évaluation</div>
                             </a>
                         <?php }?>
                         <a href="ProgramAttendance.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>">
-                            <div>Faire l'appel</div>
+                            <div class="Button">Faire l'appel</div>
                         </a>
                     </div>
                 </div>

@@ -93,7 +93,7 @@ $conn = null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapports de présence</title>
 </head>
-<link rel="stylesheet" href="form.css">
+<link rel="stylesheet" href="css/form.css">
 <style>
 <?php if ($OriginPage == "http://localhost/Jam-Tan-Education-Suite/views/YourStudents.php"){ ?>
     

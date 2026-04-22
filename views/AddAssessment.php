@@ -121,7 +121,7 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="css/form.css">
 </head>
 <body>
     <div id="main">

@@ -101,7 +101,7 @@ $French = new Translate (new French);
         font-weight: bold;
     }
 </style>
-<link rel="stylesheet" href="form.css">
+<link rel="stylesheet" href="css/form.css">
 <body>
     
 <a href="AttendanceHistory.php">

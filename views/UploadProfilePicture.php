@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (move_uploaded_file($fileTmp, $uploadPath)) {
 
-                if ($oldPhoto && $oldPhoto !== 'default.png') {
+                if ($oldPhoto && $oldPhoto !== 'default.jpg') {
                     $oldFilePath = $uploadDir . $oldPhoto;
                     if (file_exists($oldFilePath)) {
                         unlink($oldFilePath);
@@ -96,7 +96,6 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informations personnelles</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_personal_details {
             font-weight: bold;
@@ -105,8 +104,8 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="form.css">
-    <link rel="stylesheet" href="ProfilePicture.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/ProfilePicture.css">
 </head>
 <body>
     

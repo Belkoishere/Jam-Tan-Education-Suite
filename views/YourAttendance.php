@@ -16,7 +16,6 @@ require("../controllers/YourAttendanceData.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Votre présence</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_your_attendance {
             font-weight: bold;

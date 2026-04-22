@@ -97,7 +97,7 @@ $conn = null;
         }
     </style>
     <link rel="stylesheet" href="form.css">
-    <link rel="stylesheet" href="StudentResult.css">
+    <link rel="stylesheet" href="css/StudentResult.css">
 </head>
 <body>
     <div id="main">

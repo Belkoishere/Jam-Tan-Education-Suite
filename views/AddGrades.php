@@ -7,6 +7,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include("../nav/nav.html");
+include("Alert.html");
 require("../controllers/db.php");
 
 $AssessmentID = $_GET['assessment_id'] ?? null;
@@ -14,6 +15,8 @@ $AssessmentID = $_GET['assessment_id'] ?? null;
 $InEnrollmentIDs = $_POST["EnrollmentID"] ?? [];
 $InGrades = $_POST["Grade"] ?? [];
 $InFeedbacks = $_POST["Feedback"] ?? [];
+
+$Messages = [];
 
 $GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade,
 Assessment.PassGrade, Program.ProgramName, Program.ProgramID, ProgramCategory.CategoryName
@@ -60,12 +63,19 @@ foreach ($params as $row) {
     $values[] = $row[4];
 }
 
-$SaveGrades = "INSERT INTO Grade (EnrollmentID, AssessmentID, Grade, Feedback, Pass) 
-VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE
-Grade = VALUES(Grade), Pass = VALUES(Pass), Feedback = VALUES(Feedback)";
+try {
+    $SaveGrades = "INSERT INTO Grade (EnrollmentID, AssessmentID, Grade, Feedback, Pass) 
+    VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE
+    Grade = VALUES(Grade), Pass = VALUES(Pass), Feedback = VALUES(Feedback)";
 
-$stmt1 = $conn->prepare($SaveGrades);
-$stmt1->execute($values);
+    $stmt1 = $conn->prepare($SaveGrades);
+    $stmt1->execute($values);
+
+    $Messages["Success"] = "Grades saved successfully";
+}
+catch(Exception $e){
+    $Messages["Warning"] = $e;
+}
 
 }
 
@@ -103,7 +113,7 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="css/form.css">
 </head>
 <body>
 
@@ -164,6 +174,7 @@ $conn = null;
     </div>
 
 </div>
-
+<script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>
+<script src="Alert.js"></script>
 </body>
 </html>

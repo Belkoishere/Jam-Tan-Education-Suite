@@ -1,0 +1,44 @@
+.Buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.Text{
+}
+
+.Buttons > a {
+    text-decoration: none;
+}
+
+.Button{
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.Button :hover {
+    background-color: darkgreen;
+}
+
+.InnerContainer{
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.OuterContainer {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+@media (max-width: 800px) {
+  .InnerContainer{width: 75vw;}
+  .OuterContainer{width: 100%; justify-content: center;}
+}
+

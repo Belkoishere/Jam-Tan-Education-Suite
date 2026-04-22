@@ -100,6 +100,7 @@ $conn = null;
     <title>Rapports de présence</title>
 </head>
 <link rel="stylesheet" href="css/form.css">
+<link rel="stylesheet" href="css/Table.css">
 <style>
     <?php if ($OriginPage == "http://localhost/Jam-Tan-Education-Suite/views/YourStudents.php"){ ?>
     

@@ -112,6 +112,7 @@ AND YEAR(StudentAttendance.AttendanceDate) = YEAR(CURRENT_DATE)
 GROUP BY Program.ProgramID;
 
 SELECT 
+Program.ProgramID,
 Program.ProgramName,
 ProgramCategory.CategoryName,
 ROUND(AVG(Grade.Grade / Assessment.MaxGrade)*100, 0) AS AverageGrade
@@ -121,7 +122,8 @@ INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
 INNER JOIN Grade ON Enrollment.EnrollmentID = Grade.EnrollmentID
 INNER JOIN Assessment ON Grade.AssessmentID = Assessment.AssessmentID
 WHERE Enrollment.StudentID = InStudentID
-AND YEAR(Grade.GradeDate) = YEAR(CURRENT_DATE);
+AND YEAR(Grade.GradeDate) = YEAR(CURRENT_DATE)
+GROUP BY Program.ProgramID;
 
 END
 //

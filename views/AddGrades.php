@@ -113,7 +113,8 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/FormTable.css">
+    <link rel="stylesheet" href="css/ProfilePicture.css">
 </head>
 <body>
 
@@ -126,52 +127,51 @@ $conn = null;
 
     <h2><?= htmlspecialchars($Assessment["CategoryName"] . " " . $Assessment["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Ajouter les notes") ?></h2>
 
-    <div class="form-container">
-        <form action="" method="POST">
-            
-            <table>
+    <form action="" method="POST">
+        
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+                <th>Note / <?= htmlspecialchars($Assessment["MaxGrade"]);?></th>
+                <th>Réussite / Échec</th>
+                <th>Evaluation</th>
+            </tr>
+
+            <?php foreach ($Grades as $Grade): ?>
                 <tr>
-                    <th>Image</th>
-                    <th>Nom</th>
-                    <th>Note / <?= htmlspecialchars($Assessment["MaxGrade"]);?></th>
-                    <th>Réussite / Échec</th>
-                    <th>Evaluation</th>
+                    <td>
+                        <img 
+                            class="profile-picture"
+                            src="../StudentImages/<?= htmlspecialchars($Grade["StudentPicture"]) ?>.jpg"
+                            alt="">
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($Grade["StudentLastName"] . " " . $Grade["StudentFirstName"]) ?>
+                    </td>
+
+                    <td>
+                        <input type="number" min="0" max="<?=$Assessment["MaxGrade"]?>" name="Grade[]" value="<?= htmlspecialchars($Grade["Grade"]);?>" placeholder="<?= htmlspecialchars($Grade["Grade"]);?>">
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($Grade["Pass"]);?>
+                    </td>
+
+                    <td>
+                        <input type="text" name="Feedback[]" value="<?= htmlspecialchars($Grade["Feedback"]) ?>" placeholder="<?= htmlspecialchars($Grade["Feedback"]) ?>">
+                    </td>
+                    
                 </tr>
-
-                <?php foreach ($Grades as $Grade): ?>
-                    <tr>
-                        <td>
-                            <div style="width:125px;height:125px;overflow:hidden;">
-                                <img 
-                                    style="width:125px; height:auto; margin:-13px 0 0 -25px;" 
-                                    src="../StudentImages/<?= htmlspecialchars($Grade["StudentPicture"]) ?>.jpg"
-                                    alt="">
-                            </div>
-                        </td>
-                        <td>
-                            <?= htmlspecialchars($Grade["StudentLastName"] . " " . $Grade["StudentFirstName"]) ?>
-                        </td>
-
-                        <td>
-                            <input type="number" min="0" max="<?=$Assessment["MaxGrade"]?>" name="Grade[]" value="<?= htmlspecialchars($Grade["Grade"]);?>" placeholder="<?= htmlspecialchars($Grade["Grade"]);?>">
-                        </td>
-
-                        <td>
-                            <?= htmlspecialchars($Grade["Pass"]);?>
-                        </td>
-                        <td>
-                            <input type="text" name="Feedback[]" value="<?= htmlspecialchars($Grade["Feedback"]) ?>" placeholder="<?= htmlspecialchars($Grade["Feedback"]) ?>">
-                        </td>
-                    </tr>
-                    <input type="hidden" value="<?= $Grade["EnrollmentID"]?>" name="EnrollmentID[]">
-                <?php endforeach; ?>
-            </table>
-           
-            <input type="hidden" value="<?= $AssessmentID?>" name="assessment_id">
-            <input type="hidden" value="<?= $ProgramID?>" name="program_id">
-            <input type="submit" value="Sauvegarde"></input>
-        </form>
-    </div>
+                <input class="hidden" value="<?= $Grade["EnrollmentID"]?>" name="EnrollmentID[]">
+            <?php endforeach; ?>
+        </table>
+        
+        <input type="hidden" value="<?= $AssessmentID?>" name="assessment_id">
+        <input type="hidden" value="<?= $ProgramID?>" name="program_id">
+        <input type="submit" value="Sauvegarde"></input>
+        
+    </form>
 
 </div>
 <script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>

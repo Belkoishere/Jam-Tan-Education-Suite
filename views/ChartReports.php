@@ -102,6 +102,7 @@ $French = new Translate (new French);
     }
 </style>
 <link rel="stylesheet" href="css/form.css">
+<link rel="stylesheet" href="css/Table.css">
 <body>
     
 <a href="AttendanceHistory.php">

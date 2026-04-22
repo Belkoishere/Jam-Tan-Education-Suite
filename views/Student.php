@@ -65,6 +65,9 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Éleve</title>
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/ProfilePicture.css">
 </head>
 <style>
 <?php if ($LastSignificantPage == "http://localhost/Jam-Tan-Education-Suite/views/YourStudents.php"){ ?>
@@ -92,7 +95,7 @@ $conn = null;
     <div id="main">
         <h2><?= htmlspecialchars($Attributes["StudentFirstName"] . " " . $Attributes["StudentLastName"])?></h2>
 
-        <img src="<?= htmlspecialchars("../StudentImages/" . $Attributes["StudentPicture"] . ".jpg")?>" alt="">
+        <img class="profile-picture" src="<?= htmlspecialchars("../StudentImages/" . $Attributes["StudentPicture"] . ".jpg")?>" alt="">
 
         <p>Âge/Sexe: <?= htmlspecialchars($Attributes["Age"] . "/" . $Attributes["StudentGender"])?></p>
 
@@ -140,7 +143,13 @@ $conn = null;
                 <tr>
                     <td><?= htmlspecialchars($Attendance["ProgramName"] . $Attendance["CategoryName"])?></td>
                     <td><?= htmlspecialchars($Attendance["AverageAttendance"] . "%")?></td>
-                    <td><a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>">Rapports</a></td>
+                    <td>
+                        <a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>">
+                            <div class="Button">
+                                Rapports
+                            </div>
+                        </a>
+                    </td>
                 </tr>
 
             <?php endforeach;?>    
@@ -159,7 +168,13 @@ $conn = null;
                 <tr>
                     <td><?= htmlspecialchars($Grade["ProgramName"] . $Grade["CategoryName"])?></td>
                     <td><?= htmlspecialchars($Grade["AverageGrade"] . "%")?></td>
-                    <td><a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>">Rapports</a></td>
+                    <td>
+                        <a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Grade["ProgramID"]?>">
+                            <div class="Button">
+                                Rapports
+                            </div>    
+                        </a>
+                    </td>
                 </tr>
 
             <?php endforeach;?>

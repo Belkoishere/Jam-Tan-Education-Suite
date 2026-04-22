@@ -151,7 +151,7 @@ $conn = null;
 
         <h2>Informations personnelles</h2>
 
-        <img id="profile-picture" src="../StaffImages/<?= htmlspecialchars($Account["StaffPicture"]);?>"> 
+        <img class="profile-picture" id="profile-picture" src="../StaffImages/<?= htmlspecialchars($Account["StaffPicture"]);?>"> 
         <a href="UploadProfilePicture.php">Changer photo de profile</a>
 
         <div class="form-container">

@@ -81,6 +81,7 @@ $conn = null;
     </style>
     <link rel="stylesheet" href="css/form.css">
     <link rel="stylesheet" href="css/Program.css">
+    <link rel="stylesheet" href="css/Button.css">
 </head>
 <body>
     <div id="main">
@@ -121,12 +122,12 @@ $conn = null;
 
                     <div class="Buttons">
                         <?php if (in_array($Program["ProgramID"], $YourIds)){ ?>
-                            <a href="AddAssessment.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>">
-                                <div class="Button">Ajouter une évaluation</div>
+                            <a href="AddAssessment.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>" class="Button">
+                                Ajouter une évaluation
                             </a>
                         <?php }?>
-                        <a href="ProgramAttendance.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>">
-                            <div class="Button">Faire l'appel</div>
+                        <a href="ProgramAttendance.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>" class="Button">
+                            Faire l'appel
                         </a>
                     </div>
                 </div>

@@ -96,7 +96,7 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="css/form.css">
     <link rel="stylesheet" href="css/StudentResult.css">
 </head>
 <body>

@@ -42,7 +42,8 @@ $Fabsent = 0;
 $LastPage = $_SERVER['HTTP_REFERER'];
 
 $LastPages = ["http://localhost/Jam-Tan-Education-Suite/views/YourPrograms.php", 
-"http://localhost/Jam-Tan-Education-Suite/views/AllPrograms.php", "http://localhost/Jam-Tan-Education-Suite/views/TakeAttendance.php"];
+"http://localhost/Jam-Tan-Education-Suite/views/AllPrograms.php", 
+"http://localhost/Jam-Tan-Education-Suite/views/TakeAttendance.php"];
 
 $LastSignificantPage = "";
 
@@ -165,8 +166,8 @@ $conn = null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registre de présence</title>
 
-    <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="css/ProgramAttendance.css">
+    <link rel="stylesheet" href="css/FormTable.css">
+    <link rel="stylesheet" href="css/ProfilePicture.css">
 
     <style>
         #p_take_attendance, #s_take_attendance {
@@ -187,35 +188,30 @@ $conn = null;
         <?= htmlspecialchars("Registre de présence " . $Program["CategoryName"] . " " . $Program["ProgramName"] . " " . date("d/m/y")) ?>
     </h2>
 
-    <!-- FORM -->
-    <div class="form-container" style="<?= $Complete ? 'display:none;' : '' ?>">
+    <form action="" method="POST" style="<?= $Complete ? 'display:none;' : '' ?>">
 
-        <form action="" method="POST">
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+                <th>Présence</th>
+                <th>Raison</th>
+            </tr>
 
-            <table>
-                <tr>
-                    <th>Image</th>
-                    <th>Nom</th>
-                    <th>Présence</th>
-                    <th>Raison</th>
-                </tr>
-
-                <?php foreach ($Students as $Student): ?>
+            <?php foreach ($Students as $Student): ?>
                 <tr>
                     <td>
-                        <div style="width:200px;height:200px;overflow:hidden;">
-                            <img 
-                                style="width:200px; height:auto; margin:-13px 0 0 -25px;" 
-                                src="../StudentImages/<?= htmlspecialchars($Student["StudentPicture"]) ?>.jpg"
-                                alt=""
-                            >
-                        </div>
+                        <img 
+                            src="../StudentImages/<?= htmlspecialchars($Student["StudentPicture"]) ?>.jpg"
+                            alt=""
+                            class="profile-picture"
+                        >
                     </td>
 
                     <td>
                         <input type="hidden" 
-                               name="EnrollmentID[]" 
-                               value="<?= htmlspecialchars($Student["EnrollmentID"]) ?>">
+                                name="EnrollmentID[]" 
+                                value="<?= htmlspecialchars($Student["EnrollmentID"]) ?>">
 
                         <?= htmlspecialchars($Student["StudentLastName"] . " " . $Student["StudentFirstName"]) ?>
                     </td>
@@ -230,14 +226,15 @@ $conn = null;
                     <td>
                         <input type="text" name="Reason[]">
                     </td>
+
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
 
-            </table>
+        </table>
 
-            <input type="submit" value="Complète">
-        </form>
-    </div>
+        <input type="submit" value="Complète">
+
+    </form>
 
     <!-- RESULTS -->
     <div class="results-container" style="<?= $Complete ? 'display:block;' : 'display:none;' ?>">

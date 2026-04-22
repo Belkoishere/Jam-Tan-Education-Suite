@@ -88,8 +88,9 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="css/Result.css">
+    <link rel="stylesheet" href="css/Program.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/Button.css">
 </head>
 <body>
 
@@ -104,7 +105,9 @@ $conn = null;
             <?= htmlspecialchars("Évaluations - " . $Program["CategoryName"] . " " . $Program["ProgramName"])?>
         </h2>   
         
-        <a href="AddAssessment.php?id=<?= $ProgramID?>">Ajouter une evaluation</a>
+        <a href="AddAssessment.php?id=<?= $ProgramID?>" class="Button">
+            Ajouter une evaluation
+        </a>
 
         <div class="form-container">
             <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
@@ -146,17 +149,21 @@ $conn = null;
 
         <p>Resultas <?= htmlspecialchars($NumRows);?></p>
 
-        <div class="table-container">
+        <div class="OuterContainer">
             <?php foreach ($Assessments as $Assessment): ?>
-                <div class="table">
-                    <div class="table-contents-container">
+                <div class="InnerContainer">
+                    
+                    <div class="Text">
                         <p><?= htmlspecialchars($Assessment["AssessmentName"])?></p>
                         <p>Date de publication: <?= htmlspecialchars($Assessment["AssessmentPublishDate"])?></p>
                         <p>Date limite: <?= htmlspecialchars($Assessment["AssessmentDueDate"])?></p>
                         <p>Points maximum: <?= htmlspecialchars($Assessment["MaxGrade"])?></p>
                         <p>Type: <?= htmlspecialchars($Assessment["TypeName"])?></p>
-                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>">Voir les notes</a>
-                        <a href="AddGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>">Ajouter les notes</a>
+                    </div>
+
+                    <div class="Buttons">
+                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>" class="Button">Voir les notes</a>
+                        <a href="AddGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>" class="Button">Ajouter les notes</a>
                     </div>
                 </div>
             <?php endforeach ?>

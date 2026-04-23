@@ -65,9 +65,10 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Éleve</title>
-    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/PlainTable.css">
     <link rel="stylesheet" href="css/Button.css">
     <link rel="stylesheet" href="css/ProfilePicture.css">
+    <link rel="stylesheet" href="css/CircularProgressBarSmall.css">
 </head>
 <style>
 <?php if ($LastSignificantPage == "http://localhost/Jam-Tan-Education-Suite/views/YourStudents.php"){ ?>
@@ -142,12 +143,19 @@ $conn = null;
 
                 <tr>
                     <td><?= htmlspecialchars($Attendance["ProgramName"] . $Attendance["CategoryName"])?></td>
-                    <td><?= htmlspecialchars($Attendance["AverageAttendance"] . "%")?></td>
                     <td>
-                        <a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>">
-                            <div class="Button">
+                        <div class="circular-progress" 
+                            data-inner-circle-color="white" 
+                            data-percentage="<?= htmlspecialchars($Attendance["AverageAttendance"])?>" 
+                            data-progress-color="<?php if (htmlspecialchars($Attendance["AverageAttendance"]) < 50){?>red<?php } else {?>green<?php }?>" 
+                            data-bg-color="black">
+                            <div class="inner-circle"></div>
+                            <p class="percentage">0%</p>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>" class="Button">
                                 Rapports
-                            </div>
                         </a>
                     </td>
                 </tr>
@@ -167,12 +175,19 @@ $conn = null;
 
                 <tr>
                     <td><?= htmlspecialchars($Grade["ProgramName"] . $Grade["CategoryName"])?></td>
-                    <td><?= htmlspecialchars($Grade["AverageGrade"] . "%")?></td>
                     <td>
-                        <a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Grade["ProgramID"]?>">
-                            <div class="Button">
-                                Rapports
-                            </div>    
+                        <div class="circular-progress" 
+                            data-inner-circle-color="white" 
+                            data-percentage="<?= htmlspecialchars($Grade["AverageGrade"])?>" 
+                            data-progress-color="<?php if (htmlspecialchars($Grade["AverageGrade"]) < 50){?>red<?php } else {?>green<?php }?>" 
+                            data-bg-color="black">
+                            <div class="inner-circle"></div>
+                            <p class="percentage">0%</p>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Grade["ProgramID"]?>" class="Button">
+                                Rapports   
                         </a>
                     </td>
                 </tr>
@@ -180,7 +195,6 @@ $conn = null;
             <?php endforeach;?>
         </table>
     </div>
-
-    
+<script src="css/CircularProgressBar.js"></script>
 </body>
 </html>

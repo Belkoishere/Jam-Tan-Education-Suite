@@ -103,6 +103,7 @@ $French = new Translate (new French);
 </style>
 <link rel="stylesheet" href="css/form.css">
 <link rel="stylesheet" href="css/Table.css">
+<link rel="stylesheet" href="css/CircularProgressBar.css">
 <body>
     
 <a href="AttendanceHistory.php">
@@ -132,7 +133,15 @@ $French = new Translate (new French);
         </form>
     </div>
     
-    <p>Moyenne générale: <?= htmlspecialchars($OverallAverage["AverageAttendance"]) . "%"?></p>
+    <p>Moyenne générale: </p>
+    <div class="circular-progress" 
+        data-inner-circle-color="white" 
+        data-percentage="<?= htmlspecialchars($OverallAverage["AverageAttendance"])?>" 
+        data-progress-color="<?php if (htmlspecialchars($OverallAverage["AverageAttendance"]) < 50){?>red<?php } else {?>green<?php }?>" 
+        data-bg-color="black">
+        <div class="inner-circle"></div>
+        <p class="percentage">0%</p>
+    </div>
 
     <div>
         <canvas id="myChart"></canvas>
@@ -199,5 +208,6 @@ $French = new Translate (new French);
         }
     });
 </script>
+<script src="css/CircularProgressBar.js"></script>
 </body>
 </html>

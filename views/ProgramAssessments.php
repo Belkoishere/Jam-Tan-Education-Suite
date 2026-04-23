@@ -104,11 +104,11 @@ $conn = null;
         <h2>
             <?= htmlspecialchars("Évaluations - " . $Program["CategoryName"] . " " . $Program["ProgramName"])?>
         </h2>   
-        
-        <a href="AddAssessment.php?id=<?= $ProgramID?>" class="Button">
-            Ajouter une evaluation
-        </a>
 
+        <a href="AddAssessment.php?id=<?= $ProgramID?>" class="Button">
+        Ajouter une evaluation
+        </a>
+        
         <div class="form-container">
             <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
                 <label for="Year">Année</label>

@@ -25,6 +25,7 @@ $AccountName = $_SESSION['AccountName'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord</title>
     <link rel="stylesheet" href="css/Dashboard.css">
+    <link rel="stylesheet" href="css/CircularProgressBar.css">
     <style>
         #p_dashboard {
             font-weight: bold;
@@ -101,9 +102,16 @@ $AccountName = $_SESSION['AccountName'];
                     <?php foreach ($AverageAttendance as $Average): ?>
                         <p>
                             <?= htmlspecialchars($Average["CategoryName"]) ?>
-                            <?= htmlspecialchars($Average["ProgramName"]) . " ("?>
-                            <?= htmlspecialchars($Average["AverageAttendance"] . "%)")?>
+                            <?= htmlspecialchars($Average["ProgramName"])?>
                         </p>
+                        <div class="circular-progress" 
+                            data-inner-circle-color="white" 
+                            data-percentage="<?= htmlspecialchars($Average["AverageAttendance"])?>" 
+                            data-progress-color="<?php if (htmlspecialchars($Average["AverageAttendance"]) < 50){?>red<?php } else {?>green<?php }?>" 
+                            data-bg-color="black">
+                            <div class="inner-circle"></div>
+                            <p class="percentage">0%</p>
+                        </div>
                     <?php endforeach ?>   
 
                 </div>
@@ -112,5 +120,6 @@ $AccountName = $_SESSION['AccountName'];
 
         </div>
     </div>
+    <script src="css/CircularProgressBar.js"></script>
 </body>
 </html>

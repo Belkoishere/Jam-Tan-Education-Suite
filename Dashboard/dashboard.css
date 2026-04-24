@@ -94,10 +94,10 @@ table tbody tr:hover {
 
 /* Risk badges */
 .badge {
-    /* display: inline-flex;
-    align-items: center; */
-    /* padding: 2px 8px;
-    border-radius: 999px; */
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
     font-size: 16px;
     font-weight: 500;
 }
@@ -121,19 +121,15 @@ table tbody tr:hover {
 
 .attendance-delta {
     font-weight: 500;
-    z-index: 0;
+    z-index: 5;
 }
 
-.negative {
+.attendance-delta.negative {
     color: #b91c1c;
 }
 
-.positive {
+.attendance-delta.positive {
     color: #15803d;
-}
-
-.stable {
-    color: grey;
 }
 
 /* Upcoming assessments */
@@ -154,22 +150,9 @@ table tbody tr:hover {
     justify-self: end;
     padding: 2px 8px;
     border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
     font-weight: 500;
-}
-
-.assessment-tag-far {
-    background: rgba(34, 197, 94, 0.08);
-    color: #15803d;
-}
-
-.assessment-tag-middle {
-    background: rgba(245, 158, 11, 0.08);
-    color: #b45309;
-}
-
-.assessment-tag-close {
-    background: rgba(239, 68, 68, 0.08);
-    color: #b91c1c;
 }
 
 /* Responsive tweaks */

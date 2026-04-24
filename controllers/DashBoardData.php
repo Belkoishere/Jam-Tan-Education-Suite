@@ -14,7 +14,7 @@ $Data = $conn->query("CALL TeacherDashboard($AccountID)");
 if ($Data) {
 
     // Your programs
-    $YourPrograms = $Data->fetchAll(PDO::FETCH_ASSOC);
+    $RiskSummaries = $Data->fetchAll(PDO::FETCH_ASSOC);
     $Data->nextRowset();
 
     // Upcoming assessments

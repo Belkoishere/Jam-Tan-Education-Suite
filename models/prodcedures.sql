@@ -4,16 +4,42 @@ CREATE PROCEDURE TeacherDashboard (InStaffID INTEGER)
 
 BEGIN
 
--- Your programs
-SELECT Program.ProgramName, ProgramCategory.CategoryName 
-FROM assignment
-INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID
-INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
-WHERE assignment.StaffID = InStaffID;
+-- Risk summaries
+SELECT 
+    p.ProgramID,
+    p.ProgramName,
+    pc.CategoryName,
+
+    COUNT(DISTINCT sar.StudentID) AS HighRisk,
+    COUNT(DISTINCT smr.StudentID) AS ModerateRisk,
+
+    ROUND ((
+        (COUNT(DISTINCT sar.StudentID) + COUNT(DISTINCT smr.StudentID)) 
+        / NULLIF(COUNT(DISTINCT s.StudentID), 0)
+    ) * 100.0, 0) AS PercentageAtRisk
+
+FROM Assignment a
+JOIN Program p ON a.ProgramID = p.ProgramID
+JOIN ProgramCategory pc ON p.CategoryID = pc.CategoryID
+
+-- Total students
+LEFT JOIN Enrollment e ON e.ProgramID = p.ProgramID
+LEFT JOIN Student s ON s.StudentID = e.StudentID
+
+-- Risk groups (your views)
+LEFT JOIN StudentsAtRisk sar ON sar.ProgramID = p.ProgramID
+LEFT JOIN StudentsAtModerateRisk smr ON smr.ProgramID = p.ProgramID
+
+WHERE a.StaffID = 1
+
+GROUP BY 
+    p.ProgramID,
+    p.ProgramName,
+    pc.CategoryName;
 
 -- Upcoming assessments
 SELECT Assessment.AssessmentName, Assessment.AssessmentDueDate, Program.ProgramName,
-ProgramCategory.CategoryName FROM Staff
+ProgramCategory.CategoryName, DATEDIFF(Assessment.AssessmentDueDate, CURRENT_DATE) AS DaysRemaining FROM Staff
 INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
 INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID  
 INNER JOIN Assessment ON Assessment.ProgramID = Program.ProgramID
@@ -51,15 +77,63 @@ OR (COUNT(Grade.GradeID) > 0 AND AVG(Grade.Pass-1) < 0.9);
 
 
 -- Average attendance for the month
-SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
-Program.ProgramName, ProgramCategory.CategoryName
-FROM StudentAttendance
-INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
-INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID
-INNER JOIN Assignment ON Program.ProgramID = Assignment.ProgramID
-INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
-WHERE Assignment.StaffID = InStaffID AND MONTH(StudentAttendance.AttendanceDate) = MONTH(CURRENT_DATE)
-GROUP BY Program.ProgramID;
+
+-- SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
+-- Program.ProgramName, ProgramCategory.CategoryName,
+-- (ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) - 
+-- (SELECT NULLIF(ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0), 0)
+-- FROM StudentAttendance
+-- INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
+-- INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID
+-- INNER JOIN Assignment ON Program.ProgramID = Assignment.ProgramID
+-- INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
+-- WHERE Assignment.StaffID = InStaffID AND MONTH(StudentAttendance.AttendanceDate) = (MONTH(CURRENT_DATE)-1))) AS Change
+-- FROM StudentAttendance
+-- INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
+-- INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID
+-- INNER JOIN Assignment ON Program.ProgramID = Assignment.ProgramID
+-- INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
+-- WHERE Assignment.StaffID = InStaffID AND MONTH(StudentAttendance.AttendanceDate) = MONTH(CURRENT_DATE)
+-- GROUP BY Program.ProgramID;
+
+-- Average attendance for the month
+SELECT 
+    p.ProgramName,
+    pc.CategoryName,
+
+    ROUND(
+        AVG(CASE 
+            WHEN MONTH(sa.AttendanceDate) = MONTH(CURRENT_DATE) 
+            THEN sa.Attendance - 1 
+        END) * 100, 
+    0) AS AverageAttendance,
+
+    ROUND(
+        (
+            AVG(CASE 
+                WHEN MONTH(sa.AttendanceDate) = MONTH(CURRENT_DATE) 
+                THEN sa.Attendance - 1 
+            END)
+            -
+            AVG(CASE 
+                WHEN MONTH(sa.AttendanceDate) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) 
+                THEN sa.Attendance - 1 
+            END)
+        ) * 100,
+    0) AS Difference
+
+FROM StudentAttendance sa
+JOIN Enrollment e ON sa.EnrollmentID = e.EnrollmentID
+JOIN Program p ON e.ProgramID = p.ProgramID
+JOIN Assignment a ON p.ProgramID = a.ProgramID
+JOIN ProgramCategory pc ON p.CategoryID = pc.CategoryID
+
+WHERE a.StaffID = 1
+
+GROUP BY 
+    p.ProgramID,
+    p.ProgramName,
+    pc.CategoryName;
 
 END
 //

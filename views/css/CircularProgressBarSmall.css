@@ -3,7 +3,7 @@
 :root {
   --progress-bar-width: 100px;
   --progress-bar-height: 100px;
-  --font-size: 2rem;
+  --font-size: 24px;
 }
 
 .circular-progress {
@@ -16,8 +16,8 @@
 }
 .inner-circle {
   position: absolute;
-  width: calc(var(--progress-bar-width) - 30px);
-  height: calc(var(--progress-bar-height) - 30px);
+  width: calc(var(--progress-bar-width) - 15px);
+  height: calc(var(--progress-bar-height) - 15px);
   border-radius: 50%;
   background-color: lightgrey;
 }

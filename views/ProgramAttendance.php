@@ -167,8 +167,7 @@ $conn = null;
     <title>Registre de présence</title>
 
     <link rel="stylesheet" href="css/FormTable.css">
-    <link rel="stylesheet" href="css/ProfilePicture.css">
-    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/ProfilePictureSmall.css">
 
     <style>
         #p_take_attendance, #s_take_attendance {
@@ -191,15 +190,19 @@ $conn = null;
 
     <form action="" method="POST" style="<?= $Complete ? 'display:none;' : '' ?>">
 
+        <div class="table-container">
         <table>
+            <thead>
             <tr>
                 <th>Image</th>
                 <th>Nom</th>
                 <th>Présence</th>
                 <th>Raison</th>
             </tr>
+            </thead>
 
             <?php foreach ($Students as $Student): ?>
+                <tbody>
                 <tr>
                     <td>
                         <img 
@@ -229,9 +232,11 @@ $conn = null;
                     </td>
 
                 </tr>
+                </tbody>
             <?php endforeach; ?>
 
         </table>
+        </div>
 
         <input type="submit" value="Complète">
 

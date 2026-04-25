@@ -65,8 +65,8 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Éleve</title>
-    <link rel="stylesheet" href="css/PlainTable.css">
-    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/AddBtn.css">
     <link rel="stylesheet" href="css/ProfilePicture.css">
     <link rel="stylesheet" href="css/CircularProgressBarSmall.css">
 </head>
@@ -124,7 +124,7 @@ $conn = null;
             <?php foreach($Programs as $Program): ?>
 
                 <tr>
-                    <td><?= htmlspecialchars($Program["ProgramName"] . " " . $Program["CategoryName"])?></td>
+                    <td><?= htmlspecialchars($Program["CategoryName"] . " " . $Program["ProgramName"])?></td>
                     <td><?= htmlspecialchars($Program["EnrollmentDate"])?></td>
                 </tr>
 
@@ -132,17 +132,20 @@ $conn = null;
         </table>
 
         <p>Présence:</p>
-
+        
+        <div class="table-container">
         <table>
+            <thead>
             <tr>
                 <th>Programme</th>
                 <th>Fréquentation moyenne <?= "(" . date("Y") . ")"?></th>
                 <th></th>
             </tr>
+            </thead>
             <?php foreach($Attendances as $Attendance):?>
-
+                <tbody>
                 <tr>
-                    <td><?= htmlspecialchars($Attendance["ProgramName"] . $Attendance["CategoryName"])?></td>
+                    <td><?= htmlspecialchars($Attendance["CategoryName"] . " - " . $Attendance["ProgramName"]) ?></td>
                     <td>
                         <div class="circular-progress" 
                             data-inner-circle-color="white" 
@@ -154,15 +157,17 @@ $conn = null;
                         </div>
                     </td>
                     <td>
-                        <a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>" class="Button">
+                        
+                        <a href="StudentAttendanceHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Attendance["ProgramID"]?>" class="add-btn">
                                 Rapports
                         </a>
+                        
                     </td>
                 </tr>
-
+                </tbody>
             <?php endforeach;?>    
         </table>
-
+        </div>
         <p>Notes:</p>
 
         <table>
@@ -174,7 +179,7 @@ $conn = null;
             <?php foreach($Grades as $Grade):?>
 
                 <tr>
-                    <td><?= htmlspecialchars($Grade["ProgramName"] . $Grade["CategoryName"])?></td>
+                    <td><?= htmlspecialchars($Attendance["CategoryName"] . " - " . $Attendance["ProgramName"])?></td>
                     <td>
                         <div class="circular-progress" 
                             data-inner-circle-color="white" 
@@ -186,7 +191,7 @@ $conn = null;
                         </div>
                     </td>
                     <td>
-                        <a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Grade["ProgramID"]?>" class="Button">
+                        <a href="StudentGradeHistory.php?student_id=<?= $StudentID ?>&program_id=<?= $Grade["ProgramID"]?>" class="add-btn">
                                 Rapports   
                         </a>
                     </td>

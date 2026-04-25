@@ -6,15 +6,15 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
+require("../controllers/db.php");
+include "../nav/nav.html";
+
 $ProgramID = $_GET['program_id'] ?? null;
 
 // Filters:
 $InMonth = $_GET['Month'] ?? '';
 $InYear = $_GET['Year'] ?? '';
 $InUpcoming = $_GET['Upcoming'] ?? '';
-
-require("../controllers/db.php");
-include "../nav/nav.html";
 
 $GetProgram = $conn->prepare("SELECT Program.ProgramName, ProgramCategory.CategoryName
 FROM Program
@@ -88,12 +88,12 @@ $conn = null;
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="css/Program.css">
     <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/Card.css">
+    <link rel="stylesheet" href="css/AddBtn.css">
 </head>
 <body>
-
+    
     <a href="YourAssessments.php">
         <img src="../icons/navigation-back-arrow-svgrepo-com.svg" 
         alt="back icon" class="back-icon">
@@ -105,9 +105,11 @@ $conn = null;
             <?= htmlspecialchars("Évaluations - " . $Program["CategoryName"] . " " . $Program["ProgramName"])?>
         </h2>   
 
-        <a href="AddAssessment.php?id=<?= $ProgramID?>" class="Button">
-        Ajouter une evaluation
-        </a>
+        <div class="add-btn-container">
+            <a class="add-btn" href="AddAssessment.php?id=<?= $ProgramID?>" class="Button">
+                Ajouter une evaluation
+            </a>
+        </div>
         
         <div class="form-container">
             <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
@@ -136,7 +138,7 @@ $conn = null;
                     <option value="11" <?= (($_GET['Month'] ?? '') == '11') ? 'selected' : ''?>>Novembre</option>
                     <option value="12" <?= (($_GET['Month'] ?? '') == '12') ? 'selected' : ''?>>Décembre</option>
                 </select>
-                <input type="text" name="id" value="<?=$ProgramID?>" style="display: none;">
+                <input type="text" name="program_id" value="<?=$ProgramID?>" style="display: none;">
                 <label for="Past">Passe / À venir</label>
                 <select name="Upcoming" id="">
                     <option value="" >Tout</option>
@@ -147,23 +149,21 @@ $conn = null;
             </form>
         </div>
 
-        <p>Resultas <?= htmlspecialchars($NumRows);?></p>
+        <p class="number-results">Resultas: <?= htmlspecialchars($NumRows);?></p>
 
-        <div class="OuterContainer">
+        <div class="card-container">
             <?php foreach ($Assessments as $Assessment): ?>
-                <div class="InnerContainer">
-                    
-                    <div class="Text">
-                        <p><?= htmlspecialchars($Assessment["AssessmentName"])?></p>
-                        <p>Date de publication: <?= htmlspecialchars($Assessment["AssessmentPublishDate"])?></p>
-                        <p>Date limite: <?= htmlspecialchars($Assessment["AssessmentDueDate"])?></p>
-                        <p>Points maximum: <?= htmlspecialchars($Assessment["MaxGrade"])?></p>
-                        <p>Type: <?= htmlspecialchars($Assessment["TypeName"])?></p>
-                    </div>
+                <div class="card">
+                
+                    <b><p><?= htmlspecialchars($Assessment["AssessmentName"])?></p></b>
+                    <p>Date de publication: <?= htmlspecialchars($Assessment["AssessmentPublishDate"])?></p>
+                    <p>Date limite: <?= htmlspecialchars($Assessment["AssessmentDueDate"])?></p>
+                    <p>Points maximum: <?= htmlspecialchars($Assessment["MaxGrade"])?></p>
+                    <p>Type: <?= htmlspecialchars($Assessment["TypeName"])?></p>
 
-                    <div class="Buttons">
-                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>" class="Button">Voir les notes</a>
-                        <a href="AddGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>" class="Button">Ajouter les notes</a>
+                    <div class="card-btn-container">
+                        <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>" class="card-btns">Voir les notes</a>
+                        <a href="AddGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>" class="card-btns">Ajouter les notes</a>
                     </div>
                 </div>
             <?php endforeach ?>

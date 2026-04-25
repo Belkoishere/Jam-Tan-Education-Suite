@@ -1,0 +1,24 @@
+/* Risk badges */
+.badge {
+    /* display: inline-flex;
+    align-items: center; */
+    /* padding: 2px 8px;
+    border-radius: 999px; */
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.badge-high {
+    background: rgba(239, 68, 68, 0.08);
+    color: #b91c1c;
+}
+
+.badge-moderate {
+    background: rgba(245, 158, 11, 0.08);
+    color: #b45309;
+}
+
+.badge-low {
+    background: rgba(34, 197, 94, 0.08);
+    color: #15803d;
+}

@@ -157,21 +157,27 @@ $conn = null;
         </div>
 
         <p>Resultas: <?= $NumRows?></p>
-
+        
+        <div class="table-container">
         <table>
+            <thead>
             <tr>
                 <th>Date</th>
                 <th>Absent / Présent</th>
                 <th>Raison</th>
             </tr>
+            </thead>
             <?php foreach($Attendances as $Attendance): ?>
+                <tbody>
                 <tr>
                     <td><?= htmlspecialchars($Attendance["AttendanceDate"]);?></td>
                     <td><?= htmlspecialchars($Attendance["Attendance"]);?></td>
                     <td><?= htmlspecialchars($Attendance["Reason"]);?></td>
                 </tr>
+                </tbody>
             <?php endforeach;?>
         </table>
+        </div>
     </div>
 
 </body>

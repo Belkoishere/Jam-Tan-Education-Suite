@@ -7,7 +7,16 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 }
 
 include "../nav/nav.html";
-require("../controllers/YourAttendanceData.php");
+require("../controllers/db.php");
+
+$AccountID = $_SESSION["AccountID"];
+
+$GetYourAttendance = $conn->prepare("CALL YourAttendance(?)");
+$GetYourAttendance->execute([$AccountID]);
+
+$YourAttendance = $GetYourAttendance->fetchall(PDO::FETCH_ASSOC);
+
+$conn = null;
 ?>
 
 <!DOCTYPE html>
@@ -24,23 +33,33 @@ require("../controllers/YourAttendanceData.php");
             font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/Badges.css">
 </head>
 <body>
     <div id="main">
         <h2>Votre présence</h2>
 
-            <?php if(count($YourAttendance) > 1) { ?>
+            <?php if(count($YourAttendance) >= 1) { ?>
             <table>
-                <tr>
-                    <th>Programme</th>
-                    <th>Fréquentation moyenne</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Programme</th>
+                        <th>Fréquentation moyenne</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
                 <?php foreach ($YourAttendance as $AttendanceRow): ?>
                     <tr>
                         <td><?= htmlspecialchars($AttendanceRow["ProgramName"]) ?></td>
-                        <td><?= htmlspecialchars($AttendanceRow["AverageAttendance"]) . "%"?></td>
+                        <td class="<?php if($AttendanceRow["AverageAttendance"] >= 85){?>badge badge-low<?php } 
+                            else if ($AttendanceRow["AverageAttendance"] >= 65) {?>badge badge-moderate<?php } else {?>
+                            badge badge-high<?php }?>">
+                            <?= htmlspecialchars($AttendanceRow["AverageAttendance"]) . "%"?></td>
                     </tr>
                 <?php endforeach ?>
+                </tbody>
             </table>
             <?php } else {?>
                 <p>Aucun presence registre</p>

@@ -87,9 +87,9 @@ $conn = null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Report</title>
+    <title>Historique de présence</title>
     <link rel="stylesheet" href="css/Table.css">
-    <link rel="stylesheet" href="css/ProfilePicture.css">
+    <link rel="stylesheet" href="css/ProfilePictureSmall.css">
 </head>
 <style>
     #p_attendance_history {
@@ -112,7 +112,8 @@ $conn = null;
             <?= htmlspecialchars("Rapport de fréquentation " . $AttendanceInfo["CategoryName"] . " " . $AttendanceInfo["ProgramName"] . " " . $AttendanceInfo["AttendanceDate"])?>
         </h2> 
 
-        <table>
+        <div class="table-container">
+        <table>            
                 <tr>
                     <td>
                         <?= htmlspecialchars($Statistics["Present"]["Name"])?>
@@ -158,17 +159,22 @@ $conn = null;
                     </td>
                 </tr>
         </table>
+        </div>
 
-        <table >
+        <div class="table-container">
+        <table>
+            <thead>
             <tr>
                 <th>Image</th>
                 <th>Élève</th>
                 <th>Présent / Absent</th>
                 <th>Raison</th>
             </tr>
+            </thead>
 
             <?php foreach ($Attendances as $Attendance): ?>
-            <tr style="background-color: white !important;">
+            <tbody>
+            <tr>
                 <td>
                         <img 
                             class="profile-picture"
@@ -189,9 +195,11 @@ $conn = null;
                     <?= htmlspecialchars($Attendance["Reason"])?>
                 </td>
             </tr>
+            </tbody>
             <?php endforeach; ?>
 
         </table>
+        </div>
     </div>
 
 </body>

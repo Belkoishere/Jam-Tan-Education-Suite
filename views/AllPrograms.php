@@ -80,8 +80,7 @@ $conn = null;
         }
     </style>
     <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="css/Program.css">
-    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/Card.css">
 </head>
 <body>
     <div id="main">
@@ -105,28 +104,25 @@ $conn = null;
             </form>
         </div>
 
-        <p><?= "Résultats: " . htmlspecialchars($NumRows) ?></p>
+        <p class="number-results">Resultas: <?= htmlspecialchars($NumRows) ?></p>
 
-        <div class="OuterContainer">
+        <div class="card-container">
             <?php foreach ($Programs as $Program): ?>
-                <div class="InnerContainer">
-                    <div class="Text">
-                        <p>
-                            <?= htmlspecialchars($Program["ProgramName"]) ?>
-                            <?= htmlspecialchars($Program["CategoryName"]) ?>
-                        </p>
-                        <p>
-                            Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
-                        </p>
-                    </div>
+                <div class="card">
 
-                    <div class="Buttons">
-                        <?php if (in_array($Program["ProgramID"], $YourIds)){ ?>
-                            <a href="AddAssessment.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>" class="Button">
+                    <p>
+                        <?= htmlspecialchars($Program["ProgramName"]) ?>
+                        <?= htmlspecialchars($Program["CategoryName"]) ?>
+                    </p>
+                    <p>
+                        Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
+                    </p>
+                    
+                    <div class="card-btn-container">
+                        <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
                                 Ajouter une évaluation
                             </a>
-                        <?php }?>
-                        <a href="ProgramAttendance.php?program_id=<?= htmlspecialchars($Program["ProgramID"]) ?>" class="Button">
+                        <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
                             Faire l'appel
                         </a>
                     </div>

@@ -24,10 +24,9 @@ $GetProgram->execute([$ProgramID]);
 $Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $GetYears = "SELECT DISTINCT Year(StudentAttendance.AttendanceDate) AS AttendanceYear
-FROM Program 
-INNER JOIN Enrollment ON Program.ProgramID = Enrollment.ProgramID
+FROM Enrollment 
 INNER JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
-WHERE Program.ProgramID = ?";
+WHERE Enrollment.ProgramID = ?";
 
 $stmt = $conn->prepare($GetYears);
 $stmt->execute([$ProgramID]);
@@ -35,10 +34,9 @@ $stmt->execute([$ProgramID]);
 $Years = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $GetDates = "SELECT StudentAttendance.AttendanceDate, StudentAttendance.AttendanceID
-FROM Program 
-INNER JOIN Enrollment ON Program.ProgramID = Enrollment.ProgramID
+FROM Enrollment 
 INNER JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
-WHERE Program.ProgramID = :id";
+WHERE Enrollment.ProgramID = :id";
 
 $params = ['id' => $ProgramID];
 
@@ -71,7 +69,7 @@ $conn = null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historique de présence</title>
+    <title>Historiques de présence</title>
     <style>
         #p_attendance_history {
             font-weight: bold;

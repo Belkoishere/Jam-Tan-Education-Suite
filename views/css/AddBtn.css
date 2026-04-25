@@ -1,0 +1,27 @@
+.add-btn-container{
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.add-btn{
+    background-color: green;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+    width: fit-content;
+    right: 0;
+}
+
+.add-btn:hover{
+    background-color: darkgreen;
+}
+
+@media(max-width: 800px){
+    .add-btn-container{
+        justify-content: center;
+    }
+}

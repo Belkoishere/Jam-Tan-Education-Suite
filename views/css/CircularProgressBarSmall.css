@@ -27,3 +27,22 @@
   font-size: var(--font-size);
   color: rgb(0, 0, 0, 0.8);
 }
+
+/* Attendance percentage + delta */
+
+.attendance-delta {
+    font-weight: 500;
+    z-index: 0;
+}
+
+.negative {
+    color: #b91c1c;
+}
+
+.positive {
+    color: #15803d;
+}
+
+.stable {
+    color: grey;
+}

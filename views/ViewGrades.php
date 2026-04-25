@@ -29,7 +29,8 @@ $GetGrades = $conn->prepare("
     SELECT 
         Student.StudentFirstName, Student.StudentLastName,
         Student.StudentPicture,
-        Grade.Grade, Grade.Feedback, Grade.Pass
+        Grade.Grade, Grade.Feedback, Grade.Pass,
+        Assessment.PassGrade
     FROM Assessment
     INNER JOIN Grade
         ON Assessment.AssessmentID = Grade.AssessmentID
@@ -58,7 +59,7 @@ $conn = null;
         }
     </style>
     <link rel="stylesheet" href="css/Table.css">
-    <link rel="stylesheet" href="css/ProfilePicture.css">
+    <link rel="stylesheet" href="css/ProfilePictureSmall.css">
 </head>
 <body>
 
@@ -71,17 +72,21 @@ $conn = null;
 
     <h2><?= htmlspecialchars($Assessment["CategoryName"] . " " . $Assessment["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Voir les notes") ?></h2>
 
+    <div class="table-container">
         <table>
+
+            <thead>
             <tr>
                 <th>Image</th>
                 <th>Nom</th>
                 <th>Note / <?= htmlspecialchars($Assessment["MaxGrade"]);?></th>
-                <th>Réussite / Échec</th>
+                <th>Réussite ( >= <?= htmlspecialchars($Assessment["PassGrade"])?>) / Échec </th>
                 <th>Evaluation</th>
             </tr>
-
+            </thead>
+            <tbody>
             <?php foreach ($Grades as $Grade): ?>
-            <tr style="background-color: white !important;">
+            <tr>
                 <td>
                         <img  
                             class="profile-picture"
@@ -104,6 +109,7 @@ $conn = null;
                     <?= htmlspecialchars($Grade["Feedback"])?>
                 </td>
             </tr>
+            </tbody>
             <?php endforeach; ?>
 
         </table>

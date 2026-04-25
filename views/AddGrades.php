@@ -114,7 +114,7 @@ $conn = null;
         }
     </style>
     <link rel="stylesheet" href="css/FormTable.css">
-    <link rel="stylesheet" href="css/ProfilePicture.css">
+    <link rel="stylesheet" href="css/ProfilePictureSmall.css">
 </head>
 <body>
 
@@ -129,16 +129,20 @@ $conn = null;
 
     <form action="" method="POST">
         
+        <div class="table-container">
         <table>
+            <thead>
             <tr>
                 <th>Image</th>
                 <th>Nom</th>
                 <th>Note / <?= htmlspecialchars($Assessment["MaxGrade"]);?></th>
-                <th>Réussite / Échec</th>
+                <th>Réussite (>= <?= htmlspecialchars($Assessment["PassGrade"]);?>) / Échec</th>
                 <th>Evaluation</th>
             </tr>
+            </thead>
 
             <?php foreach ($Grades as $Grade): ?>
+                <tbody>
                 <tr>
                     <td>
                         <img 
@@ -163,9 +167,11 @@ $conn = null;
                     </td>
                     
                 </tr>
+                </tbody>
                 <input class="hidden" value="<?= $Grade["EnrollmentID"]?>" name="EnrollmentID[]">
             <?php endforeach; ?>
         </table>
+        </div>
         
         <input type="hidden" value="<?= $AssessmentID?>" name="assessment_id">
         <input type="hidden" value="<?= $ProgramID?>" name="program_id">

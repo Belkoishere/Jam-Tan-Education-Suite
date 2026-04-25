@@ -143,7 +143,7 @@ $conn = null;
     </style>
     <link rel="stylesheet" href="css/form.css">
     <link rel="stylesheet" href="css/ProfilePicture.css">
-    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/AddBtn.css">
 </head>
 <body>
     
@@ -153,8 +153,8 @@ $conn = null;
 
         <img class="profile-picture" id="profile-picture" src="../StaffImages/<?= htmlspecialchars($Account["StaffPicture"]);?>"> 
         
-        <div style="padding-top: 20px; padding-bottom: 10px;">
-            <a href="UploadProfilePicture.php" class="Button">Changer photo de profile</a>
+        <div class="add-btn-container">
+            <a href="UploadProfilePicture.php" class="add-btn">Changer photo de profile</a>
         </div>
 
         <div class="form-container">

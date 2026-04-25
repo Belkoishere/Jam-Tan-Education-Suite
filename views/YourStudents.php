@@ -104,6 +104,8 @@ $conn = null;
     <link rel="stylesheet" href="css/form.css">
     <link rel="stylesheet" href="css/StudentResult.css">
     <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/Card.css">
+    <link rel="stylesheet" href="css/ProfilePictureSmall.css">
 </head>
 <body>
     <div id="main">
@@ -134,41 +136,44 @@ $conn = null;
             </form>
         </div>
         
-        <p><?= "Résultats: " . htmlspecialchars($NumRows) ?></p>
+        <p class="number-results"><?= "Résultats: " . htmlspecialchars($NumRows) ?></p>
         
-        <div class="table-container">
+            <div class="card-container">
+            
             <?php foreach ($Students as $Student): ?>
-                <table>
-                    <tr>
-                        <td>
-                            <img class="profile-picture" src="../StudentImages/<?= htmlspecialchars($Student["StudentPicture"]) ?>.jpg" 
-                            alt="Image of <?= htmlspecialchars($Student["StudentFirstName"]) ?>">
-                            <?php if ($Student["AtRisk"] == true) {?>
-                                <img style="width: 25px" src="../icons/alert-triangle-svgrepo-com.svg" alt="">
-                            <?php } ?>
-                            <a href="Student.php?student_id=<?= $Student["StudentID"]?>" class="Button">Voir</a>
-                        </td>
-                        <td>
-                            <p>
-                                <?= htmlspecialchars($Student["StudentLastName"] . " " . $Student["StudentFirstName"]) ?>
-                            </p>
-                            <p>
-                                <?= htmlspecialchars($Student["Age"] . " / " . $Student["StudentGender"]) ?>
-                            </p>
-                            <p>
-                                <?= "Contact 1: " . htmlspecialchars($Student["Contact1"]) ?>
-                            </p>
-                            <p>
-                                <?= "Contact 2: " . htmlspecialchars($Student["Contact2"]) ?>
-                            </p>
-                            <p>
-                                <?= "Programme(s): " . htmlspecialchars($Student["Programs"]) ?>
-                            </p>
-                        </td>
-                        
-                    </div>
-                    </tr>
-                </table>
+                <div class="card">
+                    <table>
+                        <tr>
+                            <td>
+                                <img class="profile-picture" src="../StudentImages/<?= htmlspecialchars($Student["StudentPicture"]) ?>.jpg" 
+                                alt="Image of <?= htmlspecialchars($Student["StudentFirstName"]) ?>">
+                                <?php if ($Student["AtRisk"] == true) {?>
+                                    <img style="width: 25px" src="../icons/alert-triangle-svgrepo-com.svg" alt="">
+                                <?php } ?>
+                            </td>
+                            <td>
+                                <p class="student-name">
+                                    <?= htmlspecialchars($Student["StudentLastName"] . " " . $Student["StudentFirstName"]) ?>
+                                </p>
+                                <p>
+                                    <?= htmlspecialchars($Student["Age"] . " / " . $Student["StudentGender"]) ?>
+                                </p>
+                                <p>
+                                    <?= "Contact 1: " . htmlspecialchars($Student["Contact1"]) ?>
+                                </p>
+                                <p>
+                                    <?= "Contact 2: " . htmlspecialchars($Student["Contact2"]) ?>
+                                </p>
+                                <p>
+                                    <?= "Programme(s): " . htmlspecialchars($Student["Programs"]) ?>
+                                </p>
+                            </td>
+                            
+                        </div>
+                        </tr>
+                    </table>
+                    <a href="Student.php?student_id=<?=$Student["StudentID"]?>" class="card-btn">Voir</a>
+                </div>
             <?php endforeach ?>
         </div>
 

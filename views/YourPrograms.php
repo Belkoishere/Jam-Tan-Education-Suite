@@ -24,16 +24,17 @@ require("../controllers/YourProgramsData.php");
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="css/Program.css">
+    <link rel="stylesheet" href="css/ProgramResult.css">
+    <link rel="stylesheet" href="css/Card.css">
     <link rel="stylesheet" href="css/Button.css">
 </head>
 <body>
     <div id="main">
         <h2>Vos programs</h2>
 
-        <div class="OuterContainer">
+        <div class="card-container">
             <?php foreach ($Programs as $Program): ?>
-                <div class="InnerContainer">
+                <div class="card">
                     
                     <div class="Text">
                         <p>
@@ -44,16 +45,14 @@ require("../controllers/YourProgramsData.php");
                             Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
                         </p>
                     </div>
-
-                    <div class="Buttons">
-                        <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>" class="Button">
+                    <div class="card-btn-container">
+                    <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
                             Ajouter une évaluation
                         </a>
-                        <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>" class="Button">
-                            Faire l'appel
-                        </a>
+                    <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
+                        Faire l'appel
+                    </a>
                     </div>
-                    
                 </div>
             <?php endforeach ?>
         </div>

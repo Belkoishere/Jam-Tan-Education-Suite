@@ -91,7 +91,7 @@ $French = new Translate (new French);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chart Reports</title>
+    <title>Historique de presences</title>
 </head>
 <style>
     #p_attendance_history {
@@ -138,25 +138,30 @@ $French = new Translate (new French);
         data-inner-circle-color="white" 
         data-percentage="<?= htmlspecialchars($OverallAverage["AverageAttendance"])?>" 
         data-progress-color="<?php if (htmlspecialchars($OverallAverage["AverageAttendance"]) < 50){?>red<?php } else {?>green<?php }?>" 
-        data-bg-color="black">
+        data-bg-color="black"
+        style="margin-bottom: 20px;">
         <div class="inner-circle"></div>
         <p class="percentage">0%</p>
     </div>
 
-    <div>
-        <canvas id="myChart"></canvas>
+    <div style="padding-bottom: 30px;">
+        <canvas id="myChart" style="width: 100%;"></canvas>
     </div>
 
     <table>
-        <tr>
-            <th>Mois</th>
-            <th>Fréquentation moyenne</th>
-        </tr>
-        <?php foreach ($MonthAverages as $Average): ?>
+        <thead>
             <tr>
-                <td><?= $French->Translate(htmlspecialchars($Average["M"]))?></td>
-                <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
+                <th>Mois</th>
+                <th>Fréquentation moyenne</th>
             </tr>
+        </thead>
+        <?php foreach ($MonthAverages as $Average): ?>
+            <tbody>
+                <tr>
+                    <td><?= $French->Translate(htmlspecialchars($Average["M"]))?></td>
+                    <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
+                </tr>
+            </tbody>
         <?php endforeach?>
     </table>
 

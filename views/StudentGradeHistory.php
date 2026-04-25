@@ -97,7 +97,7 @@ $conn = null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rapports de présence</title>
+    <title>Rapports de notes</title>
 </head>
 <link rel="stylesheet" href="css/form.css">
 <link rel="stylesheet" href="css/Table.css">
@@ -163,9 +163,11 @@ $conn = null;
             </form>
         </div>
 
-        <p>Resultas: <?= $NumRows?></p>
-
+        <p>Resultas: <?= htmlspecialchars( $NumRows)?></p>
+        
+        <div clas="table-container">
         <table>
+            <thead>
             <tr>
                 <th>Date</th>
                 <th>Note</th>
@@ -173,7 +175,9 @@ $conn = null;
                 <th>Réussite / Échec</th>
                 <th>Retour d'évaluation</th>
             </tr>
+            </thead>
             <?php foreach($Grades as $Grade): ?>
+                <tbody>
                 <tr>
                     <td><?= htmlspecialchars($Grade["GradeDate"]);?></td>
                     <td><?= htmlspecialchars($Grade["Grade"] . "/" . $Grade["MaxGrade"]);?></td>
@@ -181,8 +185,11 @@ $conn = null;
                     <td><?= htmlspecialchars($French->Translate($Grade["Pass"]));?></td>
                     <td><?= htmlspecialchars($Grade["Feedback"]);?></td>
                 </tr>
+                </tbody>
             <?php endforeach;?>
         </table>
+        </div>
+
     </div>
 
 </body>

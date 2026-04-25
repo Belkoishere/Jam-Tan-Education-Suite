@@ -1,4 +1,4 @@
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background-color: #D6EEEE;
 }
 
@@ -17,5 +17,40 @@ table, th, td {
 th, td {
     padding-top: 10px;
     padding-bottom: 10px;
+} */
+
+.table-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: block;
+    padding-bottom: 20px;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    text-align: center;
+}
+
+table thead {
+    background: #f9fafb;
+}
+
+table th, td {
+    padding: 10px;
+}
+
+table th {
+    font-weight: 500;
+    color: #6b7280;
+    /* font-size: 16px; */
+}
+
+table tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+table tbody tr:hover {
+    background: #eef2ff;
+}

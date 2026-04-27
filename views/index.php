@@ -7,10 +7,12 @@ if (isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
+include "Alert.html";
 include "../topBar/nav.html";
 require("../controllers/db.php");
 
 $Errors = [];
+$Messages = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -22,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $Errors["Password"] = "Please enter your password";
     }
 
-    $SearchAccount = $conn->prepare("SELECT StaffID, StaffPassword, StaffFirstName 
+    $SearchAccount = $conn->prepare("SELECT StaffID, StaffPassword, StaffFirstName, StaffAccessLevel
     FROM Staff WHERE StaffContact1 = ?");
 
     $SearchAccount->execute([$_POST['PhoneNumber']]);
@@ -33,15 +35,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $id = $row['StaffID'];
         $password = $row['StaffPassword'];
         $name = $row['StaffFirstName'];
+        $access = $row['StaffAccessLevel'];
 
         if (password_verify($_POST['Password'], $password)) {
             session_regenerate_id();
             $_SESSION['AccountLoggedIn'] = TRUE;
             $_SESSION['AccountName'] = $name;
             $_SESSION['AccountID'] = $id;
+            $_SESSION['AccessLevel'] = $access;
 
-            header('Location: /Jam-Tan-Education-Suite/views/Dashboard.php');
-            exit;
+            if ($access == "Teacher"){
+                header('Location: /Jam-Tan-Education-Suite/views/Dashboard.php');
+                exit;
+            }
+            else if ($access == "Administrator"){
+                header('Location: /Jam-Tan-Education-Suite/views/AdminDashboard.php');
+                exit;
+            }
+            else {
+                $Messages["Error"] = "Access level not set for account";
+            }
+            
         } else {
             $Errors["Password"] = "Incorrect password";
         }
@@ -77,5 +91,7 @@ $conn = null;
         </form>
     </div>
 
+<script>window.Messages = <?= json_encode($Messages, JSON_HEX_TAG); ?>;</script>
+<script src="Alert.js"></script>
 </body>
 </html>

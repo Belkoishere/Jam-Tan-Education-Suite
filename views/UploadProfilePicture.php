@@ -121,12 +121,14 @@ $conn = null;
 
         <img id="profile-picture" class="profile-picture" src="<?= $CurrentImage?>" style="margin-bottom: 20px;"> 
 
-        <form action="" method="post" enctype="multipart/form-data">
-            <label for="Image" class="Button">Choisir un image</label>
-            <input id="Image" type="file" name="Image" onchange="preview()" accept="image/*" style="display: none;">
-            <input type="submit" value="Sauvegarde">
-        </form>
-        
+        <div class="form-container">
+            <form action="" method="post" enctype="multipart/form-data">
+                <label for="Image" class="Button">Choisir un image</label>
+                <input id="Image" type="file" name="Image" onchange="preview()" accept="image/*" style="display: none;">
+                <input type="submit" value="Sauvegarde">
+            </form>
+        </div>
+         
     </div>
 </body>
 <script src="UploadProfilePicture.js"></script>

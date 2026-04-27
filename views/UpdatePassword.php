@@ -7,7 +7,13 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
-include "../nav/nav.html";
+if ($_SESSION['AccessLevel'] == "Teacher"){
+    include "../nav/nav.html";
+}
+else if ($_SESSION['AccessLevel'] == "Administrator") {
+    include "../nav/admin_nav.html";
+}
+
 include "Alert.html";
 require("../controllers/db.php");
 require("../controllers/ContainsAll.php");

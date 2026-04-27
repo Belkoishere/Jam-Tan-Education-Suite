@@ -6,7 +6,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
-include "../topBar/nav.html";
+include "../nav/admin_nav.html";
 
 ?>
 
@@ -15,52 +15,20 @@ include "../topBar/nav.html";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Se connecter</title>
+    <title>Créer un compte</title>
     <style>
-        form {
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
+        #p_create_account {
+            font-weight: bold;
         }
-
-        label {display: block;}
-
-        input[type="text"], input[type="password"] {
-        width: 100%;
-        padding: 12px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        }
-
-        input[type=checkbox] {
-        /* width: 100%; */
-        padding: 14px;
-        margin: 8px 0;
-        cursor: pointer;
-        }
-
-        input[type=submit] {
-        width: 100%;
-        background-color: red;
-        color: white;
-        padding: 14px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        }
-
-        input[type=submit]:hover {
-        background-color: green;
+        #s_create_account {
+            font-weight: bold;
         }
     </style>
+    <link rel="stylesheet" href="css/form.css">
 </head>
 <body>
     <div id="main">
-        <h2>Se connecter</h2>
+        <h2>Créer un compte</h2>
         <form action="/Jam-Tan-Education-Suite/controllers/CreateAccountAction.php" method="POST">
             <label for="Title">Titre</label>
             <select>
@@ -81,21 +49,19 @@ include "../topBar/nav.html";
             <label for="Town">Ville</label>
             <input type="text" id="Town" name="Town">
             <label for="Role">Rôle</label>
-            <input type="text" id="Role" name="Role">
+            <select id="Role" name="Role">
+                <option value="Teacher">Enseignant</option>
+                <option value="Administrator">Administrateur</option>
+            </select>
             <label for="Password">Mot de passe</label>
             <input type="password" name="Password">
-            <label for="ShowPassword">Afficher le mot de passe</label>
-            <input type="checkbox" id="ShowPassword">
             <label for="ConfirmPassword">Confirmez le mot de passe</label>
             <input type="password" id="ConfirmPassword" name="ConfirmPassword">
-            <label for="ShowPassword">Afficher le mot de passe</label>
-            <input type="checkbox" id="ShowPassword">
             <!-- <a href="SignUp.php">Nouvelle enregistrement</a>
             <a href="ForgotPassword.php">Mot de passe oublié</a> -->
-            <input type="submit" value="Demande d’enregistrement">
+            <input type="submit" value="Créer">
         </form>
     </div>
     
-    <p><?php echo(password_hash("Belko!=0;", PASSWORD_DEFAULT))?></p>
 </body>
 </html>

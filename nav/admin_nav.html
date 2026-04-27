@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Jam Tan Edu Suite</title> -->
+    <link rel="stylesheet" href="/Jam-Tan-Education-Suite/nav/nav.css">
+    <link rel="icon" href="../images/logo.png" type="image/icon">
+</head>
+<body>
+    <div id="topbar">
+        <img id="burger_menu_icon" src="../icons/menu-svgrepo-com.svg" 
+        alt="burger menu icon" onclick="showmenu()">
+        <img id="logo" src="../images/logo.png" alt="logo">
+        <div id="app_title"><h2>Jam Tan Edu Suite</h2></div>
+    </div>
+
+    <div id="pop_up_menu">
+        <img src="../icons/cross-svgrepo-com.svg" id="cross_icon" 
+        alt="exit" onclick="hidemenu()">
+        <div id="pop_up_menu_content">
+            <h1>Jam Tan Edu Suite</h1>
+            <p>Compte</p>
+            <!-- Each link has an id allowing it to be accessed by css on the 
+             appropriate page and be emboldened and underlined  -->
+            <a href="../views/AdminDashboard.php" class="current" id="p_dashboard">
+                Tableau de bord
+            </a>
+            <a href="../views/PersonalDetails.php" id="p_personal_details">
+                Informations personnelles
+            </a>
+            <a href="../views/UpdatePassword.php" id="p_update_password">
+                Changer votre mot de passe
+            </a>
+            <a href="../views/Logout.php" id="p_log_out">
+                Déconnexion
+            </a>
+            <p>
+                Élèves
+            </p>
+            <a href="../views/AddStudent.php" id="p_add_student">
+                Ajouter
+            </a>
+            <a href="../views/EnrollStudent.php" id="p_enroll_student">
+                Inscrire
+            </a>
+            <a href="../views/EditStudents.php" id="p_edit_students">
+                Modifier
+            </a>
+            <p>Programmes</p>
+            <a href="../views/CreateProgram.php" id="p_create_program">
+                Creer
+            </a>
+            <a href="../views/EditPrograms.php" id="p_edit_programs">
+                Modifier
+            </a>
+        </div>
+    </div>
+
+    <div id="sidebar_menu">
+        <p>Compte</p>
+        <!-- Each link has an id allowing it to be accessed by css on the 
+            appropriate page and be emboldened and underlined  -->
+        <a href="../views/AdminDashboard.php" class="current" id="p_dashboard">
+            Tableau de bord
+        </a>
+        <a href="../views/PersonalDetails.php" id="p_personal_details">
+            Informations personnelles
+        </a>
+        <a href="../views/UpdatePassword.php" id="p_update_password">
+            Changer votre mot de passe
+        </a>
+        <a href="../views/Logout.php" id="p_log_out">
+            Déconnexion
+        </a>
+        <p>
+            Élèves
+        </p>
+        <a href="../views/AddStudent.php" id="p_add_student">
+            Ajouter
+        </a>
+        <a href="../views/EnrollStudent.php" id="p_enroll_student">
+            Inscrire
+        </a>
+        <a href="../views/EditStudents.php" id="p_edit_students">
+            Modifier
+        </a>
+        <p>Programmes</p>
+        <a href="../views/CreateProgram.php" id="p_create_program">
+            Créer
+        </a>
+        <a href="../views/EditPrograms.php" id="p_edit_programs">
+            Modifier
+        </a>
+        <p>
+            Gestion de comptes
+        </p>
+        <a href="../views/CreateAccount.php" id="p_create_account">
+            Créer
+        </a>
+        <a href="../views/EditAccounts.php" id="p_edit_accounts">
+            Modifier
+        </a>
+    </div>
+
+</body>
+<script src="/Jam-Tan-Education-Suite/nav/nav.js"></script>
+</html>

@@ -102,7 +102,7 @@ $conn = null;
 
         <p>Date de naissance: <?= htmlspecialchars($Attributes["StudentBirthDate"])?></p>
 
-        <p>Ville: <?= htmlspecialchars($Attributes["StudentTown"])?></p>
+        <p>Ville de résidence: <?= htmlspecialchars($Attributes["StudentTown"])?></p>
 
         <p>Contact 1: <?= htmlspecialchars($Attributes["Contact1"])?></p>
 

@@ -104,7 +104,7 @@ $conn = null;
             </form>
         </div>
 
-        <p class="number-results">Resultas: <?= htmlspecialchars($NumRows) ?></p>
+        <p class="number-results">Résultats: <?= htmlspecialchars($NumRows) ?></p>
 
         <div class="card-container">
             <?php foreach ($Programs as $Program): ?>
@@ -120,8 +120,8 @@ $conn = null;
                     
                     <div class="card-btn-container">
                         <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
-                                Ajouter une évaluation
-                            </a>
+                            Ajouter une évaluation
+                        </a>
                         <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
                             Faire l'appel
                         </a>

@@ -147,10 +147,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $conn->prepare($sql);
                 $stmt->execute($params);
                 $Complete = true;
-                $Messages["Success"] = "Register added successfully";
+                $Messages["Success"] = "Registre de présence ajouté";
             }
             catch (Exception $e){
-                $Messages["Warning"] = $e;
+                $Messages["Warning"] = $e->getMessage();
             }
         }
     }

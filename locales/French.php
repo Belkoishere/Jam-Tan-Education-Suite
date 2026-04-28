@@ -20,7 +20,11 @@ class French implements Language {
             "Mrs" => "Mme",
             "Ms" => "Mlle",
             "Pass" => "Réussite",
-            "Fail" => "Échec"
+            "Fail" => "Échec",
+            "Present" => "Présent",
+            "Absent" => "Absent",
+            "Exam" => "Examen",
+            "Assignment" => "Devoir"
         ];
 
         return $dictionary[$word] ?? $word;

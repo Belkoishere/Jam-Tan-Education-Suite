@@ -16,7 +16,7 @@ $Messages = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!isset($_FILES['Image']) || $_FILES['Image']['error'] !== UPLOAD_ERR_OK) {
-        $Messages["Warning"] = "No file uploaded or upload error";
+        $Messages["Warning"] = "Aucune image téléchargée ou erreur de téléchargement";
     } else {
 
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -31,17 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Validate MIME
         if (!in_array($fileType, $allowedTypes)) {
-            $Messages["Warning"] = "Only JPG, PNG, and GIF files are allowed";
+            $Messages["Warning"] = "Seuls les fichiers JPG, PNG et GIF sont autorisés";
         }
 
         // Validate extension
         if (!in_array($ext, $allowedExts)) {
-            $Messages["Warning"] = "Invalid file extension";
+            $Messages["Warning"] = "Extension de fichier non valide";
         }
 
         // Validate size
         if ($fileSize > 2 * 1024 * 1024) {
-            $Messages["Warning"] = "File size exceeds 2MB.";
+            $Messages["Warning"] = "La taille du fichier dépasse 2 Mo";
         }
 
         if (!isset($Messages["Warning"])) {
@@ -68,13 +68,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $stmt = $conn->prepare("UPDATE Staff SET StaffPicture = ? WHERE StaffID = ?");
                 if ($stmt->execute([$newFileName, $AccountID])) {
-                    $Messages["Success"] = "Profile photo updated successfully!";
+                    $Messages["Success"] = "Photo de profil mise à jour";
                 } else {
-                    $Messages["Warning"] = "Error updating database.";
+                    $Messages["Warning"] = "Erreur lors de la mise à jour de la photo de profil";
                 }
 
             } else {
-                $Messages["Warning"] = "Failed to move uploaded file.";
+                $Messages["Warning"] = "Échec du déplacement du fichier téléchargé";
             }
         }
     }
@@ -125,7 +125,7 @@ $conn = null;
             <form action="" method="post" enctype="multipart/form-data">
                 <label for="Image" class="Button">Choisir un image</label>
                 <input id="Image" type="file" name="Image" onchange="preview()" accept="image/*" style="display: none;">
-                <input type="submit" value="Sauvegarde">
+                <input type="submit" value="Enregistrer">
             </form>
         </div>
          

@@ -8,6 +8,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 
 include "../nav/nav.html";
 require("../controllers/YourProgramsData.php");
+
 ?>
 
 <!DOCTYPE html>

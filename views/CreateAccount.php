@@ -29,7 +29,8 @@ include "../nav/admin_nav.html";
 <body>
     <div id="main">
         <h2>Créer un compte</h2>
-        <form action="/Jam-Tan-Education-Suite/controllers/CreateAccountAction.php" method="POST">
+        <div class="form-container">
+            <form action="/Jam-Tan-Education-Suite/controllers/CreateAccountAction.php" method="POST">
             <label for="Title">Titre</label>
             <select>
                 <option value="M">M</option>
@@ -46,7 +47,7 @@ include "../nav/admin_nav.html";
             <input type="text" id="PhoneNumber1" name="PhoneNumber1">
             <label for="PhoneNumber2">Numéro de téléphone 2 (facultatif)</label>
             <input type="text" id="PhoneNumber2" name="PhoneNumber2">
-            <label for="Town">Ville</label>
+            <label for="Town">Ville de résidence</label>
             <input type="text" id="Town" name="Town">
             <label for="Role">Rôle</label>
             <select id="Role" name="Role">
@@ -61,6 +62,8 @@ include "../nav/admin_nav.html";
             <a href="ForgotPassword.php">Mot de passe oublié</a> -->
             <input type="submit" value="Créer">
         </form>
+        </div>
+        
     </div>
     
 </body>

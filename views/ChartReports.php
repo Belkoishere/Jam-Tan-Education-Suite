@@ -173,7 +173,8 @@ $French = new Translate (new French);
     const AverageAttendances = <?= json_encode($MonthAverages, JSON_HEX_TAG); ?>;
     console.log(AverageAttendances);
 
-    var Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var Months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
     var InMonths = [];
     var MonthIndexes = [];
     var Averages = [];

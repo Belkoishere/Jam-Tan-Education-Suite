@@ -136,7 +136,7 @@ $conn = null;
             </form>
         </div>
         
-        <p class="number-results"><?= "Résultats: " . htmlspecialchars($NumRows) ?></p>
+        <p class="number-results">Résultats: <?= htmlspecialchars($NumRows) ?></p>
         
             <div class="card-container">
             

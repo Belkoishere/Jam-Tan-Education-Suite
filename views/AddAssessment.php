@@ -10,6 +10,11 @@ include "../nav/nav.html";
 include "Alert.html";
 require("../controllers/YourProgramsData.php");
 require("../controllers/db.php");
+require_once("../locales/Language.php");
+require_once("../locales/French.php");
+require_once("../locales/Translate.php");
+
+$French = new Translate (new French);
 
 $ProgramID = $_GET["id"] ?? null;
 
@@ -33,21 +38,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     //Name validation checks
     if (empty($InName)) {
-        $Errors["AssessmentName"] = "Please enter the title";
+        $Errors["AssessmentName"] = "Entrez le titre";
     }
     else if (strlen($InName) > 100) {
-        $Errors["AssessmentName"] = "The title must have 100 charachters or less";
+        $Errors["AssessmentName"] = "Le titre doit comporter 100 caractères ou moins";
     }
 
     //Due date validation checks
     if(empty($InDueDate)){
-        $Errors["DueDate"] = "Please enter a due date";
+        $Errors["DueDate"] = "Entrez la date limite";
     }
     else if (!(new DateTime($InDueDate) instanceof DateTime)) {
-        $Errors["DueDate"] = "The due date must be a date";
+        $Errors["DueDate"] = "La date limite doit etre une date";
     }
     else if (new DateTime($InDueDate) <= new DateTime("today")) {
-        $Errors["DueDate"] = "The due date must be in the future";
+        $Errors["DueDate"] = "La date limite doit être dans le futur";
     }
 
     //InStartDate validation checks
@@ -55,35 +60,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         
     }
     else if(!(new DateTime($InStartDate) instanceof DateTime)){
-        $Errors["StartDate"] = "The start date must be a date";
+        $Errors["StartDate"] = "La date de début doit être une date";
     }
     else if (new DateTime($InStartDate) < new DateTime("today")) {
-        $Errors["StartDate"] = "The start date must be today or in the future";
+        $Errors["StartDate"] = "La date de début doit être aujourd'hui ou dans le futur";
     }
     else if(new DateTime($InStartDate) > new DateTime($InDueDate)){
-        $Errors["StartDate"] = "The start date cannot be later than the due date";
+        $Errors["StartDate"] = "La date de début ne peut pas être postérieure à la date d'échéance";
     }
 
     //InMaxGrade validation checks
     if (empty($InMaxGrade)){
-        $Errors["MaxGrade"] = "Please enter the Maximum grade";
+        $Errors["MaxGrade"] = "Entrez la note maximale";
     }
     else if(!is_int($InMaxGrade)){
-        $Errors["MaxGrade"] = "Maximum grade must be a number";
+        $Errors["MaxGrade"] = "La note maximale doit etre un nombre";
     }
     else if($InMaxGrade <= 0){
-        $Errors["StartDate"] = "The maximum grade must be greater than 0";
+        $Errors["StartDate"] = "La note maximale doit être supérieure à 0";
     }
 
     //InPassGrade validation checks
     if (empty($InPassGrade)){
-        $Errors["PassGrade"] = "Please enter the pass grade";
+        $Errors["PassGrade"] = "Entrez la note de passage";
     }
     else if(!is_int($InPassGrade)){
-        $Errors["PassGrade"] = "Pass grade must be a number";
+        $Errors["PassGrade"] = "La note de passage doit etre un nombre";
     }
     else if($InPassGrade <= 0){
-        $Errors["PassGrade"] = "The pass grade must be greater than 0";
+        $Errors["PassGrade"] = "La note de passage doit être supérieure à 0";
     }
 
     if (empty($Errors)){
@@ -95,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $InsertAssessment->execute([$InName, $InStartDate, $InDueDate, $InMaxGrade, $InPassGrade,
             $InTypeID, $InProgramID]);
 
-            $Messages["Success"] = "Assessment added successfully";
+            $Messages["Success"] = "Évaluation ajoutée";
         }
         catch(Exception $e){
             $Messages["Warning"] = $e->getMessage();
@@ -151,7 +156,7 @@ $conn = null;
                     <?php foreach ($Types as $Type): ?>
                         <option value="<?= htmlspecialchars($Type["TypeID"])?>"
                         <?= (($_POST['TypeID'] ?? '') == $Type["TypeID"]) ? 'selected' : ''?>>
-                            <?= htmlspecialchars($Type["TypeName"])?>
+                            <?= htmlspecialchars($French->Translate($Type["TypeName"]))?>
                         </option>
                     <?php endforeach ?>
                 </select>

@@ -41,26 +41,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     //Title validation checks
     if (empty($Title)){
-        $Errors["Title"] = "Please enter title";
+        $Errors["Title"] = "Entrez le titre";
     }
     else if (!in_array($Title, ["Mr", "Mrs", "Ms"])){
-        $Errors["Title"] = "Title must be either Mr, Mrs or Ms";
+        $Errors["Title"] = "Le titre doit être soit M., Mme ou Mlle";
     }
 
     //FirstName validation checks
     if (empty($FirstName)){
-        $Errors["FirstName"] = "Please enter first name";
+        $Errors["FirstName"] = "Entrez le prénom";
     }
     else if (strlen($FirstName) > 60){
-        $Errors["FirstName"] = "First Name cannot exceed 60 characters";
+        $Errors["FirstName"] = "Le prénom ne peut pas dépasser 60 caractères";
     }
 
     //LastName validation checks
     if (empty($LastName)){
-        $Errors["LastName"] = "Please enter last name";
+        $Errors["LastName"] = "Entrez le nom de famille";
     }
     else if (strlen($LastName) > 60){
-        $Errors["LastName"] = "Last Name cannot exceed 60 characters";
+        $Errors["LastName"] = "Le nom de famille ne peut pas dépasser 60 caractères";
     }
 
     //Email validation checks
@@ -68,36 +68,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         
     }
     else if (filter_var($Email, FILTER_VALIDATE_EMAIL) == false){
-        $Errors["Email"] = "Please enter a valid email address";
+        $Errors["Email"] = "Entrer une adresse e-mail valide";
     }
 
     //PhoneNumber validation checks
     if (empty($PhoneNumber1)){
-        $Errors["PhoneNumber1"] = "Please enter phone number 1";
+        $Errors["PhoneNumber1"] = "Entrez le numéro de téléphone 1";
     }
     else if (strlen($PhoneNumber1) != 8){
-        $Errors["PhoneNumber1"] = "Phone number must be 8 digits long";
+        $Errors["PhoneNumber1"] = "Le numéro de téléphone doit comporter 8 chiffres";
     }
     else if (!(ctype_digit($PhoneNumber1))) {
-        $Errors["PhoneNumber1"] = "Phone number must only contain numbers";
+        $Errors["PhoneNumber1"] = "Le numéro de téléphone ne doit contenir que des chiffres";
     }
     else if (!empty($PhoneMatch) && $PhoneMatch["StaffID"] != $AccountID) {
-        $Errors["PhoneNumber1"] = "An account already exists with this phone numebr";
+        $Errors["PhoneNumber1"] = "Un compte existe déjà avec ce numéro de téléphone";
     }
 
     if (empty($PhoneNumber2)){
         
     }
     else if (strlen($PhoneNumber2) != 8){
-        $Errors["PhoneNumber2"] = "Phone number must be 8 digits long";
+        $Errors["PhoneNumber2"] = "Le numéro de téléphone doit comporter 8 chiffres";
     }
     else if (!(ctype_digit($PhoneNumber2))) {
-        $Errors["PhoneNumber2"] = "Phone number must only contain numbers";
+        $Errors["PhoneNumber2"] = "Le numéro de téléphone ne doit contenir que des chiffres";
     }
 
     //Town validation checks
     if (empty($Town)){
-        $Errors["Town"] = "Please enter town";
+        $Errors["Town"] = "Entrez la ville de résidence";
     }
 
     if (empty($Errors)){
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $stmt->execute([$Title, $FirstName, $LastName, $PhoneNumber1,
             $PhoneNumber2, $Email, $Town, $AccountID]);
 
-            $Messages["Success"] = "Successfully updated personal details";
+            $Messages["Success"] = "Détails personnels mis à jour";
         }
         catch (Exception $e){
             echo($e);
@@ -188,10 +188,10 @@ $conn = null;
                 <label for="PhoneNumber2">Numéro de téléphone 2</label>
                 <input type="text" name="PhoneNumber2" value="<?= htmlspecialchars($Account["StaffContact2"]);?>">
                 <span style="color: red;"><?= $Errors["PhoneNumber2"] ?? null?></span>
-                <label for="Town">Ville</label>
+                <label for="Town">Ville de résidence</label>
                 <input type="text" name="Town" value="<?= htmlspecialchars($Account["Town"]);?>">
                 <span style="color: red;"><?= $Errors["Town"] ?? null?></span>
-                <input type="submit" value="Sauvegarde">
+                <input type="submit" value="Enregistrer">
             </form>
         </div>
         

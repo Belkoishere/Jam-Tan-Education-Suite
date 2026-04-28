@@ -163,7 +163,7 @@ $conn = null;
             </form>
         </div>
 
-        <p>Resultas: <?= htmlspecialchars( $NumRows)?></p>
+        <p>Résultats: <?= htmlspecialchars( $NumRows)?></p>
         
         <div clas="table-container">
         <table>

@@ -8,6 +8,11 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 
 require("../controllers/db.php");
 include "../nav/nav.html";
+require_once("../locales/Language.php");
+require_once("../locales/French.php");
+require_once("../locales/Translate.php");
+
+$French = new Translate (new French);
 
 $ProgramID = $_GET['program_id'] ?? null;
 
@@ -149,7 +154,7 @@ $conn = null;
             </form>
         </div>
 
-        <p class="number-results">Resultas: <?= htmlspecialchars($NumRows);?></p>
+        <p class="number-results">Résultats: <?= htmlspecialchars($NumRows);?></p>
 
         <div class="card-container">
             <?php foreach ($Assessments as $Assessment): ?>
@@ -159,7 +164,7 @@ $conn = null;
                     <p>Date de publication: <?= htmlspecialchars($Assessment["AssessmentPublishDate"])?></p>
                     <p>Date limite: <?= htmlspecialchars($Assessment["AssessmentDueDate"])?></p>
                     <p>Points maximum: <?= htmlspecialchars($Assessment["MaxGrade"])?></p>
-                    <p>Type: <?= htmlspecialchars($Assessment["TypeName"])?></p>
+                    <p>Type: <?= htmlspecialchars($French->Translate($Assessment["TypeName"]))?></p>
 
                     <div class="card-btn-container">
                         <a href="ViewGrades.php?assessment_id=<?= $Assessment["AssessmentID"]?>" class="card-btns">Voir les notes</a>

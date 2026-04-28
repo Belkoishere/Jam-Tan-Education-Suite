@@ -13,9 +13,16 @@ class Translate{
         $this->Language = $Language;
     } 
 
-    public function Translate(string $word)
-    {
-        return $this->Language->GetEquivalent($word);
+    public function Translate(?string $word = null)
+    {   
+        $word = $word ?? '';
+        if ($word == ''){
+            return $word;
+        }
+        else {
+            return $this->Language->GetEquivalent($word);
+        }
+        
     }
 }
 

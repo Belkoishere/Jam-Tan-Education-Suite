@@ -17,11 +17,11 @@ $Messages = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     if (empty($_POST['PhoneNumber'])) {
-        $Errors["PhoneNumber"] = "Please enter your phone number";
+        $Errors["PhoneNumber"] = "Entrez le numéro de téléphone";
     }
     
     if (empty($_POST['Password'])){
-        $Errors["Password"] = "Please enter your password";
+        $Errors["Password"] = "Entrez le mot de passe";
     }
 
     $SearchAccount = $conn->prepare("SELECT StaffID, StaffPassword, StaffFirstName, StaffAccessLevel
@@ -53,14 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 exit;
             }
             else {
-                $Messages["Error"] = "Access level not set for account";
+                $Messages["Error"] = "Niveau d'accès non défini pour le compte";
             }
             
         } else {
-            $Errors["Password"] = "Incorrect password";
+            $Errors["Password"] = "Mot de passe incorrect";
         }
     } else {
-        $Errors["PhoneNumber"] = "Account with this phone number does not exist";
+        $Errors["PhoneNumber"] = "Aucun compte n'existe avec ce numéro de téléphone";
     }
 
 }

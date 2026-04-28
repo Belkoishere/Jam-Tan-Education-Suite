@@ -1,5 +1,5 @@
 <?php
-//Password: Meohmy!2010089
+//Password: Meohmy!2017202
 session_start();
 
 if (!isset($_SESSION['AccountLoggedIn'])) {
@@ -38,22 +38,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     //CurrentPassword validation
     if (empty($CurrentPassword)){
-        $Errors["CurrentPassword"] = "Please enter current passowrd";
+        $Errors["CurrentPassword"] = "Entrez le mot de passe actuel";
     }
     else if(!password_verify($CurrentPassword, $FoundPassword["StaffPassword"])){
-        $Errors["CurrentPassword"] = "Input current password does not match current password";
+        $Errors["CurrentPassword"] = "Le mot de passe actuel saisi ne correspond pas au mot de passe actuel";
     }
 
     //NewPassword validation
     if (empty($NewPassword)){
-        $Errors["NewPassword"] = "Please enter new password";
+        $Errors["NewPassword"] = "Entrer un nouveau mot de passe";
     } 
     else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{12,}$/', $NewPassword)){
-        $Errors["NewPassword"] = "New password must contain at least one number, lower case letter
-        uppercase letter and special charachter and must be atleast 12 characters long";
+        $Errors["NewPassword"] = "Le nouveau mot de passe doit contenir au moins un chiffre, 
+        une lettre minuscule, une lettre majuscule et un caractère spécial et doit 
+        comporter au moins 12 caractères";
     }
     else if ($NewPassword != $ConfirmNewPassword){
-        $Errors["NewPassword"] = "Confirmed password does not match new password";
+        $Errors["NewPassword"] = "Le mot de passe confirmé ne correspond pas au nouveau mot de passe";
     }
 
     if (empty($Errors)){
@@ -67,10 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $UpdatePassword->execute([$HashedNewPassword, $AccountID]);
 
-            $Messages["Success"] = "Password updated successfully"; 
+            $Messages["Success"] = "Mot de passe mis à jour"; 
         }
         catch (Exception $e){
-            $Messages["Warning"] = $e;
+            $Messages["Warning"] = $e->getMessage();;
         }
     }
 

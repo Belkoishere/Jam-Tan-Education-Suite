@@ -126,7 +126,7 @@ $conn = null;
             </form>
         </div>
 
-        <p>Resultas <?= htmlspecialchars($NumRows);?></p>
+        <p>Résultats: <?= htmlspecialchars($NumRows);?></p>
 
         <div class="results-container">
             <?php foreach ($Dates as $Date): ?>

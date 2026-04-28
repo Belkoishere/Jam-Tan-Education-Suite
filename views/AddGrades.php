@@ -9,6 +9,11 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 include("../nav/nav.html");
 include("Alert.html");
 require("../controllers/db.php");
+require_once("../locales/Language.php");
+require_once("../locales/French.php");
+require_once("../locales/Translate.php");
+
+$French = new Translate (new French);
 
 $AssessmentID = $_GET['assessment_id'] ?? null;
 
@@ -71,10 +76,10 @@ try {
     $stmt1 = $conn->prepare($SaveGrades);
     $stmt1->execute($values);
 
-    $Messages["Success"] = "Grades saved successfully";
+    $Messages["Success"] = "Notes enregistrées";
 }
 catch(Exception $e){
-    $Messages["Warning"] = $e;
+    $Messages["Warning"] = $e->getmessage();
 }
 
 }
@@ -107,7 +112,7 @@ $conn = null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voir les notes</title>
+    <title>Enregistres les notes</title>
     <style>
         #p_your_assessments, #s_your_assessments {
             font-weight: bold;
@@ -125,7 +130,7 @@ $conn = null;
 
 <div id="main">
 
-    <h2><?= htmlspecialchars($Assessment["CategoryName"] . " " . $Assessment["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Ajouter les notes") ?></h2>
+    <h2><?= htmlspecialchars($Assessment["CategoryName"] . " " . $Assessment["ProgramName"] . " - " . $Assessment["AssessmentName"] . " - Enregistres les notes") ?></h2>
 
     <form action="" method="POST">
         
@@ -159,7 +164,7 @@ $conn = null;
                     </td>
 
                     <td>
-                        <?= htmlspecialchars($Grade["Pass"]);?>
+                        <?= htmlspecialchars($French->Translate($Grade["Pass"]));?>
                     </td>
 
                     <td>
@@ -175,7 +180,7 @@ $conn = null;
         
         <input type="hidden" value="<?= $AssessmentID?>" name="assessment_id">
         <input type="hidden" value="<?= $ProgramID?>" name="program_id">
-        <input type="submit" value="Sauvegarde"></input>
+        <input type="submit" value="Enregistres"></input>
         
     </form>
 

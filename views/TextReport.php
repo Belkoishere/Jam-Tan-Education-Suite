@@ -9,6 +9,11 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 
 include("../nav/nav.html");
 require("../controllers/db.php");
+require_once("../locales/Language.php");
+require_once("../locales/French.php");
+require_once("../locales/Translate.php");
+
+$French = new Translate (new French);
 
 $AttendanceID = $_GET['attendance_id'] ?? null;
 
@@ -166,7 +171,7 @@ $conn = null;
             <thead>
             <tr>
                 <th>Image</th>
-                <th>Élève</th>
+                <th>Nom</th>
                 <th>Présent / Absent</th>
                 <th>Raison</th>
             </tr>
@@ -188,7 +193,7 @@ $conn = null;
                 </td>
 
                 <td>
-                    <?= htmlspecialchars($Attendance["Attendance"])?>
+                    <?= htmlspecialchars($French->Translate($Attendance["Attendance"]))?>
                 </td>
 
                 <td>

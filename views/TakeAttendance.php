@@ -14,7 +14,7 @@ require("../controllers/YourProgramsData.php");
 $Messages = [];
 
 if (isset($_GET["Warning"])) {
-    $Messages["Warning"] = "Attendance was already taken for today" ;
+    $Messages["Warning"] = "La présence a déjà été prise pour aujourd'hui" ;
 }
 ?>
 

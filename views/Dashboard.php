@@ -47,7 +47,7 @@ $AccountName = $_SESSION['AccountName'];
 
         <!-- Attendance Card -->
         <div class="card">
-            <h3>Frequentation moyenne (Janvier)</h3>
+            <h3>Frequentation moyenne <?= htmlspecialchars("(" . $French->Translate(date("F")) . ")")?></h3>
 
             <div class="program-rows">
 
@@ -63,9 +63,10 @@ $AccountName = $_SESSION['AccountName'];
 
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>
-                            <span class="attendance-delta <?php if ($Average["Difference"] > 0){?>positive<?php }else if ($Average["Difference"] == 0){?>
-                            stable<?php} else{ ?>negative<?php }?>">
-                            <?php if ($Average["Difference"] > 0){echo "+";}else if($Average["Difference"] == 0){echo "stable";}else{echo "-";}?>
+                            <span class="attendance-delta <?= 
+                                    $Average["Difference"] > 0 ? 'positive' : 
+                                    ($Average["Difference"] == 0 ? 'stable' : 'negative')?>">
+                            <?php if ($Average["Difference"] > 0){echo "+";}else if($Average["Difference"] == 0){echo "stable";}?>
                             <?= htmlspecialchars($Average["Difference"])?>%</span>
                         </div>
                     </div>
@@ -120,6 +121,7 @@ $AccountName = $_SESSION['AccountName'];
             <thead>
                 <tr>
                     <th>Nom</th>
+                    <th>Numéro d'identification</th>
                     <th>Programme</th>
                     <th>Frequentation</th>
                     <th>Taut de reussite</th>
@@ -129,6 +131,7 @@ $AccountName = $_SESSION['AccountName'];
                 <?php foreach ($StudentsAtRisk as $Student): ?>
                     <tr>
                         <td><?= htmlspecialchars($Student["StudentLastName"]) . " " . $Student["StudentFirstName"] ?></td>
+                        <td><?= htmlspecialchars($Student["StudentID"])?></td>
                         <td><?= htmlspecialchars($Student["CategoryName"]) . " - " . $Student["ProgramName"]?></td>
                         
                         <td class="<?php if($Student["AverageAttendance"] >= 85){?>badge badge-low<?php } 
@@ -136,7 +139,7 @@ $AccountName = $_SESSION['AccountName'];
                         badge badge-high<?php }?>">
                             <?= htmlspecialchars($Student["AverageAttendance"]) . " %"?></td>
 
-                        <td class="<?php if($Student["PassRate"] = 100){?>badge badge-low<?php } 
+                        <td class="<?php if($Student["PassRate"] == 100){?>badge badge-low<?php } 
                         else if ($Student["PassRate"] >= 90) {?>badge badge-moderate<?php } else {?>
                         badge badge-high<?php }?>">
                             <?= htmlspecialchars($Student["PassRate"]) . " %"?></td>

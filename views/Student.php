@@ -150,7 +150,8 @@ $conn = null;
                         <div class="circular-progress" 
                             data-inner-circle-color="white" 
                             data-percentage="<?= htmlspecialchars($Attendance["AverageAttendance"])?>" 
-                            data-progress-color="<?php if (htmlspecialchars($Attendance["AverageAttendance"]) < 50){?>red<?php } else {?>green<?php }?>" 
+                            data-progress-color="<?php if (htmlspecialchars($Attendance["AverageAttendance"]) <= 65){?>red<?php } 
+                            else if ($Attendance["AverageAttendance"] <= 85) {?>orange<?php } else { ?>green<?php }?>"
                             data-bg-color="black">
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>
@@ -173,18 +174,19 @@ $conn = null;
         <table>
             <tr>
                 <th>Programme</th>
-                <th>Note moyenne <?= "(" . date("Y") . ")" ?></th>
+                <th>Taux de réussite <?= "(" . date("Y") . ")" ?></th>
             </tr>
 
             <?php foreach($Grades as $Grade):?>
 
                 <tr>
-                    <td><?= htmlspecialchars($Attendance["CategoryName"] . " - " . $Attendance["ProgramName"])?></td>
+                    <td><?= htmlspecialchars($Grade["CategoryName"] . " - " . $Grade["ProgramName"])?></td>
                     <td>
                         <div class="circular-progress" 
                             data-inner-circle-color="white" 
-                            data-percentage="<?= htmlspecialchars($Grade["AverageGrade"])?>" 
-                            data-progress-color="<?php if (htmlspecialchars($Grade["AverageGrade"]) < 50){?>red<?php } else {?>green<?php }?>" 
+                            data-percentage="<?= htmlspecialchars($Grade["PassRate"])?>" 
+                            data-progress-color="<?php if (htmlspecialchars($Grade["PassRate"]) < 90){?>red<?php } 
+                            else if ($Grade["PassRate"] < 100) {?>orange<?php } else { ?>green<?php }?>"
                             data-bg-color="black">
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>

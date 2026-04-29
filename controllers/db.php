@@ -1,15 +1,4 @@
 <?php
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "jamtanedusuitedb";
-
-// // Create connection
-// $conn = new mysqli($servername, $username, $password, $dbname);
-// // Check connection
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
 
 $servername = "localhost";
 $username = "root";
@@ -17,9 +6,17 @@ $password = "";
 $dbname = "jamtanedusuitedb";
 
 try {
-  $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-  // set the PDO error mode to exception
+  $conn = new PDO(
+    "mysql:host=$servername;dbname=$dbname;charset=utf8mb4",
+    $username,
+    $password,
+    [
+      PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
+    ]
+  );
+
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 } catch(PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }

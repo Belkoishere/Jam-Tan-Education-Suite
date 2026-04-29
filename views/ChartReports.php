@@ -137,7 +137,8 @@ $French = new Translate (new French);
     <div class="circular-progress" 
         data-inner-circle-color="white" 
         data-percentage="<?= htmlspecialchars($OverallAverage["AverageAttendance"])?>" 
-        data-progress-color="<?php if (htmlspecialchars($OverallAverage["AverageAttendance"]) < 50){?>red<?php } else {?>green<?php }?>" 
+        data-progress-color="<?php if (htmlspecialchars($OverallAverage["AverageAttendance"]) <= 65){?>red<?php } 
+        else if ($OverallAverage["AverageAttendance"] <= 85){?>orange<?php } else{?>green<?php }?>" 
         data-bg-color="black"
         style="margin-bottom: 20px;">
         <div class="inner-circle"></div>

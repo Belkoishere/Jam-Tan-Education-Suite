@@ -1,41 +1,42 @@
-CREATE VIEW StudentsAtRisk AS
+CREATE VIEW StudentsRiskLevel AS
 SELECT
 Student.StudentID,
 Student.StudentFirstName,
 Student.StudentLastName,
-Enrollment.ProgramID
+Enrollment.ProgramID,
+CASE
+    WHEN 
+        (AVG(StudentAttendance.Attendance - 1) <= 0.65 AND AVG(Grade.Pass - 1) < 0.9)
+        OR
+        ((AVG(StudentAttendance.Attendance - 1) > 0.65 AND AVG(StudentAttendance.Attendance - 1) <= 0.85)
+            AND AVG(Grade.Pass - 1) < 0.9)
+        OR
+        ((AVG(StudentAttendance.Attendance - 1) <= 0.65)
+            AND (AVG(Grade.Pass - 1) >= 0.9 AND AVG(Grade.Pass - 1) < 1))
+    THEN 'High Risk'
+
+    WHEN 
+        (AVG(StudentAttendance.Attendance - 1) > 0.65 
+        AND AVG(StudentAttendance.Attendance - 1) <= 0.85
+        AND AVG(Grade.Pass - 1) >= 0.9 
+        AND AVG(Grade.Pass - 1) < 1)
+        OR 
+        (AVG(StudentAttendance.Attendance - 1) <= 0.65 AND AVG(Grade.Pass - 1) = 1)
+        OR
+        (AVG(StudentAttendance.Attendance - 1) > 0.85 AND AVG(Grade.Pass - 1) < 0.9)
+    THEN 'Moderate Risk'
+
+    ELSE 'Low/No Risk'
+END AS RiskLevel
+
 FROM Enrollment
 INNER JOIN Student ON Enrollment.StudentID = Student.StudentID
--- left join instead of inner join avoids dropping students who have 0 attendance
-LEFT JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
--- left join instead of inner join avoids dropping students who have no grades
-LEFT JOIN Grade ON Enrollment.EnrollmentID = Grade.EnrollmentID 
-GROUP BY Enrollment.EnrollmentID
--- Use having instead of where when filtering with aggregate functions
-HAVING
--- Students are considered at risk by attendance or grades to account for students that have
--- no recorded attendance or students who have no recorded grades 
-(COUNT(StudentAttendance.AttendanceID) > 0 AND AVG(StudentAttendance.Attendance-1) <= 0.65)
-AND ((COUNT(Grade.GradeID) > 0) AND AVG(Grade.Pass-1) < 0.9);
+INNER JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
+INNER JOIN Grade ON Enrollment.EnrollmentID = Grade.EnrollmentID
 
-CREATE VIEW StudentsAtModerateRisk AS
-SELECT
+GROUP BY 
+Enrollment.EnrollmentID,
 Student.StudentID,
 Student.StudentFirstName,
 Student.StudentLastName,
-Enrollment.ProgramID
-FROM Enrollment
-INNER JOIN Student ON Enrollment.StudentID = Student.StudentID
--- left join instead of inner join avoids dropping students who have 0 attendance
-LEFT JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
--- left join instead of inner join avoids dropping students who have no grades
-LEFT JOIN Grade ON Enrollment.EnrollmentID = Grade.EnrollmentID 
-GROUP BY Enrollment.EnrollmentID
--- Use having instead of where when filtering with aggregate functions  
-HAVING
--- Students are considered at risk by attendance or grades to account for students that have
--- no recorded attendance or students who have no recorded grades 
-(COUNT(StudentAttendance.AttendanceID) > 0 AND AVG(StudentAttendance.Attendance-1) < 0.85
-AND AVG(StudentAttendance.Attendance-1) > 0.65)
-OR ((COUNT(Grade.GradeID) > 0) AND AVG(Grade.Pass-1) < 1 AND AVG(Grade.Pass-1) >= 0.9);
-
+Enrollment.ProgramID;

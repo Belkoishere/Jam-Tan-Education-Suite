@@ -10,11 +10,19 @@ SELECT
     p.ProgramName,
     pc.CategoryName,
 
-    COUNT(DISTINCT sar.StudentID) AS HighRisk,
-    COUNT(DISTINCT smr.StudentID) AS ModerateRisk,
+    COUNT(DISTINCT CASE 
+        WHEN srl.RiskLevel = 'High Risk' THEN srl.StudentID 
+    END) AS HighRisk,
 
-    ROUND ((
-        (COUNT(DISTINCT sar.StudentID) + COUNT(DISTINCT smr.StudentID)) 
+    COUNT(DISTINCT CASE 
+        WHEN srl.RiskLevel = 'Moderate Risk' THEN srl.StudentID 
+    END) AS ModerateRisk,
+
+    ROUND((
+        COUNT(DISTINCT CASE 
+            WHEN srl.RiskLevel IN ('High Risk', 'Moderate Risk') 
+            THEN srl.StudentID 
+        END)
         / NULLIF(COUNT(DISTINCT s.StudentID), 0)
     ) * 100.0, 0) AS PercentageAtRisk
 
@@ -26,9 +34,10 @@ JOIN ProgramCategory pc ON p.CategoryID = pc.CategoryID
 LEFT JOIN Enrollment e ON e.ProgramID = p.ProgramID
 LEFT JOIN Student s ON s.StudentID = e.StudentID
 
--- Risk groups 
-LEFT JOIN StudentsAtRisk sar ON sar.ProgramID = p.ProgramID
-LEFT JOIN StudentsAtModerateRisk smr ON smr.ProgramID = p.ProgramID
+-- Combined risk view
+LEFT JOIN StudentsRiskLevel srl 
+    ON srl.ProgramID = p.ProgramID 
+    AND srl.StudentID = s.StudentID
 
 WHERE a.StaffID = 1
 
@@ -49,36 +58,51 @@ ORDER BY Assessment.AssessmentDueDate;
 
 -- Students at risk
 SELECT 
-Student.StudentFirstName, 
-Student.StudentLastName,
-Student.StudentID,
-Program.ProgramName,
-ProgramCategory.CategoryName,
-ROUND(AVG(StudentAttendance.Attendance-1)*100, 0) AS AverageAttendance,
-ROUND(AVG(Grade.Pass-1)*100, 0) AS PassRate
-FROM Staff
-INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
-INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID
-INNER JOIN Enrollment ON Program.ProgramID = Enrollment.ProgramID
-INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
-INNER JOIN Student ON Enrollment.StudentID = Student.StudentID
--- left join instead of inner join avoids dropping students who have 0 attendance
-LEFT JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
--- left join instead of inner join avoids dropping students who have no grades
-LEFT JOIN Grade ON Enrollment.EnrollmentID = Grade.EnrollmentID 
-WHERE Staff.StaffID = InStaffID
-GROUP BY Enrollment.EnrollmentID
--- Use having instead of where when filtering with aggregate functions
-HAVING
--- Students are cosidered at risk by attendance or grades to account for students that have
--- no recorded attendance or students who have no recorded grades 
-(COUNT(StudentAttendance.AttendanceID) > 0 AND AVG(StudentAttendance.Attendance-1) <= 0.65)
-AND ((COUNT(Grade.GradeID) > 0) AND AVG(Grade.Pass-1) < 0.9)
-OR
-(COUNT(StudentAttendance.AttendanceID) > 0 AND AVG(StudentAttendance.Attendance-1) < 0.85
-AND AVG(StudentAttendance.Attendance-1) > 0.65)
-OR ((COUNT(Grade.GradeID) > 0) AND AVG(Grade.Pass-1) < 1 AND AVG(Grade.Pass-1) >= 0.9)
-ORDER BY PassRate
+    s.StudentFirstName, 
+    s.StudentLastName,
+    s.StudentID,
+    p.ProgramName,
+    pc.CategoryName,
+
+    ROUND(AVG(sa.Attendance - 1) * 100, 0) AS AverageAttendance,
+    ROUND(AVG(g.Pass - 1) * 100, 0) AS PassRate,
+
+    srl.RiskLevel
+
+FROM Staff st
+INNER JOIN Assignment a ON st.StaffID = a.StaffID
+INNER JOIN Program p ON a.ProgramID = p.ProgramID
+INNER JOIN Enrollment e ON p.ProgramID = e.ProgramID
+INNER JOIN ProgramCategory pc ON p.CategoryID = pc.CategoryID
+INNER JOIN Student s ON e.StudentID = s.StudentID
+
+LEFT JOIN StudentAttendance sa ON e.EnrollmentID = sa.EnrollmentID
+LEFT JOIN Grade g ON e.EnrollmentID = g.EnrollmentID 
+
+INNER JOIN StudentsRiskLevel srl 
+    ON srl.StudentID = s.StudentID
+    AND srl.ProgramID = p.ProgramID
+
+WHERE st.StaffID = InStaffID
+
+GROUP BY 
+    e.EnrollmentID,
+    s.StudentFirstName, 
+    s.StudentLastName,
+    s.StudentID,
+    p.ProgramName,
+    pc.CategoryName,
+    srl.RiskLevel
+
+HAVING srl.RiskLevel IN ('High Risk', 'Moderate Risk')
+
+ORDER BY 
+    CASE 
+        WHEN srl.RiskLevel = 'Moderate Risk' THEN 2
+        WHEN srl.RiskLevel = 'High Risk' THEN 1
+    END,
+    PassRate DESC, AverageAttendance DESC
+
 LIMIT 5;
 
 
@@ -195,7 +219,7 @@ SELECT
 Program.ProgramID,
 Program.ProgramName,
 ProgramCategory.CategoryName,
-ROUND(AVG(Grade.Grade / Assessment.MaxGrade)*100, 0) AS AverageGrade
+ROUND(AVG(Grade.Pass-1)*100, 0) AS PassRate
 FROM Enrollment
 INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID 
 INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID

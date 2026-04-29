@@ -8,6 +8,7 @@ Array.from(circularProgress).forEach((progressBar) => {
     speed = 10,
     progressColor = progressBar.getAttribute("data-progress-color");
 
+  if (endValue != 0){
   const progress = setInterval(() => {
     startValue++;
     progressValue.textContent = `${startValue}%`;
@@ -24,4 +25,5 @@ Array.from(circularProgress).forEach((progressBar) => {
       clearInterval(progress);
     }
   }, speed);
+}
 });

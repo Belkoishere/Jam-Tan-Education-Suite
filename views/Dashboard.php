@@ -58,7 +58,8 @@ $AccountName = $_SESSION['AccountName'];
                         <div class="circular-progress" 
                             data-inner-circle-color="white" 
                             data-percentage="<?= htmlspecialchars($Average["AverageAttendance"])?>" 
-                            data-progress-color="<?php if (htmlspecialchars($Average["AverageAttendance"]) < 50){?>red<?php } else {?>green<?php } ?>"
+                            data-progress-color="<?php if (htmlspecialchars($Average["AverageAttendance"]) <= 65){?>red<?php } 
+                            else if ($Average["AverageAttendance"] <= 85) {?>orange<?php } else { ?>green<?php }?>"
                             data-bg-color="black">
 
                             <div class="inner-circle"></div>

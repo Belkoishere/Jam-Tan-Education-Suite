@@ -111,7 +111,7 @@ FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID)
 CREATE TABLE StaffAttendance (
 AttendanceID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 AttendanceDate DATE NOT NULL DEFAULT CURRENT_DATE,
-Attendance ENUM("Present", "Absent") NOT NULL,
+Attendance ENUM("Absent", "Present") NOT NULL,
 AssignmentID INTEGER NOT NULL,
 FOREIGN KEY (AssignmentID) REFERENCES Assignment(AssignmentID) 
 );

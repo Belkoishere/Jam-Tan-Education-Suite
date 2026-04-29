@@ -26,7 +26,7 @@ JOIN ProgramCategory pc ON p.CategoryID = pc.CategoryID
 LEFT JOIN Enrollment e ON e.ProgramID = p.ProgramID
 LEFT JOIN Student s ON s.StudentID = e.StudentID
 
--- Risk groups (your views)
+-- Risk groups 
 LEFT JOIN StudentsAtRisk sar ON sar.ProgramID = p.ProgramID
 LEFT JOIN StudentsAtModerateRisk smr ON smr.ProgramID = p.ProgramID
 
@@ -72,8 +72,12 @@ GROUP BY Enrollment.EnrollmentID
 HAVING
 -- Students are cosidered at risk by attendance or grades to account for students that have
 -- no recorded attendance or students who have no recorded grades 
-(COUNT(StudentAttendance.AttendanceID) > 0 AND AVG(StudentAttendance.Attendance-1) < 0.5)
-OR (COUNT(Grade.GradeID) > 0 AND AVG(Grade.Pass-1) < 0.9)
+(COUNT(StudentAttendance.AttendanceID) > 0 AND AVG(StudentAttendance.Attendance-1) <= 0.65)
+AND ((COUNT(Grade.GradeID) > 0) AND AVG(Grade.Pass-1) < 0.9)
+OR
+(COUNT(StudentAttendance.AttendanceID) > 0 AND AVG(StudentAttendance.Attendance-1) < 0.85
+AND AVG(StudentAttendance.Attendance-1) > 0.65)
+OR ((COUNT(Grade.GradeID) > 0) AND AVG(Grade.Pass-1) < 1 AND AVG(Grade.Pass-1) >= 0.9)
 ORDER BY PassRate
 LIMIT 5;
 

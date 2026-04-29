@@ -32,7 +32,9 @@ Student.StudentGender, Student.StudentPicture,
 GROUP_CONCAT(DISTINCT Program.ProgramName, ' ', ProgramCategory.CategoryName 
 ORDER BY Program.ProgramName SEPARATOR ', ') AS Programs,
 IF ((Student.StudentID IN 
-(SELECT StudentID FROM StudentsAtRisk)), TRUE, FALSE) AS AtRisk
+(SELECT StudentID FROM StudentsAtRisk)), TRUE, FALSE) AS AtRisk,
+IF ((Student.StudentID IN 
+(SELECT StudentID FROM StudentsAtModerateRisk)), TRUE, FALSE) AS AtModerateRisk
 FROM student
 INNER JOIN Enrollment ON Student.StudentID = Enrollment.StudentID
 INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID 
@@ -63,8 +65,9 @@ if ($InProgram !== '') {
 }
 
 if ($AtRisk == 'Yes') {
-    $GetStudents .= " AND Student.StudentID IN 
-    (SELECT StudentID FROM StudentsAtRisk)";
+    $GetStudents .= " AND (Student.StudentID IN 
+    (SELECT StudentID FROM StudentsAtRisk) OR Student.StudentID IN 
+    (SELECT StudentID FROM StudentsAtModerateRisk))";
 }
 
 if ($AtRisk == 'No') {
@@ -149,6 +152,8 @@ $conn = null;
                                 alt="Image of <?= htmlspecialchars($Student["StudentFirstName"]) ?>">
                                 <?php if ($Student["AtRisk"] == true) {?>
                                     <img style="width: 25px" src="../icons/alert-triangle-svgrepo-com.svg" alt="">
+                                <?php } else if ($Student["AtModerateRisk"] == true) {?>
+                                    <img style="width: 25px" src="../icons/alert-triangle-svgrepo-orange-com.svg" alt="">
                                 <?php } ?>
                             </td>
                             <td>

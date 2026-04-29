@@ -1,10 +1,10 @@
 INSERT INTO Staff (StaffFirstName, StaffLastName, 
 StaffTitle, Town, StaffContact1, StaffContact2, Email,
-StaffPassword) 
+StaffPassword, StaffAccessLevel) 
 VALUES
 ('Belko', 'Diallo', 'Mr', 'Ziniare', '56743817', NULL, 
 'belkojdiallo@gmail.com', 
-'$2y$10$zQquxYGs./WixGZ0lAu5u.S/HMs0OY1t5vxuzFnS2eX1rHykMILIO'); -- Password: Belko!=0;
+'$2y$10$zQquxYGs./WixGZ0lAu5u.S/HMs0OY1t5vxuzFnS2eX1rHykMILIO', 'Teacher'); -- Password: Belko!=0;
 
 INSERT INTO ProgramCategory (CategoryName) VALUES
 ('Jam Tan Primaire'),

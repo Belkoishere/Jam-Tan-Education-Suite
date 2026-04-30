@@ -70,16 +70,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     else if (filter_var($Email, FILTER_VALIDATE_EMAIL) == false){
         $Errors["Email"] = "Entrer une adresse e-mail valide";
     }
+    else if (strlen($Email) > 255){
+        $Errors["Email"] = "Adresse e-mail ne peut pas dépasser 255 caractères";
+    }
+    
 
     //PhoneNumber validation checks
     if (empty($PhoneNumber1)){
         $Errors["PhoneNumber1"] = "Entrez le numéro de téléphone 1";
     }
-    else if (strlen($PhoneNumber1) != 8){
-        $Errors["PhoneNumber1"] = "Le numéro de téléphone doit comporter 8 chiffres";
-    }
     else if (!(ctype_digit($PhoneNumber1))) {
         $Errors["PhoneNumber1"] = "Le numéro de téléphone ne doit contenir que des chiffres";
+    }
+    else if (strlen($PhoneNumber1) != 8){
+        $Errors["PhoneNumber1"] = "Le numéro de téléphone doit comporter 8 chiffres";
     }
     else if (!empty($PhoneMatch) && $PhoneMatch["StaffID"] != $AccountID) {
         $Errors["PhoneNumber1"] = "Un compte existe déjà avec ce numéro de téléphone";
@@ -88,16 +92,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if (empty($PhoneNumber2)){
         
     }
-    else if (strlen($PhoneNumber2) != 8){
-        $Errors["PhoneNumber2"] = "Le numéro de téléphone doit comporter 8 chiffres";
-    }
     else if (!(ctype_digit($PhoneNumber2))) {
         $Errors["PhoneNumber2"] = "Le numéro de téléphone ne doit contenir que des chiffres";
     }
+    else if (strlen($PhoneNumber2) != 8){
+        $Errors["PhoneNumber2"] = "Le numéro de téléphone doit comporter 8 chiffres";
+    }
+    
 
     //Town validation checks
     if (empty($Town)){
         $Errors["Town"] = "Entrez la ville de résidence";
+    }
+    else if (strlen($Town) > 100){
+        $Errors["Town"] = "Ville de résidence ne peut pas dépasser 100 caractères";
     }
 
     if (empty($Errors)){

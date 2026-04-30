@@ -40,7 +40,7 @@ $conn = null;
     <div id="main">
         <h2>Votre présence</h2>
 
-            <?php if(count($YourAttendance) >= 1) { ?>
+            <?php if(count($YourAttendance) > 1) { ?>
             <table>
                 <thead>
                     <tr>

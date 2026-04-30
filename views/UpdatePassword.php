@@ -102,7 +102,7 @@ $conn = null;
         <h2>Changer votre mot de passe</h2>
 
         <form action="" method="POST">
-            <label for="CurrentPassword">Mot de passe</label>
+            <label for="CurrentPassword">Mot de passe actuel</label>
             <input type="password" name="CurrentPassword" value="<?= htmlspecialchars($_POST['CurrentPassword'] ?? "")?>">
             <span style="color: red;"><?= $Errors["CurrentPassword"] ?? null?></span>
             <label for="NewPassword">Nouveau mot de passe</label>

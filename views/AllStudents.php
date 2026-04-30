@@ -36,7 +36,6 @@ IF (Student.StudentID IN
 FROM student
 INNER JOIN Enrollment ON Student.StudentID = Enrollment.StudentID
 INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID 
-INNER JOIN Assignment ON Program.ProgramID = Assignment.ProgramID
 INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
 WHERE 1 = 1";
 

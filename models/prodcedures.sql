@@ -181,7 +181,8 @@ INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
 INNER JOIN StaffAttendance ON Assignment.AssignmentID = StaffAttendance.AssignmentID
 INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID
 INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID 
-WHERE Staff.StaffID = InStaffID AND Year(StaffAttendance.AttendanceDate) = Year(CURRENT_DATE);
+WHERE Staff.StaffID = 1 AND Year(StaffAttendance.AttendanceDate) = Year(CURRENT_DATE)
+GROUP BY Program.ProgramID;
 
 END
 //

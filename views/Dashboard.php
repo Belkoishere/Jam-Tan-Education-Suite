@@ -50,7 +50,7 @@ $AccountName = $_SESSION['AccountName'];
             <h3>Frequentation moyenne <?= htmlspecialchars("(" . $French->Translate(date("F")) . ")")?></h3>
 
             <div class="program-rows">
-
+                <?php if(count($AverageAttendance) > 1){?>
                 <?php foreach($AverageAttendance as $Average): ?>
 
                     <div class="program-row">
@@ -64,16 +64,18 @@ $AccountName = $_SESSION['AccountName'];
 
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>
-                            <span class="attendance-delta <?= 
-                                    $Average["Difference"] > 0 ? 'positive' : 
-                                    ($Average["Difference"] == 0 ? 'stable' : 'negative')?>">
-                            <?php if ($Average["Difference"] > 0){echo "+";}else if($Average["Difference"] == 0){echo "stable";}?>
-                            <?= htmlspecialchars($Average["Difference"])?>%</span>
+                            <span class="attendance-delta <?= $Average["Difference"] > 0 ? 'positive' : ($Average["Difference"] == 0 ? 'stable' : 'negative')?>">
+                                <?php if ($Average["Difference"] > 0){echo "+" . $Average["Difference"] . "%";}
+                                else if($Average["Difference"] < 0){echo $Average["Difference"] . "%";}
+                                else if($Average["Difference"] === 0){echo "stable";}
+                                ?>
+                            </span>
                         </div>
                     </div>
-
                 <?php endforeach?>
-
+                <?php } else{?>
+                    <p>Aucune présence enregistrée</p>
+                <?php }?>
                 <a href="AttendanceHistory.php" class="card-btn">Historique de presence</a>
             </div>
         </div>
@@ -117,38 +119,42 @@ $AccountName = $_SESSION['AccountName'];
         <div class="card">
         <h3>Eleves les plus a risque</h3>
         
-        <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Numéro d'identification</th>
-                    <th>Programme</th>
-                    <th>Frequentation</th>
-                    <th>Taut de reussite</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($StudentsAtRisk as $Student): ?>
+        <?php if(count($StudentsAtRisk) > 0) {?>
+            <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($Student["StudentLastName"]) . " " . $Student["StudentFirstName"] ?></td>
-                        <td><?= htmlspecialchars($Student["StudentID"])?></td>
-                        <td><?= htmlspecialchars($Student["CategoryName"]) . " - " . $Student["ProgramName"]?></td>
-                        
-                        <td class="<?php if($Student["AverageAttendance"] >= 85){?>badge badge-low<?php } 
-                        else if ($Student["AverageAttendance"] >= 65) {?>badge badge-moderate<?php } else {?>
-                        badge badge-high<?php }?>">
-                            <?= htmlspecialchars($Student["AverageAttendance"]) . " %"?></td>
-
-                        <td class="<?php if($Student["PassRate"] == 100){?>badge badge-low<?php } 
-                        else if ($Student["PassRate"] >= 90) {?>badge badge-moderate<?php } else {?>
-                        badge badge-high<?php }?>">
-                            <?= htmlspecialchars($Student["PassRate"]) . " %"?></td>
+                        <th>Nom</th>
+                        <th>Numéro d'identification</th>
+                        <th>Programme</th>
+                        <th>Frequentation</th>
+                        <th>Taut de reussite</th>
                     </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-        </div>
+                </thead>
+                <tbody>
+                    <?php foreach ($StudentsAtRisk as $Student): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($Student["StudentLastName"]) . " " . $Student["StudentFirstName"] ?></td>
+                            <td><?= htmlspecialchars($Student["StudentID"])?></td>
+                            <td><?= htmlspecialchars($Student["CategoryName"]) . " - " . $Student["ProgramName"]?></td>
+                            
+                            <td class="<?php if($Student["AverageAttendance"] >= 85){?>badge badge-low<?php } 
+                            else if ($Student["AverageAttendance"] >= 65) {?>badge badge-moderate<?php } else {?>
+                            badge badge-high<?php }?>">
+                                <?= htmlspecialchars($Student["AverageAttendance"]) . " %"?></td>
+
+                            <td class="<?php if($Student["PassRate"] == 100){?>badge badge-low<?php } 
+                            else if ($Student["PassRate"] >= 90) {?>badge badge-moderate<?php } else {?>
+                            badge badge-high<?php }?>">
+                                <?= htmlspecialchars($Student["PassRate"]) . " %"?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+            </div>
+        <?php } else{?>
+            <p>Aucun élève à risque</p>
+        <?php }?>
         
         <a href="YourStudents.php" class="card-btn">Vos eleves</a>
         </div>
@@ -157,6 +163,7 @@ $AccountName = $_SESSION['AccountName'];
         <div class="card">
             <h3>Evaluations a venir</h3>
             
+            <?php if(count($UpcomingAssessments) > 0){?>
             <div class="table-container">
             <table>
                 <tbody>
@@ -187,6 +194,9 @@ $AccountName = $_SESSION['AccountName'];
                 </tbody>
             </table>
             </div>
+            <?php } else {?>
+                <p>Aucune évaluation à venir</p>
+            <?php }?>
             
         <a href="YourAssessments.php" class="card-btn">Vos evaluations</a>
         </div>

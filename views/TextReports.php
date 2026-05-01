@@ -98,9 +98,10 @@ $conn = null;
             <form action="" method="POST">
                 <label for="Year">Année</label>
                 <select name="Year">
+                    <option value="">Tout</option>
                     <?php foreach ($Years as $Year): ?>
                         <option value="<?= htmlspecialchars($Year["AttendanceYear"])?>"
-                        <?= (($_POST['InYear'] ?? '') == $Year["AttendanceYear"]) ? 'selected' : ''?>>
+                        <?= (($_POST['Year'] ?? '') == $Year["AttendanceYear"]) ? 'selected' : ''?>>
                             <?= htmlspecialchars($Year["AttendanceYear"])?>
                         </option>
                     <?php endforeach ?>

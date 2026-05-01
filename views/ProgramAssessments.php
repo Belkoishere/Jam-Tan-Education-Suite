@@ -120,9 +120,10 @@ $conn = null;
             <form action="<?=$_SERVER['PHP_SELF']?>" method="GET">
                 <label for="Year">Année</label>
                 <select name="Year">
+                    <option value="">Tout</option>
                     <?php foreach ($Years as $Year): ?>
                         <option value="<?= htmlspecialchars($Year["AssessmentYear"])?>"
-                        <?= (($_GET['InYear'] ?? '') == $Year["AssessmentYear"]) ? 'selected' : ''?>>
+                        <?= (($_GET['Year'] ?? '') == $Year["AssessmentYear"]) ? 'selected' : ''?>>
                             <?= htmlspecialchars($Year["AssessmentYear"])?>
                         </option>
                     <?php endforeach ?>

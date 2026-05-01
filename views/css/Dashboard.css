@@ -58,7 +58,7 @@ h3 {
 }
 
 /* Responsive tweaks */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 
     .summary-row {
         /* flex-direction: column; */

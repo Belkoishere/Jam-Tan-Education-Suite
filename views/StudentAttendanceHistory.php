@@ -125,9 +125,10 @@ $conn = null;
             <form action="" method="POST">
                 <label for="Year">Année</label>
                 <select name="Year">
+                    <option value="">Tout</option>
                     <?php foreach ($Years as $Year): ?>
                         <option value="<?= htmlspecialchars($Year["AttendanceYear"])?>"
-                        <?= (($_GET['InYear'] ?? '') == $Year["AttendanceYear"]) ? 'selected' : ''?>>
+                        <?= (($_POST['Year'] ?? '') == $Year["AttendanceYear"]) ? 'selected' : ''?>>
                             <?= htmlspecialchars($Year["AttendanceYear"])?>
                         </option>
                     <?php endforeach ?>
@@ -135,18 +136,18 @@ $conn = null;
                 <label for="Month">Mois</label>
                 <select name="Month">
                     <option value="">Tout</option>
-                    <option value="1" <?= (($_GET['Month'] ?? '') == '1') ? 'selected' : ''?>>Janvier</option>
-                    <option value="2" <?= (($_GET['Month'] ?? '') == '2') ? 'selected' : ''?>>Février</option>
-                    <option value="3" <?= (($_GET['Month'] ?? '') == '3') ? 'selected' : ''?>>Mars</option>
-                    <option value="4" <?= (($_GET['Month'] ?? '') == '4') ? 'selected' : ''?>>Avril</option>
-                    <option value="5" <?= (($_GET['Month'] ?? '') == '5') ? 'selected' : ''?>>Mai</option>
-                    <option value="6" <?= (($_GET['Month'] ?? '') == '6') ? 'selected' : ''?>>Juin</option>
-                    <option value="7" <?= (($_GET['Month'] ?? '') == '7') ? 'selected' : ''?>>Juillet</option>
-                    <option value="8" <?= (($_GET['Month'] ?? '') == '8') ? 'selected' : ''?>>Août</option>
-                    <option value="9" <?= (($_GET['Month'] ?? '') == '9') ? 'selected' : ''?>>Septembre</option>
-                    <option value="10" <?= (($_GET['Month'] ?? '') == '10') ? 'selected' : ''?>>Octobre</option>
-                    <option value="11" <?= (($_GET['Month'] ?? '') == '11') ? 'selected' : ''?>>Novembre</option>
-                    <option value="12" <?= (($_GET['Month'] ?? '') == '12') ? 'selected' : ''?>>Décembre</option>
+                    <option value="1" <?= (($_POST['Month'] ?? '') == '1') ? 'selected' : ''?>>Janvier</option>
+                    <option value="2" <?= (($_POST['Month'] ?? '') == '2') ? 'selected' : ''?>>Février</option>
+                    <option value="3" <?= (($_POST['Month'] ?? '') == '3') ? 'selected' : ''?>>Mars</option>
+                    <option value="4" <?= (($_POST['Month'] ?? '') == '4') ? 'selected' : ''?>>Avril</option>
+                    <option value="5" <?= (($_POST['Month'] ?? '') == '5') ? 'selected' : ''?>>Mai</option>
+                    <option value="6" <?= (($_POST['Month'] ?? '') == '6') ? 'selected' : ''?>>Juin</option>
+                    <option value="7" <?= (($_POST['Month'] ?? '') == '7') ? 'selected' : ''?>>Juillet</option>
+                    <option value="8" <?= (($_POST['Month'] ?? '') == '8') ? 'selected' : ''?>>Août</option>
+                    <option value="9" <?= (($_POST['Month'] ?? '') == '9') ? 'selected' : ''?>>Septembre</option>
+                    <option value="10" <?= (($_POST['Month'] ?? '') == '10') ? 'selected' : ''?>>Octobre</option>
+                    <option value="11" <?= (($_POST['Month'] ?? '') == '11') ? 'selected' : ''?>>Novembre</option>
+                    <option value="12" <?= (($_POST['Month'] ?? '') == '12') ? 'selected' : ''?>>Décembre</option>
                 </select>
                 <input type="submit" value="Filtre"></input>
                 <input type="text" name="student_id" value="<?=$StudentID?>" style="display: none;">

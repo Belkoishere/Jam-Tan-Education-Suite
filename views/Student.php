@@ -96,6 +96,8 @@ $conn = null;
     <div id="main">
         <h2><?= htmlspecialchars($Attributes["StudentFirstName"] . " " . $Attributes["StudentLastName"])?></h2>
 
+        <div style="padding-bottom: 20px;">
+
         <img class="profile-picture" src="<?= htmlspecialchars("../StudentImages/" . $Attributes["StudentPicture"] . ".jpg")?>" alt="">
 
         <p>Âge/Sexe: <?= htmlspecialchars($Attributes["Age"] . "/" . $Attributes["StudentGender"])?></p>
@@ -114,8 +116,12 @@ $conn = null;
 
         <p>Classe: <?= htmlspecialchars($Attributes["StudentSchool_Year"])?></p>
 
+        </div>
+
         <p>Programmes:</p>
 
+        <?php if(count($Programs) >= 1) {?>
+        <div class="table-container">
         <table>
             <tr>
                 <th>Programme</th>
@@ -130,9 +136,15 @@ $conn = null;
 
             <?php endforeach;?>
         </table>
+        </div>
+
+        <?php } else {?>
+                <p>Inscrit à aucun programme</p>
+        <?php }?>
 
         <p>Présence:</p>
         
+        <?php if(count($Attendances) >= 1) {?>
         <div class="table-container">
         <table>
             <thead>
@@ -169,8 +181,14 @@ $conn = null;
             <?php endforeach;?>    
         </table>
         </div>
-        <p>Notes:</p>
+        <?php } else {?>
+                <p>Aucune présence enregistrée</p>
+        <?php }?>
 
+        <p>Notes:</p>
+        
+        <?php if(count($Grades) >= 1) {?>
+        <div class="table-container">
         <table>
             <tr>
                 <th>Programme</th>
@@ -201,6 +219,11 @@ $conn = null;
 
             <?php endforeach;?>
         </table>
+        </div>
+        <?php } else {?>
+                <p>Aucune note enregistrée</p>
+        <?php }?>
+
     </div>
 <script src="css/CircularProgressBar.js"></script>
 </body>

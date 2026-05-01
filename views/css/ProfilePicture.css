@@ -5,3 +5,9 @@
     object-fit: cover; object-position: center;
     margin-bottom: 20px;
 }
+
+/* @media (max-width: 600px){
+    .profile-picture{
+        width: 50px;
+    }
+} */

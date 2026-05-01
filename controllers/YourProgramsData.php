@@ -3,15 +3,14 @@ require("../controllers/db.php");
 $AccountID = $_SESSION['AccountID'];
 
 $stmt = 
-$conn->prepare("SELECT COUNT(*)-1 AS NumberOfStudents, program.ProgramName,
-program.ProgramID, ProgramCategory.CategoryName
-FROM ProgramCategory 
-INNER JOIN Program ON Program.CategoryID = ProgramCategory.CategoryID
+$conn->prepare("SELECT
+Program.ProgramName, Program.ProgramID, 
+ProgramCategory.CategoryName,
+(SELECT COUNT(*) FROM Enrollment WHERE Enrollment.ProgramID = Program.ProgramID) AS NumberOfStudents
+FROM Program
 INNER JOIN Assignment ON Program.ProgramID = Assignment.ProgramID
-LEFT JOIN Enrollment ON Program.ProgramID = Enrollment.ProgramID
-LEFT JOIN Student ON Enrollment.StudentID = Student.StudentID
-WHERE assignment.StaffID = :id
-GROUP BY Program.ProgramID");
+INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID
+WHERE Assignment.StaffID = :id");
 
 $stmt->execute(['id' => $AccountID]);
 $Programs = $stmt->fetchAll(PDO::FETCH_ASSOC);

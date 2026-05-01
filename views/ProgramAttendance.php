@@ -21,8 +21,30 @@ AND StudentAttendance.AttendanceDate = CURRENT_DATE()");
 $GetDates->execute([$ProgramID]);
 $Dates = $GetDates->fetchAll(PDO::FETCH_ASSOC);
 
-if (count($Dates) > 1){
-    header('Location: TakeAttendance.php?Warning');
+// Fetch students
+$GetStudents = $conn->prepare("
+    SELECT 
+        Student.StudentID,
+        Student.StudentFirstName,
+        Student.StudentLastName,
+        Student.StudentPicture,
+        Student.StudentGender,
+        Enrollment.EnrollmentID
+    FROM Enrollment
+    INNER JOIN Student 
+        ON Enrollment.StudentID = Student.StudentID
+    WHERE Enrollment.ProgramID = ?
+");
+
+$GetStudents->execute([$ProgramID]);
+$Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
+
+if (count($Dates) > 0){
+    header('Location: TakeAttendance.php?Warning=' . urlencode('Attendance already taken'));
+    exit;
+}
+else if(count($Students) == 0){
+    header('Location: TakeAttendance.php?Warning=' . urlencode('No students'));
     exit;
 }
 
@@ -71,24 +93,6 @@ WHERE Program.ProgramID = ?");
 
 $GetProgram->execute([$ProgramID]);
 $Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
-
-// Fetch students
-$GetStudents = $conn->prepare("
-    SELECT 
-        Student.StudentID,
-        Student.StudentFirstName,
-        Student.StudentLastName,
-        Student.StudentPicture,
-        Student.StudentGender,
-        Enrollment.EnrollmentID
-    FROM Enrollment
-    INNER JOIN Student 
-        ON Enrollment.StudentID = Student.StudentID
-    WHERE Enrollment.ProgramID = ?
-");
-
-$GetStudents->execute([$ProgramID]);
-$Students = $GetStudents->fetchAll(PDO::FETCH_ASSOC);
 
 // Handle POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

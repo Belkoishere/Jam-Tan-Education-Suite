@@ -14,7 +14,12 @@ require("../controllers/YourProgramsData.php");
 $Messages = [];
 
 if (isset($_GET["Warning"])) {
-    $Messages["Warning"] = "La présence a déjà été prise pour aujourd'hui" ;
+    if ($_GET["Warning"] == "Attendance already taken"){
+        $Messages["Warning"] = "La présence a déjà été prise pour aujourd'hui" ;
+    }
+    else if ($_GET["Warning"] == "No students"){
+        $Messages["Warning"] = "Aucun étudiant n'est inscrit à ce programme" ;
+    }
 }
 ?>
 

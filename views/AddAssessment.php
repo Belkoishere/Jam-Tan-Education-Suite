@@ -68,6 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     else if(new DateTime($InStartDate) > new DateTime($InDueDate)){
         $Errors["StartDate"] = "La date de début ne peut pas être postérieure à la date d'échéance";
     }
+    else if(new DateTime($InStartDate) == new DateTime($InDueDate)){
+        $Errors["StartDate"] = "La date de début ne peut pas être en même temps que la date d'échéance";
+    }
 
     //InMaxGrade validation checks
     if (empty($InMaxGrade)){
@@ -89,6 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
     else if($InPassGrade <= 0){
         $Errors["PassGrade"] = "La note de passage doit être supérieure à 0";
+    }
+    else if ($InPassGrade > $InMaxGrade){
+        $Errors["PassGrade"] = "La note de passage ne peut pas être supérieure à la note maximale";
     }
 
     if (empty($Errors)){

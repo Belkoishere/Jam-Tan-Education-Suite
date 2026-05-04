@@ -59,14 +59,14 @@ VALUES ("Exam"),
 INSERT INTO Assessment (AssessmentName, AssessmentDueDate, MaxGrade, PassGrade,
 TypeID, ProgramID)
 VALUES
-("Biology test", "2025-04-08", 20, 14, 1, 1),
-("French test", "2025-04-13", 20, 12, 1, 1),
-("Math quiz", "2025-05-19", 10, 6, 4, 2),
-("Geography quiz", "2025-06-18", 10, 7, 4, 2),
-("Biology test", "2026-04-08", 20, 14, 1, 1),
-("French test", "2026-04-13", 20, 12, 1, 1),
-("Math quiz", "2026-05-19", 10, 6, 4, 2),
-("Geography quiz", "2026-06-18", 10, 7, 4, 2);
+("Examen de biologie", "2025-04-08", 20, 14, 1, 1),
+("Examen de francais", "2025-04-13", 20, 12, 1, 1),
+("Quiz de mathématiques", "2025-05-19", 10, 6, 4, 2),
+("Quiz de geographie", "2025-06-18", 10, 7, 4, 2),
+("Examen d'anglais", "2026-04-08", 20, 14, 1, 1),
+("Examen de francais", "2026-04-13", 20, 12, 1, 1),
+("Quiz de mathématiques", "2026-05-19", 10, 6, 4, 2),
+("Quiz de geographie", "2026-06-18", 10, 7, 4, 2);
 
 INSERT INTO Grade (Grade, Pass, AssessmentID, EnrollmentID)
 VALUES

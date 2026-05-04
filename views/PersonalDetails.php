@@ -165,7 +165,7 @@ $conn = null;
 
         <h2>Informations personnelles</h2>
 
-        <img class="profile-picture" id="profile-picture" src="../StaffImages/<?= htmlspecialchars($Account["StaffPicture"]);?>"> 
+        <img class="profile-picture" id="profile-picture" src="../StaffImages/<?= htmlspecialchars($Account["StaffPicture"]);?>" onerror="this.onerror=null; this.src='../StaffImages/default.jpg';"> 
         
         <div class="add-btn-container">
             <a href="UploadProfilePicture.php" class="add-btn">Changer photo de profile</a>

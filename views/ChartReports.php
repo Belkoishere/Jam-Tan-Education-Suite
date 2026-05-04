@@ -44,7 +44,7 @@ $GetProgram->execute([$ProgramID]);
 $Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $GetMonthAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
-MONTHNAME(StudentAttendance.AttendanceDate) AS M
+MONTH(StudentAttendance.AttendanceDate) AS M
 FROM StudentAttendance
 INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
 WHERE Enrollment.ProgramID = :program_id
@@ -148,23 +148,27 @@ $French = new Translate (new French);
     <div style="padding-bottom: 30px;">
         <canvas id="myChart" style="width: 100%;"></canvas>
     </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Mois</th>
-                <th>Fréquentation moyenne</th>
-            </tr>
-        </thead>
-        <?php foreach ($MonthAverages as $Average): ?>
-            <tbody>
+    
+    <div class="table-container">
+        <table>
+            <thead>
                 <tr>
-                    <td><?= $French->Translate(htmlspecialchars($Average["M"]))?></td>
-                    <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
+                    <th>Mois</th>
+                    <th>Fréquentation moyenne</th>
                 </tr>
-            </tbody>
-        <?php endforeach?>
-    </table>
+            </thead>
+            <?php foreach ($MonthAverages as $Average): ?>
+                <tbody>
+                    <tr>
+                        <td><?= $French->Translate(htmlspecialchars($Average["M"]))?></td>
+                        <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
+                    </tr>
+                </tbody>
+            <?php endforeach?>
+        </table>
+    </div>
+
+    
 
 </div>
 
@@ -176,25 +180,21 @@ $French = new Translate (new French);
 
     var Months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-    var InMonths = [];
-    var MonthIndexes = [];
-    var Averages = [];
-    var FullAverages = [];
+    const FullAverages = new Array(12).fill(null);
 
-    for(i = 0; i < AverageAttendances.length; i ++){
-        Averages[i] = AverageAttendances[i].AverageAttendance;
-        InMonths[i] = AverageAttendances[i].M;
-        MonthIndexes[i] = Months.indexOf(AverageAttendances[i].M);
+    for (let i = 0; i < AverageAttendances.length; i++) {
+        const monthIndex = AverageAttendances[i].M - 1;
+        FullAverages[monthIndex] = AverageAttendances[i].AverageAttendance;
     }
 
-    for(j = 0; j < Months.length; j ++){
-        FullAverages[j] = null;
-    }
+    // for(let j = 0; j < Months.length; j ++){
+    //     FullAverages[j] = null;
+    // }
 
-    for (k = 0; k < MonthIndexes.length; k ++){
-        FullAverages[MonthIndexes[k]] = Averages[k];
-        console.log(MonthIndexes[k]);
-    }
+    // for (let k = 0; k < MonthIndexes.length; k ++){
+    //     FullAverages[MonthIndexes[k]] = Averages[k];
+    //     console.log(FullAverages[MonthIndexes[k]]);
+    // }
 
     new Chart(ctx, {
         type: 'line',

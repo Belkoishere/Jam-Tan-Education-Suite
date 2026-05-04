@@ -112,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $Messages["Warning"] = $e->getMessage();
         }
     }
+
 }
 
 $conn = null;
@@ -123,7 +124,6 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter une évaluation</title>
-    <!-- <link rel="stylesheet" href="../nav/nav.css"> -->
     <style>
         #p_add_assessment {
             font-weight: bold;

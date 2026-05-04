@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $Messages["Warning"] = "Aucune image téléchargée ou erreur de téléchargement";
     } else {
 
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        $allowedExts  = ['jpg', 'jpeg', 'png', 'gif'];
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/heic'];
+        $allowedExts  = ['jpg', 'jpeg', 'png', 'gif', 'heic'];
 
         $fileTmp  = $_FILES['Image']['tmp_name'];
         $fileSize = $_FILES['Image']['size'];
@@ -119,12 +119,20 @@ $conn = null;
 
         <h2>Changer photo de profile</h2>
 
-        <img id="profile-picture" class="profile-picture" src="<?= $CurrentImage?>" style="margin-bottom: 20px;"> 
+        <img id="profile-picture" class="profile-picture" src="<?= $CurrentImage?>" style="margin-bottom: 20px;" onerror="this.onerror=null; this.src='../StaffImages/default.jpg';"> 
 
         <div class="form-container">
-            <form action="" method="post" enctype="multipart/form-data">
-                <label for="Image" class="Button">Choisir un image</label>
-                <input id="Image" type="file" name="Image" onchange="preview()" accept="image/*" style="display: none;">
+            <form method="post" enctype="multipart/form-data">
+                <label class="Button">
+                    Choisir une image
+                    <input 
+                        type="file" 
+                        name="Image" 
+                        id="Image"
+                        accept="image/*"
+                        style="position:absolute; left:-9999px;"
+                        onchange="preview()">
+                </label>
                 <input type="submit" value="Enregistrer">
             </form>
         </div>

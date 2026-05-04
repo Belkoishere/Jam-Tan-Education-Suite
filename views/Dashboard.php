@@ -184,7 +184,10 @@ $AccountName = $_SESSION['AccountName'];
                         badge badge-high<?php }?>">
                             <?php if ($Assessment["DaysRemaining"] == 1){?>
                             Demain
-                            <?php } else{?>
+                            <?php } else if ($Assessment["DaysRemaining"] == 0){?>
+                            Aujourdhui
+                            
+                        <?php } else {?>
                             <?= htmlspecialchars($Assessment["DaysRemaining"] . " jours")?>
                         <?php }?>
                         </div>

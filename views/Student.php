@@ -9,7 +9,11 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
 include("../nav/nav.html");
 require("../controllers/db.php");
 
-$StudentID = $_GET['student_id'] ?? null;
+$StudentID = filter_input(INPUT_GET, 'student_id', FILTER_VALIDATE_INT);
+
+if ($StudentID === false || $StudentID === null) {
+    die("Invalid student ID.");
+}
 
 $LastPage = $_SERVER['HTTP_REFERER'] ?? null;
 

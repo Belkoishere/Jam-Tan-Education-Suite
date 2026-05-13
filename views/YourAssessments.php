@@ -31,20 +31,24 @@ require("../controllers/YourProgramsData.php");
     <div id="main">
         <h2>Vos évaluations</h2>
 
-        <div class="results-container">
-            <?php foreach ($Programs as $Program): ?>
-                <a href="ProgramAssessments.php?program_id=<?= $Program["ProgramID"]?>" class="result">
+        <?php if(count($Programs)>0){?>
+            <div class="results-container">
+                <?php foreach ($Programs as $Program): ?>
+                    <a href="ProgramAssessments.php?program_id=<?= $Program["ProgramID"]?>" class="result">
 
-                    <p class="text">
-                    <?= htmlspecialchars($Program["CategoryName"])?>
-                    <?= htmlspecialchars($Program["ProgramName"])?>
-                    </p>
-                    
-                    <img src="../icons/arrow-next-svgrepo-com.svg" alt="forward-icon" class="forward-icon">
+                        <p class="text">
+                        <?= htmlspecialchars($Program["CategoryName"])?>
+                        <?= htmlspecialchars($Program["ProgramName"])?>
+                        </p>
+                        
+                        <img src="../icons/arrow-next-svgrepo-com.svg" alt="forward-icon" class="forward-icon">
 
-                </a>
-            <?php endforeach?>
-        </div>
+                    </a>
+                <?php endforeach?>
+            </div>
+        <?php } else {?>
+            <p>Vous n'êtes affecté à aucun programme</p>
+        <?php }?>
     </div>
 </body>
 </html>

@@ -32,30 +32,34 @@ require("../controllers/YourProgramsData.php");
     <div id="main">
         <h2>Vos programs</h2>
 
-        <div class="card-container">
-            <?php foreach ($Programs as $Program): ?>
-                <div class="card">
-                    
-                    <div class="Text">
-                        <p>
-                            <?= htmlspecialchars($Program["ProgramName"]) ?>
-                            <?= htmlspecialchars($Program["CategoryName"]) ?>
-                        </p>
-                        <p>
-                            Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
-                        </p>
-                    </div>
-                    <div class="card-btn-container">
-                    <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
-                            Ajouter une évaluation
+        <?php if(count($Programs)>0){?>
+            <div class="card-container">
+                <?php foreach ($Programs as $Program): ?>
+                    <div class="card">
+                        
+                        <div class="Text">
+                            <p>
+                                <?= htmlspecialchars($Program["ProgramName"]) ?>
+                                <?= htmlspecialchars($Program["CategoryName"]) ?>
+                            </p>
+                            <p>
+                                Nombre d'élèves: <?= htmlspecialchars($Program["NumberOfStudents"]) ?>
+                            </p>
+                        </div>
+                        <div class="card-btn-container">
+                        <a href="AddAssessment.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
+                                Ajouter une évaluation
+                            </a>
+                        <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
+                            Faire l'appel
                         </a>
-                    <a href="ProgramAttendance.php?program_id=<?= $Program["ProgramID"]?>" class="card-btns">
-                        Faire l'appel
-                    </a>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach ?>
-        </div>
+                <?php endforeach ?>
+            </div>
+        <?php } else {?>
+            <p>Vous n'êtes affecté à aucun programme</p>
+        <?php }?>
 
     </div>
 

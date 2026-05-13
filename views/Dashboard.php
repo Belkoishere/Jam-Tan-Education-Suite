@@ -84,33 +84,37 @@ $AccountName = $_SESSION['AccountName'];
         <div class="card">
 
         <h3>Eleves a risque</h3>
-                    
-        <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Programme</th>
-                    <th>Nombre a risque haut</th>
-                    <th>Nombre a risque modere</th>
-                    <th>% a risk</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($RiskSummaries as $Summary): ?>
+               
+        <?php if(count($RiskSummaries) > 0){?>
+            <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($Summary["CategoryName"] . " " . $Summary["ProgramName"])?></td>
-                        <td class="badge badge-high"><?= htmlspecialchars($Summary["HighRisk"])?></td>
-                        <td class="badge badge-moderate"><?= htmlspecialchars($Summary["ModerateRisk"])?></td>
-
-                        <td class="<?php if($Summary["PercentageAtRisk"] < 25){?>badge badge-low<?php } 
-                        else if ($Summary["PercentageAtRisk"] < 50) {?>badge badge-moderate<?php } else {?>
-                        badge badge-high<?php }?>">
-                            <?= htmlspecialchars($Summary["PercentageAtRisk"]) . " %"?></td>
+                        <th>Programme</th>
+                        <th>Nombre a risque haut</th>
+                        <th>Nombre a risque modere</th>
+                        <th>% a risk</th>
                     </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-        </div>
+                </thead>
+                <tbody>
+                    <?php foreach ($RiskSummaries as $Summary): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($Summary["CategoryName"] . " " . $Summary["ProgramName"])?></td>
+                            <td class="badge badge-high"><?= htmlspecialchars($Summary["HighRisk"])?></td>
+                            <td class="badge badge-moderate"><?= htmlspecialchars($Summary["ModerateRisk"])?></td>
+
+                            <td class="<?php if($Summary["PercentageAtRisk"] < 25){?>badge badge-low<?php } 
+                            else if ($Summary["PercentageAtRisk"] < 50) {?>badge badge-moderate<?php } else {?>
+                            badge badge-high<?php }?>">
+                                <?= htmlspecialchars($Summary["PercentageAtRisk"]) . " %"?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+            </div>
+        <?php } else {?>
+        <p>Vous n'êtes affecté à aucun programme</p>
+        <?php }?>
         
         <a href="YourStudents.php" class="card-btn">Vos eleves</a>
         </div>

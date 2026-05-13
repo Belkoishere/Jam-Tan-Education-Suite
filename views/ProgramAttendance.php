@@ -97,27 +97,26 @@ $Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 // Handle POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $EnrollmentIDs = $_POST["EnrollmentID"] ?? [];
     $Attendances = $_POST["Attendance"] ?? [];
     $Reasons = $_POST["Reason"] ?? [];
 
-    if (!empty($EnrollmentIDs) && !empty($Attendances)) {
+    if (!empty($Attendances)) {
 
-        $sql = "INSERT INTO StudentAttendance (EnrollmentID, Attendance, Reason) VALUES ";
+        $InsertAttendance = "INSERT INTO StudentAttendance (EnrollmentID, Attendance, Reason) VALUES ";
         $params = [];
 
         foreach ($Students as $i => $Student) {
 
-            if (!isset($EnrollmentIDs[$i], $Attendances[$i], $Reasons[$i])) {
+            if (!isset($Attendances[$i], $Reasons[$i])) {
                 continue;
             }
 
             $attendance = $Attendances[$i];
             $reason     = $Reasons[$i];
-            $enrollID   = $EnrollmentIDs[$i];
+            $enrollID   = $Student["EnrollmentID"];
 
             // Build query safely
-            $sql .= "(?, ?, ?),";
+            $InsertAttendance .= "(?, ?, ?),";
             $params[] = $enrollID;
             $params[] = $attendance;
             $params[] = $reason;
@@ -144,11 +143,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Remove last comma
-        $sql = rtrim($sql, ',');
+        $InsertAttendance = rtrim($InsertAttendance, ',');
 
         if (!empty($params)) {
             try {
-                $stmt = $conn->prepare($sql);
+                $stmt = $conn->prepare($InsertAttendance);
                 $stmt->execute($params);
                 $Complete = true;
                 $Messages["Success"] = "Registre de présence ajouté";
@@ -217,10 +216,6 @@ $conn = null;
                     </td>
 
                     <td>
-                        <input type="hidden" 
-                                name="EnrollmentID[]" 
-                                value="<?= htmlspecialchars($Student["EnrollmentID"]) ?>">
-
                         <?= htmlspecialchars($Student["StudentLastName"] . " " . $Student["StudentFirstName"]) ?>
                     </td>
 

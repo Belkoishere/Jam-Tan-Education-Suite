@@ -39,7 +39,7 @@ LEFT JOIN StudentsRiskLevel srl
     ON srl.ProgramID = p.ProgramID 
     AND srl.StudentID = s.StudentID
 
-WHERE a.StaffID = 1
+WHERE a.StaffID = InStaffID
 
 GROUP BY 
     p.ProgramID,
@@ -158,7 +158,7 @@ JOIN Program p ON e.ProgramID = p.ProgramID
 JOIN Assignment a ON p.ProgramID = a.ProgramID
 JOIN ProgramCategory pc ON p.CategoryID = pc.CategoryID
 
-WHERE a.StaffID = 1
+WHERE a.StaffID = InStaffID
 
 GROUP BY 
     p.ProgramID,

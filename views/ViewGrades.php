@@ -6,11 +6,26 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
-include("../nav/nav.html");
 require("../controllers/db.php");
 
-// Validate GET
 $AssessmentID = $_GET['assessment_id'] ?? null;
+
+$AssessmentForUser = $conn->prepare("SELECT (:assessment_id IN (SELECT Assessment.AssessmentID FROM 
+Assignment INNER JOIN Program
+ON Assignment.ProgramID = Program.ProgramID
+INNER JOIN Assessment
+ON Assessment.ProgramID = Program.ProgramID
+WHERE Assignment.StaffID = :staff_id)) 
+AS AssessmentForUser;");
+
+$AssessmentForUser->execute(["assessment_id" => $AssessmentID, "staff_id" => $_SESSION["AccountID"]]);
+
+if($AssessmentForUser->fetch(PDO::FETCH_ASSOC)["AssessmentForUser"] == 0){
+    header("Location: Unauthorised.php");
+    exit;
+}
+
+include("../nav/nav.html");
 
 $GetAssessment = $conn->prepare("SELECT Assessment.AssessmentName, Assessment.MaxGrade,
 Assessment.PassGrade, Program.ProgramName, Program.ProgramID, ProgramCategory.CategoryName

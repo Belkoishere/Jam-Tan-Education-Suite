@@ -6,16 +6,34 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
+require("../controllers/db.php");
+
+// check if assessment belongs to user
+
+$AssessmentID = $_GET['assessment_id'] ?? null;
+
+$AssessmentForUser = $conn->prepare("SELECT (:assessment_id IN (SELECT Assessment.AssessmentID FROM 
+Assignment INNER JOIN Program
+ON Assignment.ProgramID = Program.ProgramID
+INNER JOIN Assessment
+ON Assessment.ProgramID = Program.ProgramID
+WHERE Assignment.StaffID = :staff_id)) 
+AS AssessmentForUser;");
+
+$AssessmentForUser->execute(["assessment_id" => $AssessmentID, "staff_id" => $_SESSION["AccountID"]]);
+
+if($AssessmentForUser->fetch(PDO::FETCH_ASSOC)["AssessmentForUser"] == 0){
+    header("Location: Unauthorised.php");
+    exit;
+}
+
 include("../nav/nav.html");
 include("Alert.html");
-require("../controllers/db.php");
 require_once("../locales/Language.php");
 require_once("../locales/French.php");
 require_once("../locales/Translate.php");
 
 $French = new Translate (new French);
-
-$AssessmentID = $_GET['assessment_id'] ?? null;
 
 $InEnrollmentIDs = $_POST["EnrollmentID"] ?? [];
 $InGrades = $_POST["Grade"] ?? [];

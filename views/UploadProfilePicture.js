@@ -12,7 +12,7 @@ function preview(){
     }
 
     // check if size (in bytes) exceeds 10 MB
-    if (image.size > 10_000_000) {
+    if (image.size > 5_000_000) {
         return alert('Maximum upload size is 10MB!');
     }
 

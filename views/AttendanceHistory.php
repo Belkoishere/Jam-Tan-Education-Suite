@@ -30,6 +30,8 @@ include "../nav/nav.html";
 <body>
     <div id="main">
         <h2>Historique de présence</h2>
+
+        <?php if(count($Programs)>0){?>
         <div class="results-container">
             <?php foreach ($Programs as $Program): ?>
 
@@ -52,6 +54,9 @@ include "../nav/nav.html";
                     
             <?php endforeach?>
         </div>
+        <?php } else{?>
+            <p>Vous n'êtes affecté à aucun programme</p>
+        <?php }?>
         
     </div>
 </body>

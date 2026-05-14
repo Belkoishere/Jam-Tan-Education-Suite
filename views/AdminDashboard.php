@@ -5,8 +5,9 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     header("Location: index.php");
     exit;
 }
-else if ($_SESSION['StaffAccessL'] != "Administrator"){
-    header("Location: TeacherDashbaord.php");
+else if ($_SESSION['AccessLevel'] != "Administrator"){
+    header("Location: Dashboard.php");
+    exit;
 }
 
 include "../nav/admin_nav.html";

@@ -6,14 +6,7 @@ if (!isset($_SESSION['AccountLoggedIn'])) {
     exit;
 }
 
-include("../nav/nav.html");
 require("../controllers/db.php");
-
-$StudentID = filter_input(INPUT_GET, 'student_id', FILTER_VALIDATE_INT);
-
-if ($StudentID === false || $StudentID === null) {
-    die("Invalid student ID.");
-}
 
 $LastPage = $_SERVER['HTTP_REFERER'] ?? null;
 
@@ -38,28 +31,47 @@ else {
     $LastSignificantPage = $LastPages[1];
 }
 
-$Data = $conn->query("CALL StudentInfo($StudentID)");
+$StudentID = filter_input(INPUT_GET, 'student_id', FILTER_VALIDATE_INT);
+
+if ($StudentID === false || $StudentID === null) {
+    header("Location: " . $LastSignificantPage);
+    exit;
+}
+
+$Student = $conn->prepare("SELECT COUNT(*) AS NumbStudents FROM Student WHERE Student.StudentID = ?");
+$Student->execute([$StudentID]);
+$NumbStudents = $Student->fetch(PDO::FETCH_ASSOC);
+
+if($NumbStudents["NumbStudents"] != 1) {
+    header("Location: " . $LastSignificantPage);
+}
+
+include("../nav/nav.html");
 
 $Attributes = [];
 $Programs = [];
 $Attendances = [];
 $Grades = [];
 
-if ($Data) {
+$StudentInfo = $conn->prepare("CALL StudentInfo(?)");
+$StudentInfo->execute([$StudentID]);
 
-    $Attributes = $Data->fetch(PDO::FETCH_ASSOC);
-    $Data->nextRowset();
+if ($StudentInfo) {
 
-    $Programs = $Data->fetchAll(PDO::FETCH_ASSOC);
-    $Data->nextRowset();
+    $Attributes = $StudentInfo->fetch(PDO::FETCH_ASSOC);
+    $StudentInfo->nextRowset();
 
-    $Attendances = $Data->fetchAll(PDO::FETCH_ASSOC);
-    $Data->nextRowset();
+    $Programs = $StudentInfo->fetchAll(PDO::FETCH_ASSOC);
+    $StudentInfo->nextRowset();
 
-    $Grades = $Data->fetchAll(PDO::FETCH_ASSOC);
-    $Data->nextRowset();
+    $Attendances = $StudentInfo->fetchAll(PDO::FETCH_ASSOC);
+    $StudentInfo->nextRowset();
+
+    $Grades = $StudentInfo->fetchAll(PDO::FETCH_ASSOC);
+    $StudentInfo->nextRowset();
 
 }
+
 
 $conn = null;
 ?>
@@ -164,11 +176,11 @@ $conn = null;
                     <td><?= htmlspecialchars($Attendance["CategoryName"] . " - " . $Attendance["ProgramName"]) ?></td>
                     <td>
                         <div class="circular-progress" 
-                            data-inner-circle-color="white" 
-                            data-percentage="<?= htmlspecialchars($Attendance["AverageAttendance"])?>" 
-                            data-progress-color="<?php if (htmlspecialchars($Attendance["AverageAttendance"]) <= 65){?>red<?php } 
+                            StudentInfo-inner-circle-color="white" 
+                            StudentInfo-percentage="<?= htmlspecialchars($Attendance["AverageAttendance"])?>" 
+                            StudentInfo-progress-color="<?php if (htmlspecialchars($Attendance["AverageAttendance"]) <= 65){?>red<?php } 
                             else if ($Attendance["AverageAttendance"] <= 85) {?>orange<?php } else { ?>green<?php }?>"
-                            data-bg-color="black">
+                            StudentInfo-bg-color="black">
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>
                         </div>
@@ -205,11 +217,11 @@ $conn = null;
                     <td><?= htmlspecialchars($Grade["CategoryName"] . " - " . $Grade["ProgramName"])?></td>
                     <td>
                         <div class="circular-progress" 
-                            data-inner-circle-color="white" 
-                            data-percentage="<?= htmlspecialchars($Grade["PassRate"])?>" 
-                            data-progress-color="<?php if (htmlspecialchars($Grade["PassRate"]) < 90){?>red<?php } 
+                            StudentInfo-inner-circle-color="white" 
+                            StudentInfo-percentage="<?= htmlspecialchars($Grade["PassRate"])?>" 
+                            StudentInfo-progress-color="<?php if (htmlspecialchars($Grade["PassRate"]) < 90){?>red<?php } 
                             else if ($Grade["PassRate"] < 100) {?>orange<?php } else { ?>green<?php }?>"
-                            data-bg-color="black">
+                            StudentInfo-bg-color="black">
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>
                         </div>

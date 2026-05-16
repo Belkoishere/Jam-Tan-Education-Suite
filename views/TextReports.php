@@ -36,7 +36,8 @@ $Years = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $GetDates = "SELECT StudentAttendance.AttendanceDate, StudentAttendance.AttendanceID
 FROM Enrollment 
 INNER JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
-WHERE Enrollment.ProgramID = :id";
+WHERE Enrollment.ProgramID = :id
+GROUP BY StudentAttendance.AttendanceDate";
 
 $params = ['id' => $ProgramID];
 
@@ -131,7 +132,7 @@ $conn = null;
 
         <div class="results-container">
             <?php foreach ($Dates as $Date): ?>
-                <a href="TextReport.php?attendance_id=<?= $Date["AttendanceID"]?>" class="result">
+                <a href="TextReport.php?program_id=<?= $ProgramID?>&date=<?= $Date["AttendanceDate"]?>" class="result">
 
                     <p class="text">
                         <?= htmlspecialchars($Date["AttendanceDate"])?>

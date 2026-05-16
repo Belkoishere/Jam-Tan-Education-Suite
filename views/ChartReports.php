@@ -44,7 +44,7 @@ $GetProgram->execute([$ProgramID]);
 $Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $GetMonthAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
-MONTH(StudentAttendance.AttendanceDate) AS M
+MONTHNAME(StudentAttendance.AttendanceDate) AS M
 FROM StudentAttendance
 INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
 WHERE Enrollment.ProgramID = :program_id
@@ -55,19 +55,6 @@ $stmt = $conn->prepare($GetMonthAverages);
 $stmt->execute(["program_id" => $ProgramID, "in_year" => $InYear]);
 
 $MonthAverages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$GetWeekAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
-WEEK(StudentAttendance.AttendanceDate) AS M
-FROM StudentAttendance
-INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
-WHERE Enrollment.ProgramID = :program_id
-AND YEAR(StudentAttendance.AttendanceDate) = :in_year
-GROUP BY WEEK(StudentAttendance.AttendanceDate)";
-
-$stmt0 = $conn->prepare($GetWeekAverages);
-$stmt0->execute(["program_id" => $ProgramID, "in_year" => $InYear]);
-
-$WeekAverages = $stmt0->fetchAll(PDO::FETCH_ASSOC);
 
 $GetOverallAverage = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, MONTH(StudentAttendance.AttendanceDate) AS M
 FROM StudentAttendance

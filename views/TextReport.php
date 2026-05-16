@@ -15,7 +15,8 @@ require_once("../locales/Translate.php");
 
 $French = new Translate (new French);
 
-$AttendanceID = $_GET['attendance_id'] ?? null;
+$ProgramID = $_GET['program_id'] ?? null;
+$Date = $_GET['date'] ?? null;
 
 $GetAttendance = $conn->prepare("SELECT StudentAttendance.AttendanceDate,
 Program.ProgramName, ProgramCategory.CategoryName
@@ -26,9 +27,11 @@ INNER JOIN Program
 ON Enrollment.ProgramID = Program.ProgramID
 INNER JOIN ProgramCategory
 ON Program.CategoryID = ProgramCategory.CategoryID
-WHERE StudentAttendance.AttendanceID = ?");
+WHERE StudentAttendance.AttendanceDate = :attendance_date
+AND Program.ProgramID = :program_id
+GROUP BY StudentAttendance.AttendanceDate");
 
-$GetAttendance->execute([$AttendanceID]);
+$GetAttendance->execute(["attendance_date" => $Date, "program_id" => $ProgramID]);
 $AttendanceInfo = $GetAttendance->fetch(PDO::FETCH_ASSOC);
 
 $GetAttendances = "SELECT StudentAttendance.Attendance, 
@@ -39,10 +42,11 @@ FROM Student INNER JOIN Enrollment
 ON Student.StudentID = Enrollment.StudentID
 INNER JOIN StudentAttendance
 ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
-WHERE StudentAttendance.AttendanceID = ?";
+WHERE StudentAttendance.AttendanceDate = :attendance_date
+AND Enrollment.ProgramID = :program_id";
 
 $stmt = $conn->prepare($GetAttendances);
-$stmt->execute([$AttendanceID]);
+$stmt->execute(["attendance_date" => $Date, "program_id" => $ProgramID]);
 
 $Attendances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

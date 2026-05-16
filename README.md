@@ -7,11 +7,36 @@ Manual processes frequently lead to errors and poor communication which lead to 
 By digitizing these processes, the system will enable faster, more accurate and efficient administration and data analysis enabling better decision making.
 In the long term, this will free up staff and teachers to focus on education and student development helping every student reach their full potential.
 
-Technologies that will be used:
+Main functionality of Jam Tan Education Suite:
 
-Web server: XAMPP
-Backend: SQL
-Middle ware: PHP
-Front end: HTML, CSS and JavaScript
-Chart.Js: For visualising enrollment and attendance over time
+Dashboard:
+- Teacher dashboard: Summarises critical information including average attendance across programs the user teaches,
+  Program risk summaries, Students at highest risk and upcoming assessments
+- Administrator dashboard: Not implemented currently, will serve critical information relevant to the administrator's role
 
+Student management:
+- Student enrollment: Not implemented currently, will be part of the administrator application
+- Student records: Searching students, viewing student information, attendance and grade reports
+
+Attendance management
+- Taking attendance
+- Attendance report generation
+
+Assessment management:
+- Adding assessments to programs
+- Grading students on assessments
+- Grade report generation
+
+Program management:
+- Administrator: add programs, edit programs
+- Teacher: view programs that they teach
+
+Account management:
+- Administrator: Add, edit and delete user accounts
+- Teachers: Login to account
+
+Personal information management
+- Edit personal information
+- Update password
+- Update profile picture
+- Teacher: view own average attendance to programs

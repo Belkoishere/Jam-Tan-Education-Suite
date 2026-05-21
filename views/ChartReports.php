@@ -19,7 +19,8 @@ $GetYears = "SELECT DISTINCT Year(StudentAttendance.AttendanceDate) AS Attendanc
 FROM Program 
 INNER JOIN Enrollment ON Program.ProgramID = Enrollment.ProgramID
 INNER JOIN StudentAttendance ON Enrollment.EnrollmentID = StudentAttendance.EnrollmentID
-WHERE Program.ProgramID = ?";
+WHERE Program.ProgramID = ?
+ORDER BY AttendanceYear DESC";
 
 $stmt2 = $conn->prepare($GetYears);
 $stmt2->execute([$ProgramID]);

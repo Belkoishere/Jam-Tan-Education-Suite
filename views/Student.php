@@ -176,13 +176,15 @@ $conn = null;
                     <td><?= htmlspecialchars($Attendance["CategoryName"] . " - " . $Attendance["ProgramName"]) ?></td>
                     <td>
                         <div class="circular-progress" 
-                            StudentInfo-inner-circle-color="white" 
-                            StudentInfo-percentage="<?= htmlspecialchars($Attendance["AverageAttendance"])?>" 
-                            StudentInfo-progress-color="<?php if (htmlspecialchars($Attendance["AverageAttendance"]) <= 65){?>red<?php } 
+                            data-inner-circle-color="white" 
+                            data-percentage="<?= htmlspecialchars($Attendance["AverageAttendance"])?>" 
+                            data-progress-color="<?php if (htmlspecialchars($Attendance["AverageAttendance"]) <= 65){?>red<?php } 
                             else if ($Attendance["AverageAttendance"] <= 85) {?>orange<?php } else { ?>green<?php }?>"
-                            StudentInfo-bg-color="black">
+                            data-bg-color="black">
+
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>
+                
                         </div>
                     </td>
                     <td>
@@ -217,13 +219,15 @@ $conn = null;
                     <td><?= htmlspecialchars($Grade["CategoryName"] . " - " . $Grade["ProgramName"])?></td>
                     <td>
                         <div class="circular-progress" 
-                            StudentInfo-inner-circle-color="white" 
-                            StudentInfo-percentage="<?= htmlspecialchars($Grade["PassRate"])?>" 
-                            StudentInfo-progress-color="<?php if (htmlspecialchars($Grade["PassRate"]) < 90){?>red<?php } 
-                            else if ($Grade["PassRate"] < 100) {?>orange<?php } else { ?>green<?php }?>"
-                            StudentInfo-bg-color="black">
+                            data-inner-circle-color="white" 
+                            data-percentage="<?= htmlspecialchars($Grade["PassRate"])?>" 
+                            data-progress-color="<?php if (htmlspecialchars($Grade["PassRate"]) <= 65){?>red<?php } 
+                            else if ($Grade["PassRate"] <= 85) {?>orange<?php } else { ?>green<?php }?>"
+                            data-bg-color="black">
+
                             <div class="inner-circle"></div>
                             <p class="percentage">0%</p>
+                
                         </div>
                     </td>
                     <td>

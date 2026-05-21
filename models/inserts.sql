@@ -2,10 +2,15 @@ INSERT INTO Staff (StaffFirstName, StaffLastName,
 StaffTitle, Town, StaffContact1, StaffContact2, Email,
 StaffPassword, StaffAccessLevel) 
 VALUES
--- Teacher account
+-- Teacher account1
 ('Belko', 'Diallo', 'Mr', 'Ziniare', '56743817', NULL, 
 'belkojdiallo@jamtan.com', 
 '$2y$10$BPwjpMmtHFBs4BWXGASWreZsz5x1BB6tvaMFGHtv6X4wNYfu9c6du', 'Teacher'), -- Password: Password123!
+
+-- Teacher account2
+('Belko', 'Diallo', 'Mr', 'Ziniare', '55678916', NULL, 
+'belkojdiallo@jamtan.com', 
+'$2y$10$Y10oPwogCqbiVr8vOt/SLe0W.NZ6AiaaPLQFs4UoXw6LgJPUUd7Ai', 'Teacher'), -- Password: Password1212!
 
 -- Administrator account
 ('Aisha', 'Bande', 'Mrs', 'Barkoundouba', '56843819', NULL, 
@@ -18,12 +23,17 @@ INSERT INTO ProgramCategory (CategoryName) VALUES
 
 INSERT INTO Program (ProgramName, MinAge, MaxAge, CategoryID) VALUES
 ('CM2', NULL, NULL, 1),
-('6 - 8 ans', 6, 8, 2);
+('6 - 8 ans', 6, 8, 2),
+
+('CM1', NULL, NULL, 1),
+('6 - 8 ans (Group 2)', 6, 8, 2);
 
 INSERT INTO Assignment (StaffID, ProgramID) 
 VALUES
 (1, 2),
-(1, 1);
+(1, 1),
+(2, 3),
+(2, 4);
 
 INSERT INTO Student (StudentFirstName, StudentLastName, 
 StudentBirthDate, StudentTown, StudentGender, StudentSchool_Year, 
@@ -46,7 +56,27 @@ VALUES
 "Boureima", "Dicko", "Absatou", "Dicko", "STI5"),
 
 ("Aminata", "Ouédraogo", "2016-02-03", "Ziniare", "Female", 4, "54743817",
-"Boureima", "Ouédraogo", "Aisha", "Ouédraogo", "STI6");
+"Boureima", "Ouédraogo", "Aisha", "Ouédraogo", "STI6"),
+
+
+("Oumarou", "Abdoul", "2016-02-03", "Barkoundouba", "Male", 4, "56763817",
+"Mamoudou", "Abdoul", "Aisha", "Abdoul", "STI7"),
+
+("Binta", "Diallo", "2019-02-03", "Ziniare", "Female", 3, "59041813",
+"Alfa", "Diallo", "Aminata", "Diallo", "STI8"),
+
+("Boukary", "Diallo", "2015-02-03", "Ziniare", "Male", 4, "86741817",
+"Daniel", "Diallo", "Aisha", "Diallo", "STI9"),
+
+("Alfa", "Diallo", "2016-02-03", "Barkoundouba", "Male", 4, "06363917",
+"Mamoudou", "Abdoul", "Aisha", "Abdoul", "STI10"),
+
+("Ousseni", "Dicko", "2019-02-03", "Ziniare", "Male", 3, "54743819",
+"Hama", "Dicko", "Absatou", "Dicko", "STI11"),
+
+("Aisha", "Ouédraogo", "2016-02-03", "Ziniare", "Female", 4, "54743817",
+"Belko", "Ouédraogo", "Aisha", "Ouédraogo", "STI12");
+
 
 INSERT INTO Enrollment (StudentID, ProgramID)
 VALUES
@@ -55,7 +85,14 @@ VALUES
 (4, 1),
 (6, 1),
 (2, 2),
-(5, 2);
+(5, 2),
+
+(7, 3),
+(8, 3),
+(9, 3),
+(10, 3),
+(11, 4),
+(12, 4);
 
 INSERT INTO StudentAttendance (Attendance, EnrollmentID, AttendanceDate)
 VALUES
@@ -141,7 +178,92 @@ VALUES
 ("Present", 6, "2026-04-15"),
 ("Present", 6, "2026-05-15"),
 ("Present", 6, "2026-06-15"),
-("Present", 6, "2026-07-15");
+("Present", 6, "2026-07-15"),
+
+
+("Present", 7, "2025-08-01"),
+("Present", 7, "2025-09-08"),
+("Present", 7, "2025-10-08"),
+("Present", 7, "2025-11-15"),
+("Present", 7, "2025-12-15"),
+
+("Present", 7, "2026-01-01"),
+("Present", 7, "2026-02-08"),
+("Present", 7, "2026-03-08"),
+("Absent", 7, "2026-04-15"),
+("Absent", 7, "2026-05-15"),
+("Absent", 7, "2026-06-15"),
+("Absent", 7, "2026-07-15"),
+
+("Present", 8, "2025-08-01"),
+("Absent", 8, "2025-09-08"),
+("Absent", 8, "2025-10-08"),
+("Absent", 8, "2025-11-15"),
+("Present", 8, "2025-12-15"),
+
+("Absent", 8, "2026-01-01"),
+("Present", 8, "2026-02-08"),
+("Absent", 8, "2026-03-08"),
+("Present", 8, "2026-04-15"),
+("Absent", 8, "2026-05-15"),
+("Present", 8, "2026-06-15"),
+("Absent", 8, "2026-07-15"),
+
+("Absent", 9, "2025-08-01"),
+("Absent", 9, "2025-09-08"),
+("Present", 9, "2025-10-08"),
+("Absent", 9, "2025-11-15"),
+("Absent", 9, "2025-12-15"),
+
+("Present", 9, "2026-01-01"),
+("Present", 9, "2026-02-08"),
+("Absent", 9, "2026-03-08"),
+("Absent", 9, "2026-04-15"),
+("Present", 9, "2026-05-15"),
+("Absent", 9, "2026-06-15"),
+("Present", 9, "2026-07-15"),
+
+("Present", 10, "2025-08-01"),
+("Absent", 10, "2025-09-08"),
+("Present", 10, "2025-10-08"),
+("Absent", 10, "2025-11-15"),
+("Present", 10, "2025-12-15"),
+
+("Present", 10, "2026-01-01"),
+("Present", 10, "2026-02-08"),
+("Absent", 10, "2026-03-08"),
+("Absent", 10, "2026-04-15"),
+("Present", 10, "2026-05-15"),
+("Absent", 10, "2026-06-15"),
+("Present", 10, "2026-07-15"),
+
+("Present", 11, "2025-08-01"),
+("Absent", 11, "2025-09-08"),
+("Present", 11, "2025-10-08"),
+("Absent", 11, "2025-11-15"),
+("Present", 11, "2025-12-15"),
+
+("Present", 11, "2026-01-01"),
+("Present", 11, "2026-02-08"),
+("Absent", 11, "2026-03-08"),
+("Present", 11, "2026-04-15"),
+("Absent", 11, "2026-05-15"),
+("Absent", 11, "2026-06-15"),
+("Absent", 11, "2026-07-15"),
+
+("Present", 12, "2025-08-01"),
+("Absent", 12, "2025-09-08"),
+("Present", 12, "2025-10-08"),
+("Present", 12, "2025-11-15"),
+("Absent", 12, "2025-12-15"),
+
+("Absent", 12, "2026-01-01"),
+("Present", 12, "2026-02-08"),
+("Present", 12, "2026-03-08"),
+("Present", 12, "2026-04-15"),
+("Present", 12, "2026-05-15"),
+("Present", 12, "2026-06-15"),
+("Present", 12, "2026-07-15");
 
 INSERT INTO assessmenttype (TypeName)
 VALUES ("Exam"),
@@ -170,7 +292,28 @@ VALUES
 ("Devoir d'histoire", "2026-09-19", 10, 6, 2, 2),
 ("Devoir de science", "2026-09-18", 10, 7, 2, 2),
 ("Devoir de dessin", "2026-08-19", 10, 6, 2, 2),
-("Devoir de mathématiques", "2026-07-18", 10, 7, 2, 2);
+("Devoir de mathématiques", "2026-07-18", 10, 7, 2, 2),
+
+
+("Examen de biologie", "2025-04-08", 20, 14, 1, 3),
+("Examen de francais", "2025-04-13", 20, 12, 1, 3),
+("Examen d'anglais", "2026-04-08", 20, 14, 1, 3),
+("Examen de francais", "2026-04-13", 20, 12, 1, 3),
+
+("Examen d'histoire", "2026-10-08", 20, 14, 1, 3),
+("Examen de science", "2026-11-13", 20, 12, 1, 3),
+("Examen d'anglais", "2026-11-08", 20, 14, 1, 3),
+("Examen de francais", "2026-11-13", 20, 12, 1, 3),
+
+("Devoir de mathématiques", "2025-05-19", 10, 6, 2, 4),
+("Devoir de geographie", "2025-06-18", 10, 7, 2, 4),
+("Devoir de mathématiques", "2026-05-19", 10, 6, 2, 4),
+("Devoir de geographie", "2026-06-18", 10, 7, 2, 4),
+
+("Devoir d'histoire", "2026-09-19", 10, 6, 2, 4),
+("Devoir de science", "2026-09-18", 10, 7, 2, 4),
+("Devoir de dessin", "2026-08-19", 10, 6, 2, 4),
+("Devoir de mathématiques", "2026-07-18", 10, 7, 2, 4);
 
 INSERT INTO Grade (Grade, Pass, AssessmentID, EnrollmentID)
 VALUES
@@ -203,4 +346,36 @@ VALUES
 (6, "Pass", 5, 6),
 (6, "Pass", 6, 6),
 (8, "Pass", 7, 6),
-(6, "Pass", 8, 6);
+(6, "Pass", 8, 6),
+
+
+(18, "Pass", 1, 7),
+(11, "Pass", 2, 7),
+(18, "Pass", 3, 7),
+(11, "Pass", 4, 7),
+
+(18, "Pass", 1, 8),
+(11, "Fail", 2, 8),
+(18, "Pass", 3, 8),
+(11, "Fail", 4, 8),
+
+(18, "Pass", 1, 9),
+(11, "Fail", 2, 9),
+(18, "Pass", 3, 9),
+(11, "Fail", 4, 9),
+
+(18, "Pass", 1, 10),
+(11, "Fail", 2, 10),
+(18, "Pass", 3, 10),
+(11, "Fail", 4, 10),
+
+
+(6, "Pass", 5, 11),
+(6, "Fail", 6, 11),
+(8, "Pass", 7, 11),
+(6, "Fail", 8, 11),
+
+(6, "Pass", 5, 12),
+(6, "Pass", 6, 12),
+(8, "Pass", 7, 12),
+(6, "Pass", 8, 12);

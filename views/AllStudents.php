@@ -12,9 +12,10 @@ require("../controllers/db.php");
 $AccountID = $_SESSION['AccountID'];
 
 $GetPrograms = 
-$conn->prepare("SELECT Program.ProgramID, Program.ProgramName, 
-ProgramCategory.CategoryName
-FROM Program
+$conn->prepare("SELECT Program.ProgramID, Program.ProgramName, ProgramCategory.CategoryName
+FROM Staff
+INNER JOIN Assignment ON Staff.StaffID = Assignment.StaffID
+INNER JOIN Program ON Assignment.ProgramID = Program.ProgramID 
 INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID");
 
 $GetPrograms->execute();

@@ -55,6 +55,7 @@ $AccountName = $_SESSION['AccountName'];
 
                     <div class="program-row">
                         <span class="program-name"><?= htmlspecialchars($Average["CategoryName"] . " " . $Average["ProgramName"])?></span>
+                        
                         <div class="circular-progress" 
                             data-inner-circle-color="white" 
                             data-percentage="<?= htmlspecialchars($Average["AverageAttendance"])?>" 

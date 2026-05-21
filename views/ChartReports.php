@@ -44,7 +44,7 @@ $GetProgram->execute([$ProgramID]);
 $Program = $GetProgram->fetch(PDO::FETCH_ASSOC);
 
 $GetMonthAverages = "SELECT ROUND(AVG(StudentAttendance.Attendance-1) * 100, 0) AS AverageAttendance, 
-MONTHNAME(StudentAttendance.AttendanceDate) AS M
+MONTH(StudentAttendance.AttendanceDate) AS M
 FROM StudentAttendance
 INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
 WHERE Enrollment.ProgramID = :program_id
@@ -147,7 +147,7 @@ $French = new Translate (new French);
             <?php foreach ($MonthAverages as $Average): ?>
                 <tbody>
                     <tr>
-                        <td><?= $French->Translate(htmlspecialchars($Average["M"]))?></td>
+                        <td><?= $French->Translate(htmlspecialchars(date("F", $Average["M"])))?></td>
                         <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
                     </tr>
                 </tbody>
@@ -162,15 +162,15 @@ $French = new Translate (new French);
 <script src="../controllers/chart.umd.js"></script>
 <script>
     const ctx = document.getElementById('myChart');
-    const AverageAttendances = <?= json_encode($MonthAverages, JSON_HEX_TAG); ?>;
+    var AverageAttendances = <?= json_encode($MonthAverages, JSON_HEX_TAG); ?>;
     console.log(AverageAttendances);
 
     var Months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-    const FullAverages = new Array(12).fill(null);
+    var FullAverages = new Array(12).fill(null);
 
     for (let i = 0; i < AverageAttendances.length; i++) {
-        const monthIndex = AverageAttendances[i].M - 1;
+        var monthIndex = AverageAttendances[i].M - 1;
         FullAverages[monthIndex] = AverageAttendances[i].AverageAttendance;
     }
 

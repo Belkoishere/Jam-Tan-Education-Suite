@@ -24,7 +24,9 @@ class French implements Language {
             "Present" => "Présent",
             "Absent" => "Absent",
             "Exam" => "Examen",
-            "Assignment" => "Devoir"
+            "Assignment" => "Devoir",
+            "Open book Exam" => "Examen à livre ouvert",
+
         ];
 
         return $dictionary[$word] ?? $word;

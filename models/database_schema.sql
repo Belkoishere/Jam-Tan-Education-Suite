@@ -34,7 +34,8 @@ FOREIGN KEY (CategoryID) REFERENCES ProgramCategory(CategoryID)
 );
 
 CREATE TABLE Enrollment (
-EnrollmentID INTEGER NOT NULL PRIMARY KEY (StudentID, ProgramID),
+CONSTRAINT EnrollmentID UNIQUE KEY (StudentID, ProgramID),
+PRIMARY KEY (EnrollmentID),
 EnrollmentDate DATE NOT NULL DEFAULT (CURRENT_DATE),
 EnrollmentStatus TINYINT UNSIGNED NOT NULL DEFAULT 0,
 StudentID INTEGER NOT NULL,
@@ -72,7 +73,8 @@ FOREIGN KEY (TypeID) REFERENCES AssessmentType(TypeID)
 );
 
 CREATE TABLE Grade (
-GradeID INTEGER NOT NULL PRIMARY KEY (AssessmentID, EnrollmentID),
+CONSTRAINT GradeID UNIQUE KEY (AssessmentID, EnrollmentID),
+PRIMARY KEY (GradeID),
 Grade INTEGER UNSIGNED NOT NULL,
 Pass ENUM("Fail", "Pass") NOT NULL,
 GradeDate DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -98,7 +100,8 @@ StaffAccessLevel ENUM("Teacher", "Administrator")
 );
 
 CREATE TABLE Assignment (
-AssignmentID INTEGER NOT NULL PRIMARY KEY (StaffID, ProgramID),
+CONSTRAINT AssignmentID UNIQUE KEY (StaffID, ProgramID),
+PRIMARY KEY (AssignmentID),
 AssignmentDate DATE NOT NULL DEFAULT CURRENT_DATE,
 AssignmentStatus TINYINT UNSIGNED NOT NULL DEFAULT 0,
 StaffID INTEGER NOT NULL,

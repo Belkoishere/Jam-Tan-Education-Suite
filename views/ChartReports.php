@@ -50,7 +50,8 @@ FROM StudentAttendance
 INNER JOIN Enrollment ON StudentAttendance.EnrollmentID = Enrollment.EnrollmentID
 WHERE Enrollment.ProgramID = :program_id
 AND YEAR(StudentAttendance.AttendanceDate) = :in_year
-GROUP BY MONTH(StudentAttendance.AttendanceDate)";
+GROUP BY M
+ORDER BY M";
 
 $stmt = $conn->prepare($GetMonthAverages);
 $stmt->execute(["program_id" => $ProgramID, "in_year" => $InYear]);
@@ -148,7 +149,7 @@ $French = new Translate (new French);
             <?php foreach ($MonthAverages as $Average): ?>
                 <tbody>
                     <tr>
-                        <td><?= $French->Translate(htmlspecialchars(date("F", $Average["M"])))?></td>
+                        <td><?= htmlspecialchars($French->Translate(date('F', mktime(0, 0, 0, $Average["M"], 1))))?></td>
                         <td><?= htmlspecialchars($Average["AverageAttendance"]) . "%"?></td>
                     </tr>
                 </tbody>

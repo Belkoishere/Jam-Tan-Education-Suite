@@ -150,7 +150,7 @@ $conn = null;
                         <?= htmlspecialchars($Statistics["Males Present"]["Name"])?>
                     </td>
                     <td>
-                        <?= htmlspecialchars($Statistics["Males Present"]["Score"]) . "/" . $Statistics["Total"]["Score"]?>
+                        <?= htmlspecialchars($Statistics["Males Present"]["Score"]) . "/" . $Statistics["Total Males"]["Score"]?>
                     </td>
                     <td>
                         <?= htmlspecialchars($Statistics["Males Present"]["Percentage"]) . "%"?>
@@ -161,7 +161,7 @@ $conn = null;
                         <?= htmlspecialchars($Statistics["Females Present"]["Name"])?>
                     </td>
                     <td>
-                        <?= htmlspecialchars($Statistics["Females Present"]["Score"]) . "/" . $Statistics["Total"]["Score"]?>
+                        <?= htmlspecialchars($Statistics["Females Present"]["Score"]) . "/" . $Statistics["Total Females"]["Score"]?>
                     </td>
                     <td>
                         <?= htmlspecialchars($Statistics["Females Present"]["Percentage"]) . "%"?>

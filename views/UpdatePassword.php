@@ -16,7 +16,7 @@ else if ($_SESSION['AccessLevel'] == "Administrator") {
 
 include "Alert.html";
 require("../controllers/db.php");
-require("../controllers/ContainsAll.php");
+require("../controllers/containsAll.php");
 
 $AccountID = $_SESSION['AccountID'];
 
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $HashedNewPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
 
             $UpdatePassword = 
-            $conn->prepare("UPDATE STAFF SET StaffPassword = ? 
+            $conn->prepare("UPDATE Staff SET StaffPassword = ? 
             WHERE StaffID = ?");
 
             $UpdatePassword->execute([$HashedNewPassword, $AccountID]);

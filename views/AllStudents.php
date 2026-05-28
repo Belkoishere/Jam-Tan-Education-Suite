@@ -34,7 +34,7 @@ IF (Student.StudentID IN
 (SELECT StudentID FROM StudentsRiskLevel WHERE RiskLevel = 'High Risk'), TRUE, FALSE) AS AtHighRisk,
 IF (Student.StudentID IN 
 (SELECT StudentID FROM StudentsRiskLevel WHERE RiskLevel = 'Moderate Risk'), TRUE, FALSE) AS AtModerateRisk
-FROM student
+FROM Student
 INNER JOIN Enrollment ON Student.StudentID = Enrollment.StudentID
 INNER JOIN Program ON Enrollment.ProgramID = Program.ProgramID 
 INNER JOIN ProgramCategory ON Program.CategoryID = ProgramCategory.CategoryID

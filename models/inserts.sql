@@ -8,7 +8,7 @@ VALUES
 '$2y$10$BPwjpMmtHFBs4BWXGASWreZsz5x1BB6tvaMFGHtv6X4wNYfu9c6du', 'Teacher'), -- Password: Password123!
 
 -- Teacher account2
-('Belko', 'Diallo', 'Mr', 'Ziniare', '55678916', NULL, 
+('Abdoul', 'Azis', 'Mr', 'Ziniare', '55678916', NULL, 
 'belkojdiallo@jamtan.com', 
 '$2y$10$Y10oPwogCqbiVr8vOt/SLe0W.NZ6AiaaPLQFs4UoXw6LgJPUUd7Ai', 'Teacher'), -- Password: Password1212!
 
@@ -34,6 +34,20 @@ VALUES
 (1, 1),
 (2, 3),
 (2, 4);
+
+INSERT INTO StaffAttendance (AttendanceDate, Attendance, AssignmentID);
+VALUES 
+("2026-04-06", "Present", 1),
+("2026-05-06", "Present", 1),
+("2026-06-01", "Absent", 1),
+
+("2026-04-06", "Present", 2),
+
+("2026-04-06", "Present", 3),
+("2026-05-06", "Absent", 3),
+("2026-06-01", "Absent", 3),
+
+("2026-04-06", "Present", 4);
 
 INSERT INTO Student (StudentFirstName, StudentLastName, 
 StudentBirthDate, StudentTown, StudentGender, StudentSchool_Year, 

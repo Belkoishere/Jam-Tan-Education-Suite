@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         try {
             $UpdateAccount = 
-            "UPDATE STAFF SET StaffTitle = ?, StaffFirstName = ?, 
+            "UPDATE Staff SET StaffTitle = ?, StaffFirstName = ?, 
             StaffLastName = ?, StaffContact1 = ?, 
             StaffContact2 = ?, Email = ?, Town = ? 
             WHERE StaffID = ?";
